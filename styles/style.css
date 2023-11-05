@@ -1,0 +1,126 @@
+:root {
+  --main: #036D19;
+  --sub: #009D18;
+  --secondary: #F6931A;
+  --black: #212529;
+}
+
+/* Remove scrollbar */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: 'League Spartan', 'Lato', sans-serif !important;
+  color: var(--black);
+  font-size:16px;
+}
+
+/* Button components */
+
+/* Primary Button */
+.btn-primary {
+  border: 1px solid var(--main);
+  background-color: var(--main);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: white;
+  color: var(--main) !important;
+  border: 1px solid var(--main);
+}
+
+.btn-primary:focus {
+  border: 1px solid var(--main) !important;
+  background-color: var(--main) !important;
+  color: white !important;
+}
+
+.btn-primary:hover i {
+  color: var(--main);
+}
+
+/* Secondary Button*/
+
+.btn-secondary {
+  border: 1px solid var(--secondary);
+  background-color: var(--secondary);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: var(--secondary) !important;
+  border: 1px solid var(--secondary);
+}
+
+.btn-secondary:focus {
+  border: 1px solid var(--secondary) !important;
+  background-color: var(--secondary) !important;
+  color: white !important;
+}
+
+.btn-secondary:hover i {
+  color: var(--secondary);
+}
+
+.btn-secondary:hover svg {
+  transition: filter 0.1s ease-in-out;
+  filter: invert(1);
+}
+
+/* Green Outline*/
+
+.btn-green-outline {
+  border: 1px solid var(--main);
+  background-color: white;
+  color: var(--main);
+}
+
+.btn-green-outline:hover {
+  background-color: var(--main);
+  color: white !important;
+  border: 1px solid var(--main);
+}
+
+.btn-green-outline:focus {
+  border: 1px solid var(--main) !important;
+  background-color: white !important;
+  color: var(--main) !important;
+}
+
+.btn-green-outline:hover i {
+  color: var(--main);
+}
+
+/* Orange outline */
+.btn-orange-outline {
+  border: 1px solid var(--secondary);
+  background-color: white;
+  color: var(--secondary);
+}
+
+.btn-orange-outline:hover {
+  background-color: var(--secondary);
+  color: white !important;
+  border: 1px solid var(--secondary);
+}
+
+.btn-orange-outline:focus {
+  border: 1px solid var(--secondary) !important;
+  background-color: white !important;
+  color: var(--secondary) !important;
+}
+
+.btn-orange-outline:hover i {
+  color: var(--secondary);
+}
+
+
+/* All buttons */
+.btn-primary:hover svg, .btn-secondary:hover svg,.btn-green-outline:hover svg, .btn-orange-outline:hover svg {
+  transition: filter 0.1s ease-in-out;
+  filter: invert(1);
+} 
+
