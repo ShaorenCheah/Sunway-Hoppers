@@ -15,13 +15,12 @@
 
 <body>
 
-    <!-- Header -->
-    <?php include './includes/header.inc.php'; ?>
-
-    <div class="min-vh-100 d-flex">
-        <div class="col" style="border: 1px solid black">
+    <!-- Hero -->
+    <div class="min-vh-100 max-vh-100 d-flex hero">
+        <?php include './includes/header.inc.php'; ?>
+        <div class="col">
         </div>
-        <div class="col" style="border: 1px solid black">
+        <div class="col" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
         </div>
     </div>
 </body>
