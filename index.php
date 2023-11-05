@@ -12,7 +12,18 @@
     <!-- Include icon link here -->
     <title>KiraMakan</title>
 </head>
+
 <body>
 
+    <!-- Header -->
+    <?php include './includes/header.inc.php'; ?>
+
+    <div class="min-vh-100 d-flex">
+        <div class="col" style="border: 1px solid black">
+        </div>
+        <div class="col" style="border: 1px solid black">
+        </div>
+    </div>
 </body>
+
 </html>
