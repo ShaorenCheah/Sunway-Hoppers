@@ -1,0 +1,18 @@
+@import "style/style.css";
+
+.navbar{
+    border-radius: 14px;
+}
+
+.nav-link:hover{
+    color: var(--primary);
+}
+
+.nav-link{
+    color: var(--grey);
+    /* font-weight: bold; */
+}
+
+.login{
+    border-radius: 14px;
+}
