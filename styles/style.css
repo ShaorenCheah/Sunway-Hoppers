@@ -14,7 +14,7 @@ body::-webkit-scrollbar {
 body {
   font-family: 'League Spartan', 'Lato', sans-serif !important;
   color: var(--black);
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 /* Button components */
@@ -133,7 +133,6 @@ body {
   color: var(--secondary);
 }
 
-
 /* Header section */
 .header {
   position: absolute;
@@ -148,4 +147,9 @@ body {
 .hero{
   position: relative;
   z-index: 0;
+}
+
+/* Orange text in span */
+.highlight {
+  color: var(--secondary);
 }

@@ -12,6 +12,7 @@
 
     <!-- Include icon link here -->
     <title>SunwayHoppers</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
 </head>
 
 <body>
@@ -19,13 +20,40 @@
     <!-- Hero -->
     <div class="min-vh-100 max-vh-100 d-flex hero">
         <?php include './includes/header.inc.php'; ?>
-        <div class="col">
+        <div class="col-1"></div>
+
+        <div class="col-5 d-flex justify-content-start align-items-center">
+            <div>
+                <div class="row">
+                    <p style="font-weight: bold; font-size: 2.5rem;">Sharing <span class="highlight">Rides</span>,<br>
+                        Shaping the <span class="highlight">Future</span>,<br>
+                        Strengthening Our <span class="highlight">Community</span>.
+                    </p>
+                </div>
+                <div class="row my-2">
+                    <p style="font-weight: 300">
+                        Introducing a new way to travel around Bandar Sunway. Make the sustainable choice by
+                        hopping on a carpool with other students while earning rewards along the way.</p>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-primary shadow px-4" style="border-radius:25px; width: 9rem">Hop On</button>
+                    </div>
+                    <div class="col-3 mt-2">
+                        <p style="font-weight:500">See How It Works <i class="bi bi-chevron-right" style="color: #263238"></i></p>
+                    </div>
+                    <div class="col-6"></div>
+                </div>
+            </div>
         </div>
-        <div class="col" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
+
+
+        <div class="col-1"></div>
+        <div class="col-6" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
         </div>
     </div>
     <div>
-    <?php include './includes/footer.inc.php'; ?>
+        <?php include './includes/footer.inc.php'; ?>
 
     </div>
 </body>
