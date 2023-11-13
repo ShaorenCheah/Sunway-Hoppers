@@ -22,7 +22,7 @@
     </li>
   </ul>
   <div class="col d-flex justify-content-end">
-    <button type="button" class="btn btn-primary shadow login px-4">Login</button>
+    <button type="button" class="btn btn-primary shadow login px-4" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
     <!-- if logged in -->
     <!-- <button type="button" class="btn btn-primary btn-circle shadow profile px-4"><i class="bi bi-person"></i></button> -->
   </div>

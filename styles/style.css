@@ -24,6 +24,7 @@ body {
   border: 1px solid var(--primary);
   background-color: var(--primary);
   color: white;
+  border-radius: 8px;
 }
 
 .btn-primary:hover {
@@ -152,4 +153,9 @@ body {
 /* Orange text in span */
 .highlight {
   color: var(--secondary);
+}
+
+/* Green text in span */
+.highlight2 {
+  color: var(--primary);
 }
