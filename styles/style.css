@@ -1,8 +1,9 @@
 :root {
-  --main: #036D19;
+  --primary: #036D19;
   --sub: #009D18;
   --secondary: #F6931A;
   --black: #212529;
+  --grey: #B5B5B5;
 }
 
 /* Remove scrollbar */
@@ -13,32 +14,33 @@ body::-webkit-scrollbar {
 body {
   font-family: 'League Spartan', 'Lato', sans-serif !important;
   color: var(--black);
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 /* Button components */
 
 /* Primary Button */
 .btn-primary {
-  border: 1px solid var(--main);
-  background-color: var(--main);
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
   color: white;
+  border-radius: 8px;
 }
 
 .btn-primary:hover {
   background-color: white;
-  color: var(--main) !important;
-  border: 1px solid var(--main);
+  color: var(--primary) !important;
+  border: 1px solid var(--primary);
 }
 
 .btn-primary:focus {
-  border: 1px solid var(--main) !important;
-  background-color: var(--main) !important;
+  border: 1px solid var(--primary) !important;
+  background-color: var(--primary) !important;
   color: white !important;
 }
 
 .btn-primary:hover i {
-  color: var(--main);
+  color: var(--primary);
 }
 
 /* Secondary Button*/
@@ -73,25 +75,25 @@ body {
 /* Green Outline*/
 
 .btn-green-outline {
-  border: 1px solid var(--main);
+  border: 1px solid var(--primary);
   background-color: white;
-  color: var(--main);
+  color: var(--primary);
 }
 
 .btn-green-outline:hover {
-  background-color: var(--main);
+  background-color: var(--primary);
   color: white !important;
-  border: 1px solid var(--main);
+  border: 1px solid var(--primary);
 }
 
 .btn-green-outline:focus {
-  border: 1px solid var(--main) !important;
+  border: 1px solid var(--primary) !important;
   background-color: white !important;
-  color: var(--main) !important;
+  color: var(--primary) !important;
 }
 
 .btn-green-outline:hover i {
-  color: var(--main);
+  color: var(--primary);
 }
 
 /* Orange outline */
@@ -127,6 +129,10 @@ body {
   filter: invert(1);
 }
 
+/* All icons */
+.bi {
+  color: var(--secondary);
+}
 
 /* Header section */
 .header {
@@ -142,4 +148,14 @@ body {
 .hero{
   position: relative;
   z-index: 0;
+}
+
+/* Orange text in span */
+.highlight {
+  color: var(--secondary);
+}
+
+/* Green text in span */
+.highlight2 {
+  color: var(--primary);
 }
