@@ -15,7 +15,7 @@
     <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
 </head>
 
-<body>
+<body class="hero">
     <!-- Hero -->
     <div class="min-vh-100 max-vh-100 d-flex hero">
         <?php include './includes/header.inc.php'; ?>
@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="col">
                                                 <div class="form-floating">
-                                                    <select class="form-select" aria-label="Default select example" id="gender">
+                                                    <select class="form-select" id="gender">
                                                         <option value="m">Male</option>
                                                         <option value="f">Female</option>
                                                     </select>
