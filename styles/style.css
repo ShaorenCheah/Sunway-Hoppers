@@ -11,10 +11,14 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-body {
+body{
   font-family: 'League Spartan', 'Lato', sans-serif !important;
   color: var(--black);
   font-size: 1rem;
+}
+
+body:not(.hero){
+  margin-top: 4.5rem;
 }
 
 /* Button components */
