@@ -15,7 +15,7 @@
       <a class="nav-link" href="#">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#"><i class="bi bi-geo-alt-fill"></i> Find Carpool</a>
+      <a class="nav-link" href="findCarpool.php"><i class="bi bi-geo-alt-fill"></i> Find Carpool</a>
     </li>
     <li class="nav-item">
       <a class="nav-link">Rewards</a>
