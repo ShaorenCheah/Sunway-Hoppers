@@ -12,7 +12,7 @@
   </div>
   <ul class="col navbar-nav w-100  d-flex flex-row justify-content-around">
     <li class="nav-item">
-      <a class="nav-link" href="#">Home</a>
+      <a class="nav-link" href="index.php">Home</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="findCarpool.php"><i class="bi bi-geo-alt-fill"></i> Find Carpool</a>
