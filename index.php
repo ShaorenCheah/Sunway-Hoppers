@@ -16,9 +16,9 @@
 </head>
 
 <body class="hero">
+    <?php include './includes/header.inc.php'; ?>
     <!-- Hero -->
     <div class="min-vh-100 max-vh-100 d-flex hero">
-        <?php include './includes/header.inc.php'; ?>
         <div class="col-1"></div>
 
         <div class="col-5 d-flex justify-content-start align-items-center">
@@ -45,14 +45,13 @@
                 </div>
             </div>
         </div>
-
-
         <div class="col-1"></div>
         <div class="col-6" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
         </div>
     </div>
     <div>
         <?php include './includes/footer.inc.php'; ?>
+<<<<<<< Updated upstream
 
     </div>
     <!-- Login Modal -->
@@ -61,6 +60,9 @@
     <!-- Sign Up Modal -->
     <?php include './includes/registerModal.php'; ?>
 
+=======
+    </div>
+>>>>>>> Stashed changes
 </body>
 
 </html>
