@@ -4,7 +4,7 @@
     border-radius: 14px;
 }
 
-.nav-link:hover{
+.nav-link:hover {
     color: var(--primary);
 }
 
@@ -12,6 +12,11 @@
     font-weight: 500;
     color: var(--grey);
 }
+
+.nav-item.active a {
+    color: var(--primary);
+}
+
 
 .login{
     border-radius: 14px;
