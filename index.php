@@ -17,6 +17,7 @@
 
 <body class="hero">
     <?php include './includes/header.inc.php'; ?>
+    <?php include './connection.php'; ?>
     <!-- Hero -->
     <div class="min-vh-100 max-vh-100 d-flex hero">
         <div class="col-1"></div>
@@ -51,18 +52,7 @@
     </div>
     <div>
         <?php include './includes/footer.inc.php'; ?>
-<<<<<<< Updated upstream
-
     </div>
-    <!-- Login Modal -->
-    <?php include './includes/loginModal.php'; ?>
-
-    <!-- Sign Up Modal -->
-    <?php include './includes/registerModal.php'; ?>
-
-=======
-    </div>
->>>>>>> Stashed changes
 </body>
 
 </html>
