@@ -1,6 +1,10 @@
 <?php
 require_once './connection.php';
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 if (isset($_POST['loginSubmit'])) {
     $email_temp = $_POST['accEmail'];
     $pw_temp = $_POST['accPwd'];
@@ -21,12 +25,14 @@ if (isset($_POST['loginSubmit'])) {
 
         if (password_verify($pw_temp, $pw)) {
             // Password is correct
-            session_start();
+            if (session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+            }
             $_SESSION['name'] = $email;
         } else {
-            echo '<script type="text/javascript"> ';  
-            echo 'alert("Invalid username/password combination");';  
-            echo '</script>';  
+            echo '<script type="text/javascript"> ';
+            echo 'alert("Invalid username/password combination");';
+            echo '</script>';
         }
     } else {
         // No matching records found

@@ -21,7 +21,7 @@ include './includes/modals/registerModal.php';
     </li>
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/find_carpool.php') ? 'active' : ''; ?>">
       <a class="nav-link" <?php
-                          if (session_status() === PHP_SESSION_ACTIVE) {
+                          if (isset($_SESSION['name'])) {
                             echo 'href="find_carpool.php"';
                           } else {
                             echo 'href="" data-bs-toggle="modal" data-bs-target="#loginModal"';
@@ -33,7 +33,7 @@ include './includes/modals/registerModal.php';
       <a class="nav-link" href="rewards.php">Rewards</a>
     </li>
     <?php
-    if (session_status() === PHP_SESSION_ACTIVE) {
+    if (isset($_SESSION['name'])) {
     ?>
       <li class="nav-item">
         <a class="nav-link" href="./includes/logout.inc.php">Logout</a>
@@ -43,7 +43,7 @@ include './includes/modals/registerModal.php';
 
   <div class="col d-flex justify-content-end">
     <?php
-    if (session_status() === PHP_SESSION_ACTIVE) {
+    if (isset($_SESSION['name'])) {
     ?>
       <button type="button" class="btn btn-primary btn-circle shadow profile px-4"><i class="bi bi-person"></i></button>
     <?php
