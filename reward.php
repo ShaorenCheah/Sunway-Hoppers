@@ -1,3 +1,4 @@
+<?php include './connection.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,107 +41,100 @@
                 </h3>
             </div>
         </div>
-        <div class="tab-content mb-5" id="nav-tabContent">
+        <div class="tab-content mb-5 shadow" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-fnb" role="tabpanel">
-                <div id="carouselExampleIndicators" class="carousel carousel-dark slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container my-5 d-flex justify-content-around">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <h5 class="card-title">Tealive</h5>
-                                                    </div>
-                                                    <div class="col d-flex justify-content-end align-items-center">
-                                                        <p>1000<i class="fa-solid fa-carrot"></i></p>
-                                                    </div>
-                                                </div>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="carousel-item">
-                            <div class="container my-5 d-flex justify-content-around">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card" style="width: 16rem;">
-                                            <img class="card-img-top" src="/images/rewards/fnb1.png" alt="Card image cap">
-                                            <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev d-flex justify-content-start mx-5" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next d-flex justify-content-end  mx-5" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-
+                <?php
+                $type = "fnb";
+                getCards($type, $pdo) ?>
             </div>
-            <div class="tab-pane fade" id="nav-petrol" role="tabpanel">...</div>
-            <div class="tab-pane fade" id="nav-originals" role="tabpanel">...</div>
+            <div class="tab-pane fade" id="nav-petrol" role="tabpanel">
+            <?php
+                $type = "petrol";
+                getCards($type, $pdo) ?>
+            </div>
+            <div class="tab-pane fade" id="nav-originals" role="tabpanel">
+            <?php
+                $type = "originals";
+                getCards($type, $pdo) ?>
+            </div>
             <div class="mb-4">
                 <p class="text-muted text-center">The digital voucher code can be viewed under "Profile" section upon redemption </p>
             </div>
         </div>
-
+    </div>
 </body>
 
 </html>
+<?php
+function getRewardsByType($type, $pdo)
+{
+    $stmt = $pdo->prepare("SELECT * FROM reward WHERE type = :type");
+    $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function getCards($type, $pdo)
+{
+    $rewards = getRewardsByType($type, $pdo);
+    $count = count($rewards);
+
+    echo "
+    <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
+        <div class='carousel-inner'>";
+
+    $isActive = true; // Variable to track if the item is active
+
+    $rewardObjects = [];
+
+    foreach ($rewards as $reward) {
+        $rewardObjects[] = (object)$reward;
+    }
+
+
+    for ($i = 0; $i < $count; $i += 4) {
+        echo "<div class='carousel-item" . ($isActive ? " active" : "") . "'>";
+        echo "<div class='container my-5 d-flex justify-content-around'>
+                <div class='row'>";
+        for ($j = $i; $j < $i + 4 && $j < $count; $j++) {
+            echo "<div class='col'>
+            <div class='card shadow' style='width: 16rem;'>
+                <img class='card-img-top' src='/images/rewards/{$rewardObjects[$j]->img}' alt='Card image cap'>
+                <div class='card-body'>
+                    <div class='row'>
+                        <div class='col-8'>
+                            <h5 class='card-title'>{$rewardObjects[$j]->rewardName}</h5>
+                        </div>
+                        <div class='col-4 d-flex justify-content-end align-items-center p-0'>
+                            <p>{$rewardObjects[$j]->points}<i class='fa-solid fa-carrot'></i></p>
+                        </div>
+                    </div>
+                    <div style='height: 7rem;'>
+                        <p class='card-text'>{$rewardObjects[$j]->description}</p>
+                    </div>
+                    <div class='d-flex justify-content-center'>
+                        <button type='submit' class='btn btn-primary shadow px-4 my-2'>Redeem</button>
+                    </div>
+                </div>
+            </div>
+        </div>";
+        }
+        echo "    
+        </div>
+    </div>
+</div>";
+
+        $isActive = false; // Set to false after the first iteration
+    }
+
+    echo "
+</div>
+<button class='carousel-control-prev d-flex justify-content-start mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
+    <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+    <span class='visually-hidden'>Previous</span>
+</button>
+<button class='carousel-control-next d-flex justify-content-end  mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>
+    <span class='carousel-control-next-icon' aria-hidden='true'></span>
+    <span class='visually-hidden'>Next</span>
+</button>
+</div>";
+}
