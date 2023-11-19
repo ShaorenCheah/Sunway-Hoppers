@@ -1,5 +1,5 @@
 <?php
-require_once './connection.php';
+require_once './includes/connection.php';
 
 if (isset($_POST['registerSubmit'])) {
     if (isset($_POST['userPwd']) === isset($_POST['repeatPwd'])) {
