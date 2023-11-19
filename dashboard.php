@@ -21,23 +21,8 @@
     <!-- Include icon link here -->
     <title>SunwayHoppers</title>
     <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var navLinks = document.querySelectorAll('.nav-links li');
 
-            navLinks.forEach(function(link) {
-                link.addEventListener('click', function() {
-                    // Remove the 'active' class from all links
-                    navLinks.forEach(function(navLink) {
-                        navLink.classList.remove('active');
-                    });
 
-                    // Add the 'active' class to the clicked link
-                    link.classList.add('active');
-                });
-            });
-        });
-    </script>
 </head>
 
 <body class="dashboard min-vh-100 max-vh-100 d-flex" style="background-color: #E8E8E8;">
@@ -51,24 +36,27 @@
                 <div class="mx-4">
                     <h6 class="nav-group">Home</h6>
                     <ul class="list-unstyled nav-links">
-                        <li class="active">
-                            <i class="bi bi-geo-alt-fill"></i><a href="#">Dashboard</a>
+                        <?php 
+                        $navPage = isset($_GET['navPage']) ? $_GET['navPage'] : 'dashboard';
+                        ?>
+                        <li class="<?= $navPage === 'dashboard' ? 'active' : '' ?>">
+                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=dashboard">Dashboard</a>
                         </li>
                         <h6 class="nav-group mt-5">Management</h6>
-                        <li>
-                            <i class="bi bi-geo-alt-fill"></i><a href="#">User</a>
+                        <li class="<?= $navPage === 'user' ? 'active' : '' ?>">
+                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=user">User</a>
                         </li>
-                        <li>
-                            <i class="bi bi-geo-alt-fill"></i><a href="#">Driver Applications</a>
+                        <li class="<?= $navPage === 'driver' ? 'active' : '' ?>">
+                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=driver">Driver Applications</a>
                         </li>
-                        <li>
-                            <i class="bi bi-geo-alt-fill"></i><a href="#">Carpool Requests</a>
+                        <li class="<?= $navPage === 'carpool' ? 'active' : '' ?>">
+                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=carpool">Carpool Requests</a>
                         </li>
-                        <li>
-                            <i class="bi bi-geo-alt-fill"></i><a href="#">Ratings</a>
+                        <li class="<?= $navPage === 'rating' ? 'active' : '' ?>">
+                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=rating">Ratings</a>
                         </li>
-                        <li>
-                            <i class="bi bi-geo-alt-fill"></i><a href="#">Rewards</a>
+                        <li class="<?= $navPage === 'reward' ? 'active' : '' ?>">
+                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=reward">Rewards</a>
                         </li>
                     </ul>
                 </div>
@@ -80,68 +68,10 @@
     </div>
     <div class="col-10">
         <div class="dashboard-container shadow p-4" style="background-color: #fff;">
-            <h2>Dashboard</h2>
-            <div class="row">
-                <div class="col">
-                    <div class="summary shadow">
-                        <h5 class="text-muted mb-0">Total Users</h5>
-                        <div class="row">
-                            <span class="w-50">
-                                <p class="summary-text">50</p>
-                            </span>
-                            <span class="w-50 summary-icon-orange">
-                                <i class="bi bi-person-fill"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="summary shadow ">
-                        <h5 class="text-muted mb-0">Total Drivers</h5>
-                        <div class="row">
-                            <span class="w-50">
-                                <p class="summary-text">20</p>
-                            </span>
-                            <span class="w-50 summary-icon-green">
-                                <i class="bi bi-person-badge-fill"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="summary shadow">
-                        <h5 class="text-muted mb-0">Total Carpools</h5>
-                        <div class="row">
-                            <span class="w-50">
-                                <p class="summary-text">20</p>
-                            </span>
-                            <span class="w-50 summary-icon-orange">
-                            <i class="fa-solid fa-car"></i> 
-                        </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="summary shadow">
-                        <h5 class="text-muted mb-0">Rewards Left</h5>
-                        <div class="row ">
-                            <span class="w-50">
-                                <p class="summary-text">20</p>
-                            </span>
-                            <span class="w-50 summary-icon-green">
-                                <i class="bi bi-gift-fill"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr style="margin-top: 2.5rem;">
-            <div class="row">
-                <h2 class="w-50">Carpools Today</h2>
-                <span class="w-50 d-flex justify-content-end align-items-start">
-                    <button class="btn btn-primary shadow px-4 date "><?php  echo date('d/m/Y') ?></button>
-                </span>
-                
-            </div>
+            <?php
+            getView($navPage);
+            ?>
+
         </div>
     </div>
 
@@ -149,3 +79,28 @@
 </body>
 
 </html>
+<?php
+function getView($navPage)
+{
+    switch ($navPage) {
+        case 'user':
+            include_once './includes/admin/user.inc.php';
+            break;
+        case 'driver':
+            include_once './includes/admin/driver.inc.php';
+            break;
+        case 'carpool':
+            include_once './includes/admin/carpool.inc.php';
+            break;
+        case 'rating':
+            include_once './includes/admin/rating.inc.php';
+            break;
+        case 'reward':
+            include_once './includes/admin/reward.inc.php';
+            break;
+        default:
+            include_once './includes/admin/dashboard.inc.php';
+            break;
+    }
+}
+?>
