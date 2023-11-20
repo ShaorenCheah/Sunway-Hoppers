@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     registerModal.show();
   };
 
+  //Login Script
   document.getElementById("loginBtn").addEventListener("click", getLoginData);
 
   function getLoginData(event) {
@@ -48,9 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Register Script
-  document
-    .getElementById("registerForm")
-    .addEventListener("submit", getRegisterData);
+  document.getElementById("registerForm").addEventListener("submit", getRegisterData);
 
   function getRegisterData(event) {
     event.preventDefault();
@@ -96,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body: formData,
     })
       .then((response) => {
+        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

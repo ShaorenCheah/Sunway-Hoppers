@@ -59,7 +59,14 @@ if ($action == 'login') {
       // var_dump($_SESSION['user']);
       // $message = ob_get_clean();
 
-      $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
+      if ($type == 'Admin') {
+        $message = "Welcome, " . $_SESSION['user']['name'] . ". You are now logged in as an admin.";
+      } else {
+        $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
+      }
+
+      $user = $_SESSION['user']['type'];
+      
     } else {
       $success = false;
       $message = "Invalid username/password combination";
@@ -72,7 +79,7 @@ if ($action == 'login') {
 
 
 // Register Process
-if ($action == 'register') {
+else if ($action == 'register') {
   $username = $data['username'];
   $email = $data['email'];
   $pwd = $data['userPwd'];
@@ -134,17 +141,17 @@ if ($action == 'register') {
   }
 } else {
   $success = false;
-  $message = "Passwords do not match. Please try again.";
+  $message = "Network error. Please try again.";
 }
 
 
 $stmt = null;
 
-// Send a JSON response indicating success or failure
 $response = [
   'success' => $success,
   'action' => $action,
-  'message' => $message
+  'message' => $message,
 ];
+// Send a JSON response indicating success or failure
 
 echo json_encode($response);
