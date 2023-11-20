@@ -1,4 +1,5 @@
-.nav-group {
+/*dashboard.php*/
+.sideNav-group {
   font-weight: 500;
   color: var(--grey);
 }
@@ -73,19 +74,5 @@ li:hover {
 
 h2{
   font-weight: 700;
-}
-
-.search-input{
-  border-color: var(--sub);
-}
-
-.search-btn:hover{
-  background-color: var(--sub);
-  color: white !important;
-}
-
-.bi-search{
-  color: white !important;
-  padding: 0.5rem 0.2rem;
 }
 

@@ -11,12 +11,15 @@
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
     <link rel="stylesheet" type="text/css" href="./styles/dashboard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
 
     <style>
+        @import url('https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css');
+        @import url("https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css");
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&family=Spectral:wght@300&display=swap');
     </style>
-
 
     <!-- Include icon link here -->
     <title>SunwayHoppers</title>
@@ -34,7 +37,7 @@
                     <img src="./images/logo/dashboard.png" class="logo w-100">
                 </div>
                 <div class="mx-4">
-                    <h6 class="nav-group">Home</h6>
+                    <h6 class="sideNav-group">Home</h6>
                     <ul class="list-unstyled nav-links">
                         <?php
                         $navPage = isset($_GET['navPage']) ? $_GET['navPage'] : 'dashboard';
@@ -42,7 +45,7 @@
                         <li class="<?= $navPage === 'dashboard' ? 'active' : '' ?>" id="dashboard">
                             <i class="bi bi-geo-alt-fill"></i><span class="navs">Dashboard</span>
                         </li>
-                        <h6 class="nav-group mt-5">Management</h6>
+                        <h6 class="sideNav-group mt-5">Management</h6>
                         <li class="<?= $navPage === 'user' ? 'active' : '' ?>" id="user">
                             <i class="bi bi-geo-alt-fill"></i><span class="navs">User</span>
                         </li>
@@ -79,10 +82,24 @@
 </body>
 
 <script>
-    // dom ready
     document.addEventListener("DOMContentLoaded", function() {
         redirectLi();
     });
+
+    let rewardTable = new DataTable('#rewardTable');
+
+    $(document).ready(function() {
+        $('#rewardTable').DataTable();
+        $('#rewardTable_filter').hide(); // Hide default search datatables where example is the ID of table
+
+        $('#txtSearch').on('keyup', function() {
+            $('#rewardTable')
+                .DataTable()
+                .search($('#txtSearch').val(), false, true)
+                .draw();
+        });
+    });
+
 
     function redirectLi() {
         // Array of li elements, id and url

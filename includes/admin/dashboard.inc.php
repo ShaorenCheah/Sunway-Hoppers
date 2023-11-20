@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="col">
-        <div class="summary shadow ">
+        <div class="summary shadow">
             <h5 class="text-muted mb-0">Total Drivers</h5>
             <div class="row">
                 <span class="w-50">
