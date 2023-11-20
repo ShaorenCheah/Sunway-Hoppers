@@ -1,7 +1,7 @@
 <?php
 
-include './includes/modals/loginModal.php';
-include './includes/modals/registerModal.php';
+include './includes/modals/loginModal.inc.php';
+include './includes/modals/registerModal.inc.php';
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link rel="stylesheet" type="text/css" href="./styles/navbar.css">
