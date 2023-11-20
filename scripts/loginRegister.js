@@ -99,7 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          location.reload();
+          if(data.action == 'register'){
+            window.showLoginModal();
+            console.log('Hi')
+          }else{
+            location.reload();
+          }
         } else {
           alert(data.message);
         }

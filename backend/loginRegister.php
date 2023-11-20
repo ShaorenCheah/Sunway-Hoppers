@@ -154,6 +154,7 @@ $stmt = null;
 // Send a JSON response indicating success or failure
 $response = [
   'success' => $success,
+  'action' => $action,
   'message' => $message
 ];
 

@@ -1,5 +1,5 @@
-<div class="modal" tabindex="-1" id="registerModal">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
+<div class="modal fade" tabindex="-1" id="registerModal">
+  <div class="modal-dialog modal-dialog-centered modal-xl h-25">
     <div class="modal-content">
       <div class="modal-body w-100 text-center">
         <div class="container-fluid">
