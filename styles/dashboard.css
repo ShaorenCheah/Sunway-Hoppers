@@ -3,8 +3,7 @@
   color: var(--grey);
 }
 
-li a {
-  text-decoration: none;
+.navs {
   color: var(--black);
   margin-left: 0.5rem;
 }
@@ -12,6 +11,10 @@ li a {
 li {
   margin: 1.3rem 0rem;
   font-weight: 500;
+}
+
+li:hover {
+  cursor: pointer;
 }
 
 .nav-links li:not(.active) i {
@@ -67,3 +70,22 @@ li {
   background-color: var(--primary);
   color: white !important;
 }
+
+h2{
+  font-weight: 700;
+}
+
+.search-input{
+  border-color: var(--sub);
+}
+
+.search-btn:hover{
+  background-color: var(--sub);
+  color: white !important;
+}
+
+.bi-search{
+  color: white !important;
+  padding: 0.5rem 0.2rem;
+}
+

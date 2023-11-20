@@ -36,27 +36,27 @@
                 <div class="mx-4">
                     <h6 class="nav-group">Home</h6>
                     <ul class="list-unstyled nav-links">
-                        <?php 
+                        <?php
                         $navPage = isset($_GET['navPage']) ? $_GET['navPage'] : 'dashboard';
                         ?>
-                        <li class="<?= $navPage === 'dashboard' ? 'active' : '' ?>">
-                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=dashboard">Dashboard</a>
+                        <li class="<?= $navPage === 'dashboard' ? 'active' : '' ?>" id="dashboard">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Dashboard</span>
                         </li>
                         <h6 class="nav-group mt-5">Management</h6>
-                        <li class="<?= $navPage === 'user' ? 'active' : '' ?>">
-                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=user">User</a>
+                        <li class="<?= $navPage === 'user' ? 'active' : '' ?>" id="user">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">User</span>
                         </li>
-                        <li class="<?= $navPage === 'driver' ? 'active' : '' ?>">
-                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=driver">Driver Applications</a>
+                        <li class="<?= $navPage === 'driver' ? 'active' : '' ?>" id="driver">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Driver Applications</span>
                         </li>
-                        <li class="<?= $navPage === 'carpool' ? 'active' : '' ?>">
-                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=carpool">Carpool Requests</a>
+                        <li class="<?= $navPage === 'carpool' ? 'active' : '' ?>" id="carpool">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Carpool Requests</span>
                         </li>
-                        <li class="<?= $navPage === 'rating' ? 'active' : '' ?>">
-                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=rating">Ratings</a>
+                        <li class="<?= $navPage === 'rating' ? 'active' : '' ?>" id="rating">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Ratings</span>
                         </li>
-                        <li class="<?= $navPage === 'reward' ? 'active' : '' ?>">
-                            <i class="bi bi-geo-alt-fill"></i><a href="./dashboard.php?navPage=reward">Rewards</a>
+                        <li class="<?= $navPage === 'reward' ? 'active' : '' ?>" id="reward">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Rewards</span>
                         </li>
                     </ul>
                 </div>
@@ -77,6 +77,36 @@
 
     </div>
 </body>
+
+<script>
+    // dom ready
+    document.addEventListener("DOMContentLoaded", function() {
+        redirectLi();
+    });
+
+    function redirectLi() {
+        // Array of li elements, id and url
+        const li = [
+            ["dashboard", "./dashboard.php?navPage=dashboard"],
+            ["user", "./dashboard.php?navPage=user"],
+            ["driver", "./dashboard.php?navPage=driver"],
+            ["carpool", "./dashboard.php?navPage=carpool"],
+            ["rating", "./dashboard.php?navPage=rating"],
+            ["reward", "./dashboard.php?navPage=reward"]
+        ]
+
+        // loop through li elements for redirect()
+        for (let i = 0; i < li.length; i++) {
+            redirect(li[i][0], li[i][1]);
+        }
+    }
+
+    function redirect(id, url) {
+        document.getElementById(id).addEventListener("click", function() {
+            window.location.href = url;
+        });
+    }
+</script>
 
 </html>
 <?php
