@@ -108,8 +108,10 @@ CREATE TABLE `reward` (
   `rewardID` varchar(255) NOT NULL,
   `rewardName` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  `points` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `quantity` varchar(255) DEFAULT NULL
+  `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
