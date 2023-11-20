@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal" tabindex="-1" id="loginModal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body w-100 text-center">
@@ -22,7 +22,7 @@
                 <div>
                   <button name="loginSubmit" id="loginBtn" class="btn btn-primary shadow px-4 m-4">Login</button>
                 </div>
-                <p>Don't have an account? <a href="#" style="text-decoration: none; color: #F6931A;" data-bs-toggle="modal" data-bs-target="#registerModal">Sign Up</a></p>
+                <p>Don't have an account? <a href="#" style="text-decoration: none; color: #F6931A;" onclick="showRegisterModal()">Sign Up</a></p>
               </form>
             </div>
             <div class="col"></div>

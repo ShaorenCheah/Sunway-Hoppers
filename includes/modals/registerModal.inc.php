@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal" tabindex="-1" id="registerModal">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-body w-100 text-center">
@@ -70,7 +70,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end mx-4">
-                <p>Already have an account? <a href="#" style="text-decoration: none; color: #F6931A;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></p>
+                <p>Already have an account? <a href="#" style="text-decoration: none; color: #F6931A;" onclick="showLoginModal()">Login</a></p>
               </div>
             </div>
           </div>

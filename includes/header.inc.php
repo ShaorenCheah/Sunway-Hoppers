@@ -1,5 +1,4 @@
 <head>
-  <script src="scripts/loginRegister.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="./styles/navbar.css">
 </head>
@@ -7,7 +6,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&family=Spectral:wght@300&display=swap');
 </style>
-
+<script src="scripts/loginRegister.js"></script>
 <?php
 include './includes/modals/loginModal.inc.php';
 include './includes/modals/registerModal.inc.php';
@@ -53,7 +52,7 @@ include './includes/modals/registerModal.inc.php';
     <?php
     } else {
     ?>
-      <button type="button" class="btn btn-primary shadow login px-4" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+      <button type="button" class="btn btn-primary shadow login px-4" onclick="showLoginModal()">Login</button>
     <?php } ?>
   </div>
 </nav>
