@@ -5,9 +5,9 @@
     <div class="col-md-1"></div>
     <div class="col-md-3">
         <div class="row d-flex justify-content-center">
-            <a class="navbar-brand h-auto p-0 mb-2" href="index.php">
+            <div class="navbar-brand h-auto p-0 mb-2">
                 <img src="images/logo/footer.png" class="img-fluid" alt="Logo" style="width:40%">
-            </a>
+</div>
         </div>
 
 
