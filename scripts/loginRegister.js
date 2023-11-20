@@ -17,9 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Register Script
-  document
-    .getElementById("registerBtn")
-    .addEventListener("click", getRegisterData);
+  document.getElementById("registerBtn").addEventListener("click", getRegisterData);
 
   function getRegisterData(event) {
     event.preventDefault();
@@ -51,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(credentialsData));
 
-    fetch("/sunwayhoppers/includes/loginRegister.php", {
+    fetch("/sunwayhoppers/backend/loginRegister.php", {
       method: "POST",
       body: formData,
     })
@@ -64,8 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          location.reload()
-
+          location.reload();
         } else {
           alert(data.message);
         }
@@ -75,4 +72,4 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
-// Login Script
+

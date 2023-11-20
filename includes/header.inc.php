@@ -1,5 +1,5 @@
 <head>
-  <script src="includes/scripts/loginRegister.js"></script>
+  <script src="scripts/loginRegister.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="./styles/navbar.css">
 </head>
@@ -25,7 +25,7 @@ include './includes/modals/registerModal.inc.php';
     </li>
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/find_carpool.php') ? 'active' : ''; ?>">
       <a class="nav-link" <?php
-                          if (isset($_SESSION['name'])) {
+                          if (isset($_SESSION['user'])) {
                             echo 'href="find_carpool.php"';
                           } else {
                             echo 'href="" data-bs-toggle="modal" data-bs-target="#loginModal"';
@@ -37,7 +37,7 @@ include './includes/modals/registerModal.inc.php';
       <a class="nav-link" href="rewards.php">Rewards</a>
     </li>
     <?php
-    if (isset($_SESSION['name'])) {
+    if (isset($_SESSION['user'])) {
     ?>
       <li class="nav-item">
         <a class="nav-link" href="./includes/logout.inc.php">Logout</a>
@@ -47,7 +47,7 @@ include './includes/modals/registerModal.inc.php';
 
   <div class="col d-flex justify-content-end">
     <?php
-    if (isset($_SESSION['name'])) {
+    if (isset($_SESSION['user'])) {
     ?>
       <button type="button" class="btn btn-primary btn-circle shadow profile px-4"><i class="bi bi-person"></i></button>
     <?php

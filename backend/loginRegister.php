@@ -1,5 +1,5 @@
 <?php
-require_once './connection.php';
+require_once 'connection.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
@@ -26,23 +26,48 @@ if ($action == 'login') {
   if ($rowCount > 0) {
     $success = true;
 
-    // Remove the unnecessary fetch, as you already fetched the result into $result
     $email = $result['email'];
     $pw = $result['password'];
 
     if (password_verify($pw_temp, $pw)) {
       // Password is correct
+      $accountID = $result['accountID'];
+      $type = $result['type'];
+
       if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
       }
-      $_SESSION['name'] = $email;
+
+      $stmt = $pdo->prepare('SELECT * FROM user WHERE accountID = :accountID');
+      $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
+      $stmt->execute();
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      $sucess = true;
+      
+     // Need to add timeout 
+      $_SESSION['user'] = [
+        'accountID' => $accountID,
+        'userID' => $result['userID'],
+        'name' => $result['name'],
+        'email' => $email,
+        'type' => $type
+      ];
+  
+      // Check session values
+      // ob_start();
+      // var_dump($_SESSION['user']);
+      // $message = ob_get_clean();
+
+      $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
+
     } else {
-      // echo '<script type="text/javascript"> ';
-      // echo 'alert("Invalid username/password combination");';
-      // echo '</script>';
+      $success = false;
+      $message = "Invalid username/password combination";
     }
   } else {
     $success = false;
+    $message = "Invalid email. Please register first.";
   }
 }
 
@@ -101,10 +126,10 @@ if ($action == 'register') {
         ':phoneNo' => $phoneNo,
         ':gender' => $gender,
         ':dob' => $dob,
-        ':accountID' => $accountID  
+        ':accountID' => $accountID
       ];
       $query_execute = $query_run->execute($data);
-      
+
       $success = true;
       $message = "Account created successfully! Please login with your credentials to proceed.";
     } else {
@@ -129,7 +154,6 @@ $stmt = null;
 // Send a JSON response indicating success or failure
 $response = [
   'success' => $success,
-  'action' => $action,
   'message' => $message
 ];
 
