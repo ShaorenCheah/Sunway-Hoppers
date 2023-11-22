@@ -1,3 +1,4 @@
+<?php include './includes/modals/addRewardModal.inc.php'; ?>
 <link rel="stylesheet" href="./styles/dash-reward.css">
 <div class="row">
     <div class="w-75">
@@ -5,14 +6,14 @@
     </div>
     <div class="w-25">
         <div class="input-group">
-            <input type="text" class="form-control search-input" id="txtSearch" placeholder="Filter rewards">
+            <input type="text" class="form-control search-input" id="txtSearchRewards" placeholder="Filter rewards">
             <button class="btn btn-primary search-btn" type="button" id="button-addon2">Search <i class="bi bi-search"></i></button>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="w-75">
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="pills-inventory-tab" data-bs-toggle="pill" data-bs-target="#pills-inventory" type="button" role="tab" aria-controls="pills-inventory" aria-selected="true">Inventory</button>
             </li>
@@ -22,7 +23,7 @@
         </ul>
     </div>
     <div class="w-25 d-flex align-items-center justify-content-end">
-        <i class="bi bi-plus-circle" style="font-size: 2.2rem"></i>
+        <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addRewardModal"></i>
     </div>
 </div>
 <div class="tab-content" id="pills-tabContent">

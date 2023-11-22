@@ -43,7 +43,7 @@ if ($action == 'login') {
       $stmt->execute();
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $sucess = true;
+      $success = true;
 
       // Need to add timeout 
       $_SESSION['user'] = [
