@@ -50,7 +50,8 @@ INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 CREATE TABLE `admin` (
   `adminID` varchar(255) NOT NULL,
   `accountID` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL
+  `name` varchar(255) NOT NULL,
+  `phoneNo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
