@@ -1,3 +1,17 @@
+<?php
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+if ((($_SESSION['user']['type'] != 'Admin'))) {
+?>
+    <script>
+        alert("You are not allowed to access this page!");
+        window.location.href = "./index.php";
+    </script>
+<?php } ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +28,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
+    <!-- <script src="scripts/dashboard.js"></script> -->
 
     <style>
         @import url('https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css');
@@ -46,8 +61,8 @@
                             <i class="bi bi-geo-alt-fill"></i><span class="navs">Dashboard</span>
                         </li>
                         <h6 class="sideNav-group mt-5">Management</h6>
-                        <li class="<?= $navPage === 'user' ? 'active' : '' ?>" id="user">
-                            <i class="bi bi-geo-alt-fill"></i><span class="navs">User</span>
+                        <li class="<?= $navPage === 'account' ? 'active' : '' ?>" id="account">
+                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Accounts</span>
                         </li>
                         <li class="<?= $navPage === 'driver' ? 'active' : '' ?>" id="driver">
                             <i class="bi bi-geo-alt-fill"></i><span class="navs">Driver Applications</span>
@@ -86,26 +101,18 @@
         redirectLi();
     });
 
-    let rewardTable = new DataTable('#rewardTable');
+    // Usage for the reward table
+    initializeDataTable('#rewardTable', '#txtSearchRewards');
 
-    $(document).ready(function() {
-        $('#rewardTable').DataTable();
-        $('#rewardTable_filter').hide(); // Hide default search datatables where example is the ID of table
-
-        $('#txtSearch').on('keyup', function() {
-            $('#rewardTable')
-                .DataTable()
-                .search($('#txtSearch').val(), false, true)
-                .draw();
-        });
-    });
-
+    // Usage for the user table
+    initializeDataTable('#userTable', '#txtSearchAccounts');
+    initializeDataTable('#adminTable', '#txtSearchAccounts');
 
     function redirectLi() {
         // Array of li elements, id and url
         const li = [
             ["dashboard", "./dashboard.php?navPage=dashboard"],
-            ["user", "./dashboard.php?navPage=user"],
+            ["account", "./dashboard.php?navPage=account"],
             ["driver", "./dashboard.php?navPage=driver"],
             ["carpool", "./dashboard.php?navPage=carpool"],
             ["rating", "./dashboard.php?navPage=rating"],
@@ -123,6 +130,37 @@
             window.location.href = url;
         });
     }
+
+    function initializeDataTable(tableSelector, searchInputSelector) {
+        let dataTable = new DataTable(tableSelector);
+
+        $(document).ready(function() {
+            $(tableSelector).DataTable();
+            $(`${tableSelector}_filter`).hide(); // Hide default search datatables where example is the ID of table
+            $(`${tableSelector}_length`).hide();
+
+            $(searchInputSelector).on('keyup', function() {
+                dataTable
+                    .search($(searchInputSelector).val(), false, true)
+                    .draw();
+            });
+
+            if (tableSelector === '#rewardTable') {
+                $('#rewardTable tbody tr').each(function() {
+                    var nTds = $('td', this);
+                    var img = "<img src='" + $(nTds[3]).text()+ "' class='tooltip-image' />";
+
+                    $(this).tooltip({
+                        "title": img,
+                        "html": true, // Enable HTML content
+                        "delay": 0,
+                        "track": true,
+                        "fade": 250
+                    });
+                });
+            }
+        });
+    }
 </script>
 
 </html>
@@ -130,8 +168,8 @@
 function getView($navPage)
 {
     switch ($navPage) {
-        case 'user':
-            include_once './includes/admin/user.inc.php';
+        case 'account':
+            include_once './includes/admin/account.inc.php';
             break;
         case 'driver':
             include_once './includes/admin/driver.inc.php';

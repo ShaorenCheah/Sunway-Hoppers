@@ -76,3 +76,7 @@ h2{
   font-weight: 700;
 }
 
+.tooltip-image {
+  width: 100px;
+  height: auto; /* This ensures the image maintains its aspect ratio */
+}

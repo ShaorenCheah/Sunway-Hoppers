@@ -1,5 +1,5 @@
 <?php include './includes/modals/addRewardModal.inc.php'; ?>
-<link rel="stylesheet" href="./styles/dash-reward.css">
+<link rel="stylesheet" href="./styles/dashView.css">
 <div class="row">
     <div class="w-75">
         <h2>Rewards</h2>
@@ -56,14 +56,16 @@
                     $img = $reward['img'];
                     $type = $reward['type'];
                     $quantity = $reward['quantity'];
-                    echo "<tr>
-                      <td>{$rewardName}</td>
-                      <td>{$desc}</td>
-                      <td>{$points}</td>
-                      <td>{$img}</td>
-                      <td>{$type}</td>
-                      <td>{$quantity}</td>
-                  </tr>";
+                    echo <<<HTML
+                    <tr>
+                      <td>$rewardName</td>
+                      <td>$desc</td>
+                      <td>$points</td>
+                      <td>$img</td>
+                      <td>$type</td>
+                      <td>$quantity</td>
+                    </tr>
+                  HTML;
                 }
                 ?>
             </tbody>
