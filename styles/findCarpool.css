@@ -1,1 +1,41 @@
 @import "style.css";
+
+.half-circle {
+  width: 1.5rem; /* You can adjust this based on your design */
+  height: 0.9rem; /* as half of the width */
+  background-color: none;
+  border-top-left-radius: 1.1rem; /* 1rem of height + 0.1rem of border */
+  border-top-right-radius: 1.1rem; /* 1rem of height + 0.1rem of border */
+  border: 1px solid #B6B6B6; /* 0.1rem border */
+  border-bottom: 0;
+}
+
+.half-circle.flipped {
+  transform: scaleY(-1);
+}
+
+.dashed-line {
+  width: 0.05rem; /* Adjust the thickness of the dashed line as needed */
+  height:90%;
+  border-left: 0.1rem dashed #B6B6B6;
+}
+
+
+.driver-border {
+  border-top: 0.5px solid #B6B6B6;
+  border-bottom: 0.5px solid #B6B6B6;
+  border-left: 0.5px solid #B6B6B6;
+  border-top-left-radius: 0.714rem; /* Adjust the radius as needed */
+  border-bottom-left-radius: 0.714rem; /* Adjust the radius as needed */
+}
+
+.carpool-border {
+  border-top: 0.5px solid #B6B6B6;
+  border-bottom: 0.5px solid #B6B6B6;
+  border-right: 0.5px solid #B6B6B6;
+  border-top-right-radius: 0.714rem; /* Adjust the radius as needed */
+  border-bottom-right-radius: 0.714rem; /* Adjust the radius as needed */
+}
+
+
+

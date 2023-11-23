@@ -19,7 +19,7 @@
   <div class="m-5">
     <h2 class="text-center pt-5 pb-3"><b>List of Available <span style="color:var(--secondary)">Carpool</span> Requests</b></h2>
 
-    <div class="row m-0">
+    <div class="row gx-5 m-0">
       <!-- Filter Section -->
       <div class="col-3 h-auto d-flex flex-column ps-0">
         <div class="card shadow text-center p-2 py-3">
@@ -30,13 +30,13 @@
         <div class="card shadow p-3">
           <h5 style="color:var(--primary)"><b>Direction</b> <i class="bi bi-arrow-left-right ms-1"></i></h5>
           <div class="card bg-body-tertiary d-flex p-2 py-3">
-            <h5 class="d-flex justify-content-center align-items-center">Going
+            <h6 class="d-flex justify-content-center align-items-center">Going
               <select class="form-select mx-3 w-25" aria-label="Default select example">
                 <option selected value="to">to</option>
                 <option value="from">from</option>
               </select>
               Bandar Sunway
-            </h5>
+            </h6>
             <div class="d-flex justify-content-center mt-3">
               <i class="d-flex align-items-center bi bi-house-fill" style="font-size: 1.5rem; color:var(--primary);"></i>
               <i class="d-flex align-items-center bi bi-arrow-right mx-3" style="font-size: 1.5rem;"></i>
@@ -105,16 +105,47 @@
       </div>
 
       <!-- Carpool Section -->
-      <div class="col-9 h-100 card shadow row">
+      <div class="col-9 h-100 card shadow p-0 d-flex">
+
         <!-- Ticket Section -->
-        <div class="card">
-          <h1>Hello</h1>
+        <div class="m-3 d-flex flex-row" style="border-radius:0.714rem" >
+          <!-- First Column (Driver Profile)-->
+          <div class="d-flex flex-column p-3 driver-border">
+            <img src="images/person.png" alt="Avatar" class="shadow" style="border-radius: 50%;height: 5rem; width: 5rem;">
+            <h5>John Doe</h5>
+            <div class="d-flex">
+              <p> 5.0 </p>
+              <p>(12 Ratings)</p>
+            </div>
+            <span class="badge bg-secondary shadow">WXV9855</span>
+          </div>
+
+          <!-- Second Column (Ticket Line)-->
+          <div class="d-flex flex-column">
+            <div class="half-circle flipped"></div>
+            <div class="h-100 d-flex justify-content-center align-items-center">
+              <div class="dashed-line"></div>
+            </div>
+            <div class="half-circle"></div>
+          </div>
+
+          <div class="d-flex w-100 carpool-border">
+
+            <div>
+
+            </div>
+            <div>
+
+            </div>
+            <div>
+
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div>
-  <?php include './includes/footer.inc.php'; ?>
+    </div>
+    <?php include './includes/footer.inc.php'; ?>
 </body>
 
 
