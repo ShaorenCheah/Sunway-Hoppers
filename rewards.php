@@ -98,7 +98,7 @@ function getCards($type, $pdo)
         for ($j = $i; $j < $i + 4 && $j < $count; $j++) {
             echo "<div class='col'>
             <div class='card shadow' style='width: 16rem;'>
-                <img class='card-img-top' src='/images/rewards/{$rewardObjects[$j]->img}' alt='Card image cap'>
+                <img class='card-img-top' src='/{$rewardObjects[$j]->img}' alt='Card image cap'>
                 <div class='card-body'>
                     <div class='row'>
                         <div class='col-8'>
