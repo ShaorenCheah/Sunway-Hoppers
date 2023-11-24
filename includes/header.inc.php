@@ -46,13 +46,20 @@ include './includes/modals/registerModal.inc.php';
 
   <div class="col d-flex justify-content-end">
     <?php
-    if (isset($_SESSION['user'])) {
+    if (!isset($_SESSION['user'])) {
+      echo '<button type="button" class="btn btn-primary shadow login px-4" onclick="showLoginModal()">Login</button>';
+    } else if (($_SESSION['user']['type'] == 'Passenger')) {
     ?>
-      <button type="button" class="btn btn-primary btn-circle shadow profile px-4"><i class="bi bi-person"></i></button>
+      <button type="button" class="btn btn-primary btn-circle shadow profile px-4" onclick="window.location.href='./profile.php';"><i class="bi bi-person"></i></button>
+    <?php
+    } else if (($_SESSION['user']['type'] == 'Admin')) { ?>
+      <script>
+        window.location.href = "./dashboard.php?navPage=dashboard";
+      </script>
     <?php
     } else {
+      echo '';
+    }
     ?>
-      <button type="button" class="btn btn-primary shadow login px-4" onclick="showLoginModal()">Login</button>
-    <?php } ?>
   </div>
 </nav>
