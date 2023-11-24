@@ -148,7 +148,8 @@ CREATE TABLE `user` (
   `isDriver` tinyint(1) NOT NULL DEFAULT 0,
   `rating` float NOT NULL DEFAULT 0,
   `carRules` varchar(255) DEFAULT NULL,
-  `accountID` varchar(255) NOT NULL
+  `accountID` varchar(255) NOT NULL,
+  `profilePic` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

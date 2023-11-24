@@ -1,0 +1,131 @@
+@import "style.css";
+
+.half-circle {
+  width: 1.5rem; /* You can adjust this based on your design */
+  height: 0.9rem; /* as half of the width */
+  background-color: none;
+  border-top-left-radius: 1.1rem; /* 1rem of height + 0.1rem of border */
+  border-top-right-radius: 1.1rem; /* 1rem of height + 0.1rem of border */
+  border: 1px solid #B6B6B6; /* 0.1rem border */
+  border-bottom: 0;
+}
+
+.half-circle.flipped {
+  transform: scaleY(-1);
+}
+
+.dashed-line {
+  width: 0.05rem; /* Adjust the thickness of the dashed line as needed */
+  height:90%;
+  border-left: 0.1rem dashed #B6B6B6;
+}
+.userInfo-border {
+    width: 25%;
+    border-top: 0.5px solid #B6B6B6;
+    border-bottom: 0.5px solid #B6B6B6;
+ /* Adjust the radius as needed */
+  }
+  
+  .driver-border {
+    width: 15%;
+    border-top: 0.5px solid #B6B6B6;
+    border-bottom: 0.5px solid #B6B6B6;
+    border-left: 0.5px solid #B6B6B6;
+    border-top-left-radius: 0.714rem; /* Adjust the radius as needed */
+    border-bottom-left-radius: 0.714rem; /* Adjust the radius as needed */
+  }
+.bg-primary{
+    background-color: var(--primary) !important;
+    font-weight: 500 !important;
+    border-radius: 10px;
+    padding: 0.3rem 1rem;
+}    
+.bg-secondary{
+    background-color: var(--secondary) !important;
+    font-weight: 500 !important;
+    border-radius: 10px;
+    padding: 0.3rem 1rem;
+}    
+
+h5{
+    color: var(--primary) !important;
+    margin-bottom: 0px !important;
+}
+
+.bi {
+    font-size: 0.8rem;
+}
+
+.line {
+    width: 0.05rem; /* Adjust the thickness of the dashed line as needed */
+    height:80%;
+    border-left: 0.1rem #B6B6B6 solid;
+  }
+
+  .aboutMe-border {
+    width: 30%;
+    border-top: 0.5px solid #B6B6B6;
+    border-bottom: 0.5px solid #B6B6B6;
+    border-top-right-radius: 0.714rem; /* Adjust the radius as needed */
+    border-bottom-right-radius: 0.714rem;
+    border-right: 0.5px solid #B6B6B6;
+  }
+
+  .desc{
+    border-radius: 10px;
+    border: 0.5px solid var(--secondary);
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    height: 70%;
+  }
+
+  .editBtn{
+    font-size: 0.8rem !important;
+    border-radius: 4px !important;
+  }
+  
+  .editBtn:hover i {
+    color: var(--primary);
+  }
+  .editBtn i {
+    color: white;
+  }
+  textarea{
+    font-size: 0.9rem;
+    border: none;
+    resize: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
+
+  .accStatus{
+    width: 30%;
+    border: 0.5px solid #B6B6B6;
+    border-radius: 0.714rem;
+    margin-left: 1.5rem;
+
+  }
+
+  .nav-link{
+    color: var(--grey);    
+}
+
+.tab-content{
+    border-radius: 0px 0px 4px 4px;
+    border: 1px solid #D2D3D4;
+    border-top: none;
+}
+
+.beDriverBtn{
+  font-size: 0.8rem !important;
+  border-radius: 4px !important;
+}
+
+.beDriverBtn:hover i {
+  color: white !important;
+}
+.beDriverBtn i {
+  color: var(--primary);
+}

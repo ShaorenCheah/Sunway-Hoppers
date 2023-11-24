@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(credentialsData));
 
-    fetch("/sunwayhoppers/backend/loginRegister.php", {
+    fetch("./backend/loginRegister.php", {
       method: "POST",
       body: formData,
     })
