@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 function alert($msg){
-    echo "<script>alert('".$_SESSION['user']['userID']."');</script>";
+    echo "<script>alert('".$msg."');</script>";
     echo "<script>window.location = '../profile.php';</script>";
 }
 ?>

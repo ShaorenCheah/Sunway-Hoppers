@@ -99,20 +99,20 @@ h5{
     height: 100%;
     background-color: transparent;
   }
-
+  
   .accStatus{
     width: 30%;
     border: 0.5px solid #B6B6B6;
     border-radius: 0.714rem;
     margin-left: 1.5rem;
-
+    
   }
-
+  
   .nav-link{
     color: var(--grey);    
-}
-
-.tab-content{
+  }
+  
+  .tab-content{
     border-radius: 0px 0px 4px 4px;
     border: 1px solid #D2D3D4;
     border-top: none;
@@ -128,4 +128,15 @@ h5{
 }
 .beDriverBtn i {
   color: var(--primary);
+}
+.saveBtn{
+  font-size: 0.8rem !important;
+  border-radius: 4px !important;
+  margin-left: 0.8rem;
+}
+.saveBtn:hover i {
+  color: var(--secondary);
+}
+.saveBtn i {
+  color: white;
 }

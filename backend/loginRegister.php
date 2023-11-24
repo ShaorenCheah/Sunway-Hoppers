@@ -43,24 +43,24 @@ if ($action == 'login') {
       $stmt->execute();
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $sucess = true;
-      
-     // Need to add timeout 
+      $success = true;
+
+      // Need to add timeout 
       $_SESSION['user'] = [
         'accountID' => $accountID,
         'userID' => $result['userID'],
         'name' => $result['name'],
         'email' => $email,
-        'type' => $type
+        'type' => $type,
+        'gender' => $result['gender'], //might need it to validate carpool session
       ];
-  
+
       // Check session values
       // ob_start();
       // var_dump($_SESSION['user']);
       // $message = ob_get_clean();
 
       $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
-
     } else {
       $success = false;
       $message = "Invalid username/password combination";
