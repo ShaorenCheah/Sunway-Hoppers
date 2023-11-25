@@ -43,7 +43,7 @@ if ($action == 'login') {
       $stmt->execute();
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $sucess = true;
+      $success = true;
       
      // Need to add timeout 
       $_SESSION['user'] = [
@@ -137,14 +137,6 @@ if ($action == 'register') {
       $message = "Account created failed. Please try again.";
     }
 
-    // if ($query_execute) {
-    //   header('Location: index.php');
-    //   exit(0);
-    // } else {
-    //   $_SESSION['message'] = "Not Inserted";
-    //   header('Location: reward.php');
-    //   exit(0);
-    // }
   }
 }
 

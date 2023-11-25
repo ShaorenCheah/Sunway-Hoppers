@@ -11,13 +11,33 @@
   <link rel="stylesheet" type="text/css" href="./styles/findCarpool.css">
   <!-- Include icon link here -->
   <title>SunwayHoppers</title>
+
+  <script src="scripts/findCarpool.js"></script>
 </head>
 
 
 <body>
-  <?php include './includes/header.inc.php'; ?>
+  <?php
+  session_start();
+  include './includes/header.inc.php';
+  require_once './backend/connection.php';
+  ?>
   <div class="m-5">
-    <h2 class="text-center pt-5 pb-3"><b>List of Available <span style="color:var(--secondary)">Carpool</span> Requests</b></h2>
+
+
+    <div class="d-flex position-relative justify-content-center">
+      <h2 class="text-center pt-5 pb-3 w-100 z-0"><b>List of Available <span style="color:var(--secondary)">Carpool</span> Requests</b></h2>
+      <?php
+      if ($_SESSION['user']['type'] == 'Driver') {
+        echo '<button type="button" class="btn btn-primary shadow px-3 mt-2 new-carpool z-1" style="padding-top: 0.1rem;padding-bottom: 0.1rem; " data-bs-toggle="modal" data-bs-target="#newCarpoolModal" ><span class="d-flex align-items-center">New Carpool <i class="ms-2 bi bi-plus" style="font-size: 1.5em;"></i></span></button>';
+      }
+
+      include './includes/modals/newCarpoolModal.inc.php';
+      ?>
+
+    </div>
+
+
 
     <div class="row gx-5 m-0">
       <!-- Filter Section -->

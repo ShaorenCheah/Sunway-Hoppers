@@ -49,7 +49,7 @@ include './includes/modals/registerModal.inc.php';
     <?php
     if (isset($_SESSION['user'])) {
     ?>
-      <button type="button" class="btn btn-primary btn-circle shadow profile px-4"><i class="bi bi-person"></i></button>
+      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center"><i class="bi bi-person" style="height:60%"></i></button>
     <?php
     } else {
     ?>
