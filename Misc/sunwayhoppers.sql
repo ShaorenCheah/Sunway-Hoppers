@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
-('', 'shaorencheah@gmail.com', '$2y$10$pOEoVHr3/QyMEAS/r8uwv.6UumWaMcyyHtCks/3Szqkt5DLAfdM2a', 'user');
+('A0001', 'shaorencheah@gmail.com', '$2y$10$pOEoVHr3/QyMEAS/r8uwv.6UumWaMcyyHtCks/3Szqkt5DLAfdM2a', 'user');
 
 -- --------------------------------------------------------
 
@@ -159,7 +159,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`, `accountID`) VALUES
-('', 'Shaoren', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, '');
+('A0001', 'Shaoren', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, '');
 
 --
 -- Indexes for dumped tables
