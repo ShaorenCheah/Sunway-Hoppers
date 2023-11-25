@@ -6,13 +6,21 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-if (($_SESSION['user']['type']) != "Passenger") {
+if (!isset($_SESSION['user'])) {
 ?>
     <script>
         alert("Please login to see your profile!");
         window.location.href = "./index.php";
     </script>
-<?php }
+<?php 
+session_destroy();
+} else if (($_SESSION['user']['type']) == "Admin"){
+    ?>
+    <script>
+        alert("You are not allowed to access this page!");
+        window.location.href = "./dashboard.php?navPage=dashboard";
+        </script>
+<?php } 
 
 //check if user is a driver
 $stmt = $pdo->prepare('SELECT isDriver FROM user WHERE userID = :userID');
@@ -168,12 +176,15 @@ if ($profPic == null) {
                         <?php if ($isDriver) { ?>
                             <button class="btn btn-primary editBtn py-1 shadow">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
                         <?php } else { ?>
-                            <button class="btn btn-green-outline beDriverBtn py-1 shadow">Become a Driver <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
+                            <button class="btn btn-green-outline beDriverBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#registerDriverModal">Become a Driver <i class="bi bi-car-front-fill" style="padding-left: 0.2rem;"></i></button>
                         <?php } ?>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <img src="images/driverAcc.png" style="height: 7rem; width: auto;">
+                    <?php 
+                    $statusImg = $isDriver ? 'images/driverAcc.png' : 'images/passengerAcc.png'
+                    ?>
+                    <img src="<?php echo $statusImg?>" style="height: 7rem; width: auto;">
                 </div>
                 <div class="pt-3 d-flex justify-content-center">
                     <h5>You're currently a
@@ -255,7 +266,9 @@ if ($profPic == null) {
     </div>
     </div>
     </div>
-    <?php include './includes/modals/addPicModal.inc.php';
+    <?php 
+    include './includes/modals/addPicModal.inc.php';
+    include './includes/modals/registerDriverModal.inc.php';
     ?>
 </body>
 <script>
@@ -265,8 +278,8 @@ if ($profPic == null) {
         edit = !edit;
         // add disabled to textarea if edit is false
         document.getElementById('descText').disabled = edit;
-        console.log(edit);
         document.getElementById('updateBioBtn').style.display = edit ? 'none' : '';
+        document.getElementById('editBtn').style.display = edit ?  '' : 'none';
     });
 
     initializeDataTable('#rewardTable', '#txtSearchRewards');

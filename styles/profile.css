@@ -140,3 +140,19 @@ h5{
 .saveBtn i {
   color: white;
 }
+
+label {
+  font-weight: 600;
+  margin-left: 0.1rem;
+}
+
+h6{
+  color: var(--primary) !important;
+  font-weight: 700;
+  margin: 1rem 0rem;
+}
+
+label >.bi {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
