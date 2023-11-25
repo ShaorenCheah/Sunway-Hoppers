@@ -17,6 +17,7 @@ include './includes/modals/registerModal.inc.php';
       <img src="images/logo/nav.png" width="100">
     </a>
   </div>
+
   <ul class="col navbar-nav w-100 d-flex flex-row justify-content-around">
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/index.php') ? 'active' : ''; ?>">
       <a class="nav-link" href="index.php">Home</a>
@@ -30,6 +31,7 @@ include './includes/modals/registerModal.inc.php';
                           }
                           ?>>
         <i class="bi bi-geo-alt-fill"></i> Find Carpool</a>
+
     </li>
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/rewards.php') ? 'active' : ''; ?>">
       <a class="nav-link" href="rewards.php">Rewards</a>
