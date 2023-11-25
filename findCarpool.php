@@ -18,6 +18,7 @@
   <?php
   session_start();
   include './includes/header.inc.php';
+  require_once './backend/connection.php';
   ?>
   <div class="m-5">
 
