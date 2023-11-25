@@ -5,6 +5,13 @@ h6 {
   font-size:1.07rem;
 }
 
+.new-carpool{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+}
+
 .half-circle {
   width: 1.5rem; /* You can adjust this based on your design */
   height: 0.9rem; /* as half of the width */
@@ -51,4 +58,11 @@ h6 {
   background-color:var(--primary); 
   font-size:0.857rem; 
   font-weight:400;
+}
+
+/* New Carpool */
+#newCarpoolModal label{
+  font-size:1.286rem;
+  font-weight:500;
+  color:var(--primary);
 }
