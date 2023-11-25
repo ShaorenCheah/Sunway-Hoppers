@@ -47,7 +47,7 @@
               <label for="carpoolDestination" class="form-label">Destination <i class="ms-2 bi bi-flag"></i></label>
               <div class="d-flex" id="destinationInput">
                 <select id="location" name="location" class="form-select" required>
-                  <option value='' disabled selected>Select Location</option>
+                  <option valuedisabled selected>Select Location</option>
                   <option value="Sunway University">Sunway University</option>
                   <option value="Monash University">Monash University</option>
                   <option value="Sunway Pyramid">Sunway Pyramid</option>
@@ -79,7 +79,7 @@
             </div>
             <div class="col-12 text-center">
               <p class="text-muted">Communicate with passengers for an improved carpool experience!</p>
-              <button type="submit" class="btn btn-primary shadow px-4">Create</button>
+              <button type="submit" id="newCarpoolBtn" class="btn btn-primary shadow px-4">Create</button>
             </div>
           </div>
         </form>
@@ -88,46 +88,3 @@
   </div>
 </div>
 
-<script>
-  var districtSelect = document.getElementById('district');
-  var pickupInput = document.getElementById('pickupInput');
-  var destinationInput = document.getElementById('destinationInput');
-  var districtSelect = document.getElementById('district');
-  var neighborhoodSelect = document.getElementById('neighborhood');
-  var locationSelect = document.getElementById('location');
-
-  fetch('/sunwayhoppers/backend/findCarpool.php?action=getDistricts')
-    .then(response => response.text())
-    .then(data => {
-      districtSelect.innerHTML = data;
-    });
-
-  var directionCheckbox = document.getElementById('direction');
-  directionCheckbox.addEventListener('change', function() {
-
-    if (directionCheckbox.checked) {
-      // Move the #district and #neighborhood  fields to #pickupInput
-      pickupInput.appendChild(districtSelect);
-      pickupInput.appendChild(neighborhoodSelect);
-      // Move #destination to #destinationInput
-      destinationInput.appendChild(locationSelect);
-    } else {
-      // Move the #district and #neighborhood fields to #destinationInput
-      destinationInput.appendChild(districtSelect);
-      destinationInput.appendChild(neighborhoodSelect);
-      // Move #destination to #pickupInput
-      pickupInput.appendChild(locationSelect);
-    }
-  });
-
-  districtSelect.addEventListener('change', function() {
-
-    neighborhoodSelect.disabled = false;
-    fetch(`/sunwayhoppers/backend/findCarpool.php?action=getNeighborhoods&district=${districtSelect.value}`)
-      .then(response => response.text())
-      .then(data => {
-        neighborhoodSelect.innerHTML = data;
-      });
-
-  });
-</script>

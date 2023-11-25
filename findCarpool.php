@@ -11,6 +11,8 @@
   <link rel="stylesheet" type="text/css" href="./styles/findCarpool.css">
   <!-- Include icon link here -->
   <title>SunwayHoppers</title>
+
+  <script src="scripts/findCarpool.js"></script>
 </head>
 
 
