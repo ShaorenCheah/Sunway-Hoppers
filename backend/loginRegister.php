@@ -48,7 +48,6 @@ if ($action == 'login') {
      // Need to add timeout 
       $_SESSION['user'] = [
         'accountID' => $accountID,
-        'userID' => $result['userID'],
         'name' => $result['name'],
         'email' => $email,
         'type' => $type
