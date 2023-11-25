@@ -25,7 +25,7 @@ include './includes/modals/registerModal.inc.php';
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/find_carpool.php') ? 'active' : ''; ?>">
       <a class="nav-link" <?php
                           if (isset($_SESSION['user'])) {
-                            echo 'href="find_carpool.php"';
+                            echo 'href="findCarpool.php"';
                           } else {
                             echo 'href="" data-bs-toggle="modal" data-bs-target="#loginModal"';
                           }
