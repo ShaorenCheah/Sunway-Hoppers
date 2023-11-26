@@ -7,7 +7,6 @@ $carNo = $_POST['carNo'];
 $carType = $_POST['carType'];
 $carColour = $_POST['carColour'];
 $carRules = $_POST['carRules'];
-$driverBio = $_POST['driverBio'];
 
 $query = "SELECT COUNT(*) FROM application";
 $stmt = $pdo->prepare($query);
@@ -43,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $downloadLink = 'http://localhost/sunwayhoppers/applications/' . $newFileName;
 
                     // Insert new account
-                    $query   = "INSERT INTO application (applicationID, accountID, vehicleNo, vehicleType, vehicleColour, driverCredentials, driverBio, vehicleRules) 
-    VALUES (:applicationID, :accountID, :vehicleNo, :vehicleType, :vehicleColour, :driverCredentials, :driverBio, :vehicleRules)";
+                    $query   = "INSERT INTO application (applicationID, accountID, vehicleNo, vehicleType, vehicleColour, driverCredentials, vehicleRules) 
+    VALUES (:applicationID, :accountID, :vehicleNo, :vehicleType, :vehicleColour, :driverCredentials, :vehicleRules)";
                     $stmt = $pdo->prepare($query);
                     $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
                     $stmt->bindParam(':applicationID', $appID, PDO::PARAM_STR);
@@ -52,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->bindParam(':vehicleType', $carType, PDO::PARAM_STR);
                     $stmt->bindParam(':vehicleColour', $carColour, PDO::PARAM_STR);
                     $stmt->bindParam(':driverCredentials', $downloadLink, PDO::PARAM_STR);
-                    $stmt->bindParam(':driverBio', $driverBio, PDO::PARAM_STR);
                     $stmt->bindParam(':vehicleRules', $carRules, PDO::PARAM_STR);
 
                     $stmt->execute();

@@ -68,7 +68,6 @@ CREATE TABLE `application` (
   `vehicleColour` varchar(255) DEFAULT NULL,
   `driverCredentials` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT 'N'
-  `driverBio` varchar(255) DEFAULT NULL,
   `vehicleRules` varchar(255) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

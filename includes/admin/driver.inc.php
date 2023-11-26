@@ -12,7 +12,6 @@ function generateTable($tableID, $pdo)
                 <th>Vehicle Type</th>
                 <th>Vehicle Colour</th>
                 <th>Vehicle Rules</th>
-                <th>Driver Bio</th>
                 <th>Credentials</th>
                 <th>Action</th>
             </tr>
@@ -55,7 +54,6 @@ HTML;
         $vehicleType = $application['vehicleType'];
         $vehicleColour = $application['vehicleColour'];
         $driverCredentials = $application['driverCredentials'];
-        $driverBio = $application['driverBio'];
         $vehicleRules = $application['vehicleRules'];
         $email = $application['email'];
         $name = $application['name'];
@@ -70,7 +68,6 @@ HTML;
         <td>{$vehicleType}</td>
         <td>{$vehicleColour}</td>
         <td>{$vehicleRules}</td>
-        <td>{$driverBio}</td>
         <td><a href ='{$driverCredentials}'>Download</a></td>
         <td>{$actionHTML}</td>
     </tr>
