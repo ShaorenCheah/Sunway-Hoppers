@@ -50,7 +50,8 @@ if ($action == 'login') {
         'accountID' => $accountID,
         'name' => $result['name'],
         'email' => $email,
-        'type' => $type
+        'type' => $type,
+        'gender' => $result['gender'], //might need it to validate carpool session
       ];
 
       // Check session values
