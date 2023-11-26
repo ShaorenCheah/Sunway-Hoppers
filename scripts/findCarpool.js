@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Sunway Medical Centre",
       "Sunway Geo",
       "Sunway Mentari",
-      "Sunway Pinnacle",
+      "Sunway Pinnacle"
     ];
 
     locations.forEach(function (location) {
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     getCarpoolList(filterData); // Get carpool list
 
     var districtSelect = document.getElementById("district");
+
     // Get the districts for new carpool form
     fetch("/sunwayhoppers/backend/findCarpool.php?action=getDistricts")
       .then((response) => response.text())
@@ -180,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Get the neighborhoods for new carpool form
+  // Get the neighborhoods based on selected district for new carpool form
   districtSelect.addEventListener("change", function () {
     neighborhoodSelect.disabled = false;
     fetch(

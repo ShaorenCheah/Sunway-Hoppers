@@ -33,7 +33,7 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
       echo newCarpool($data, $pdo);
       break;
     case 'getCarpoolList':
-      echo getCarpool($data, $pdo);
+      echo getCarpoolList($data, $pdo);
       break;
     default:
       echo "Invalid action";
@@ -43,7 +43,7 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
 
 
 // Functions
-function getCarpool($data, $pdo)
+function getCarpoolList($data, $pdo)
 {
 
   $sql = "SELECT * FROM `account`
@@ -55,6 +55,7 @@ function getCarpool($data, $pdo)
   $whereClauses[] = "(`carpool`.`carpoolDate` > CURDATE() OR (`carpool`.`carpoolDate` = CURDATE() AND `carpool`.`carpoolTime` > CURTIME()))";
 
   if ($data['type'] == 'filteredList') {
+    
     $filterDirection = $data['filterDirection'] === 'to' ? true : false;
 
     if (!empty($data['filterName'])) {
@@ -116,6 +117,7 @@ function getCarpool($data, $pdo)
 
   //$html =  "<h6>" . $sql . "</h6>";
   $html = "";
+
   if (count($carpools) > 0) {
     foreach ($carpools as $carpool) {
       $carpoolID = $carpool['carpoolID'];
