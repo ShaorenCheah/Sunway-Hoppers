@@ -103,10 +103,12 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
 
     // Usage for the reward table
     initializeDataTable('#rewardTable', '#txtSearchRewards');
-
     // Usage for the user table
     initializeDataTable('#userTable', '#txtSearchAccounts');
     initializeDataTable('#adminTable', '#txtSearchAccounts');
+    initializeDataTable('#newAppTable', '#txtSearchApplications');
+    initializeDataTable('#approvedAppTable', '#txtSearchApplications');
+    initializeDataTable('#rejectedAppTable', '#txtSearchApplications');
 
     function redirectLi() {
         // Array of li elements, id and url
@@ -148,7 +150,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
             if (tableSelector === '#rewardTable') {
                 $('#rewardTable tbody tr').each(function() {
                     var nTds = $('td', this);
-                    var img = "<img src='" + $(nTds[3]).text()+ "' class='tooltip-image' />";
+                    var img = "<img src='" + $(nTds[3]).text() + "' class='tooltip-image' />";
 
                     $(this).tooltip({
                         "title": img,
@@ -159,7 +161,26 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
                     });
                 });
             }
+
+            if(tableSelector === '#newAppTable' || tableSelector === '#approvedAppTable' || tableSelector === '#rejectedAppTable') {
+                dataTable.on('click', 'td.dt-control', function (e) {
+                    let tr = e.target.closest('tr');
+                    let row = dataTable.row(tr);
+            
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                    } else {
+                        // Open this row
+                        row.child(format($(tr).data('child-name'), $(tr).data('child-email'), $(tr).data('child-phone'), $(tr).data('child-vehicle'))).show();
+                    }
+                });
+            }
         });
+    }
+
+    function format(name, email, phoneNo, vehicleNo) {
+        return '<div><b>Name</b>: ' + name + ' <br /><b>Email</b>: ' + email + ' <br /><b>Phone Number</b>: ' + phoneNo + ' <br /><b>Car Plate</b>: ' + vehicleNo + '</div>';
     }
 </script>
 

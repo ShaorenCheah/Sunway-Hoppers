@@ -41,7 +41,7 @@
             </thead>
             <tbody>
                 <?php
-                require './connection.php';
+                require './backend/connection.php';
 
                 $stmt = $pdo->prepare('SELECT * FROM reward');
                 $stmt->execute();

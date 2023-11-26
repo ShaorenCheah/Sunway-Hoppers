@@ -1,5 +1,7 @@
 <?php
 include './includes/modals/addAdminModal.inc.php';
+require './backend/connection.php';
+
 ?>
 <link rel="stylesheet" href="./styles/dashView.css">
 <div class="row">
@@ -28,7 +30,7 @@ include './includes/modals/addAdminModal.inc.php';
         </ul>
     </div>
     <div class="w-25 d-flex align-items-center justify-content-end" id="addAdminBtn">
-        <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addAdminModal"></i>
+        <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addAdminModal" id="circle"></i>
     </div>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
@@ -45,7 +47,6 @@ include './includes/modals/addAdminModal.inc.php';
                 </thead>
                 <tbody>
                     <?php
-                    require './connection.php';
 
                     $stmt = $pdo->prepare('SELECT user.*, account.email
                 FROM user
@@ -69,7 +70,7 @@ include './includes/modals/addAdminModal.inc.php';
                       <td>{$gender}</td>
                       <td>{$dob}</td>
                       <td>{$rewardPoints}</td>
-                  </tr>";
+                      </tr>";
                     }
                     ?>
                 </tbody>
@@ -89,7 +90,6 @@ include './includes/modals/addAdminModal.inc.php';
                 </thead>
                 <tbody>
                     <?php
-                    require './connection.php';
 
                     $stmt = $pdo->prepare('SELECT admin.*, account.email
                 FROM admin
@@ -114,4 +114,5 @@ include './includes/modals/addAdminModal.inc.php';
             </table>
         </div>
     </div>
+    
     
