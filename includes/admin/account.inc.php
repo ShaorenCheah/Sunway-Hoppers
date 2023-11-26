@@ -77,7 +77,55 @@ require './backend/connection.php';
             </table>
         </div>
         <div class="tab-pane fade" id="pills-driver" role="tabpanel" aria-labelledby="pills-driver-tab">
-            ...
+            <table id="driverTable" class="" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Points Collected</th>
+                        <th>Rating</th>
+                        <th>Vehicle No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $stmt = $pdo->prepare('SELECT user.*, account.email, application.vehicleNo
+                FROM user
+                JOIN account ON user.accountID = account.accountID
+                JOIN application ON user.accountID = application.accountID
+                WHERE user.isDriver = 1;');
+                    $stmt->execute();
+
+                    // Fetch the result
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($result as $driver) {
+                        $name = $driver['name'];
+                        $email = $driver['email'];
+                        $phoneNo = $driver['phoneNo'];
+                        $gender = $driver['gender'];
+                        $dob = $driver['dob'];
+                        $rewardPoints = $driver['rewardPoints'];
+                        $rating = $driver['rating'];
+                        $vehicleNo = $driver['vehicleNo'];
+
+                        echo "<tr>
+                      <td>{$name}</td>
+                      <td>{$email}</td>
+                      <td>{$phoneNo}</td>
+                      <td>{$gender}</td>
+                      <td>{$dob}</td>
+                      <td>{$rewardPoints}</td>
+                      <td>{$rating}</td>
+                      <td>{$vehicleNo}</td>
+                      </tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
         <div class="tab-pane fade" id="pills-admin" role="tabpanel" aria-labelledby="pills-admin-tab">
             <table id="adminTable" class="" style="width:100%">
@@ -114,5 +162,3 @@ require './backend/connection.php';
             </table>
         </div>
     </div>
-    
-    

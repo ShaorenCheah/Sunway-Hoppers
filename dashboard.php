@@ -105,6 +105,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
     initializeDataTable('#rewardTable', '#txtSearchRewards');
     // Usage for the user table
     initializeDataTable('#userTable', '#txtSearchAccounts');
+    initializeDataTable('#driverTable', '#txtSearchAccounts');
     initializeDataTable('#adminTable', '#txtSearchAccounts');
     initializeDataTable('#newAppTable', '#txtSearchApplications');
     initializeDataTable('#approvedAppTable', '#txtSearchApplications');
