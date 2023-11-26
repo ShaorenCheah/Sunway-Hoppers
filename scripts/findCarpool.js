@@ -27,19 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterDestination.appendChild(option2);
     });
 
-    var filterData = {
-      action: "getCarpoolList",
-      filterName: "",
-      filterDirection: filterDirection.value,
-      filterWomenOnly: "",
-      filterDate: "",
-      filterStartTime: "",
-      filterEndTime: "",
-      filterDistrict: "",
-      filterNeighborhood: "",
-      filterLocation: "",
-    };
-
+    var filterData = { action: "getCarpoolList", type:"allList" };
     getCarpoolList(filterData); // Get carpool list
 
     var districtSelect = document.getElementById("district");
@@ -61,29 +49,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Filter section
   var filter = document.getElementById("filterCarpool");
-  var filterDirection = document.getElementById("filterDirection");
   var filterWomenOnly = document.getElementById("filterWomenOnly");
   var filterName = document.getElementById("filterName");
   var filterDate = document.getElementById("filterDate");
   var filterStartTime = document.getElementById("filterStartTime");
   var filterEndTime = document.getElementById("filterEndTime");
-
+  var filterDirection = document.getElementById("filterDirection");
   var filterPickup = document.getElementById("filterPickup");
   var filterDestination = document.getElementById("filterDestination");
 
+  filterData = {
+    action: "getCarpoolList",
+    type:"filteredList",
+    filterName: null,
+    filterDirection: null,
+    filterWomenOnly: null,
+    filterDate: null,
+    filterStartTime: null,
+    filterEndTime: null,
+    filterDistrict: null,
+    filterNeighborhood: null,
+    filterLocation: null,
+  };
+  
   filterName.addEventListener("input", function (event) {
     filterData.filterName = filterName.value;
+    getCarpoolList(filterData);
+  });
+
+  filterWomenOnly.addEventListener("change", function (event) {
+    filterData.filterWomenOnly = filterWomenOnly.checked;
+    getCarpoolList(filterData);
   });
 
   filter.addEventListener("change", function (event) {
     filterData.filterDirection = filterDirection.value;
-    filterData.filterWomenOnly = filterWomenOnly.checked;
     filterData.filterDate = filterDate.value;
     filterData.filterStartTime = filterStartTime.value;
     filterData.filterEndTime = filterEndTime.value;
     filterData.filterDistrict = filterDistrict.value;
     filterData.filterNeighborhood = filterNeighborhood.value;
     filterData.filterLocation = filterLocation.value;
+    getCarpoolList(filterData);
   });
 
   filterDirection.addEventListener("change", function (event) {
@@ -118,14 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json();
       })
       .then((data) => {
-        if (data.success) {
-          alert(data.message);
-          location.reload();
-        } else {
-          alert(data.message);
-        }
-      })
-    
+        var carpoolList = document.getElementById("carpoolList");
+        carpoolList.innerHTML = data.html;
+      });
   }
 
   // Get the neighborhoods for filter
@@ -167,13 +169,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Get the neighborhoods for new carpool form
   districtSelect.addEventListener("change", function () {
-    filterNeighborhood.disabled = false;
+    neighborhoodSelect.disabled = false;
     fetch(
       `/sunwayhoppers/backend/findCarpool.php?action=getNeighborhoods&district=${districtSelect.value}`
     )
       .then((response) => response.text())
       .then((data) => {
-        filterNeighborhood.innerHTML = data;
+        neighborhoodSelect.innerHTML = data;
       });
   });
 

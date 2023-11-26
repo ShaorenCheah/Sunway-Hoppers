@@ -51,8 +51,9 @@
           <h5 style="color:var(--primary)"><b>Direction</b> <i class="bi bi-arrow-left-right ms-1"></i></h5>
           <div class="card bg-body-tertiary d-flex p-2 py-3">
             <h6 class="d-flex justify-content-center align-items-center" style="color:var(--black)">Going
-              <select id="filterDirection" class="form-select mx-3 w-25" aria-label="Default select example">
-                <option selected value="to">to</option>
+              <select id="filterDirection" class="form-select mx-3" style="width:30%" aria-label="Default select example">
+              <option selected value="" disabled>to / from</option>
+                <option value="to">to</option>
                 <option value="from">from</option>
               </select>
               Bandar Sunway
@@ -119,7 +120,7 @@
                 </select>
 
                 <select id="filterNeighborhood" name="neighborhood" class="form-select mt-3"  required disabled>
-                  <option disabled selected>Select Neighborhood</option>
+                  <option value='' disabled selected>Select Neighborhood</option>
                   <!-- Fetch from findCarpool.js -->
                 </select>
               </div>
@@ -138,7 +139,7 @@
       </form>
 
       <!-- Carpool Section -->
-      <div class="col-9 h-100 card shadow p-0 d-flex" id="carpoolData">
+      <div class="col-9 card shadow p-0 d-flex align-self-stretch" id="carpoolList">
         <!-- Carpool List is fetched from  findCarpool.js -->
       </div>
     </div>
