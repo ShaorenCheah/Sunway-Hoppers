@@ -24,6 +24,55 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `account`
+--
+
+CREATE TABLE `account` (
+  `accountID` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL DEFAULT 'user'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
+('', 'shaorencheah@gmail.com', '$2y$10$pOEoVHr3/QyMEAS/r8uwv.6UumWaMcyyHtCks/3Szqkt5DLAfdM2a', 'user');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `adminID` varchar(255) NOT NULL,
+  `accountID` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application`
+--
+
+CREATE TABLE `application` (
+  `applicationID` varchar(255) NOT NULL,
+  `accountID` varchar(255) NOT NULL,
+  `vehicleNo` varchar(255) DEFAULT NULL,
+  `vehicleType` varchar(255) DEFAULT NULL,
+  `vehicleColour` varchar(255) DEFAULT NULL,
+  `driverCredentials` varchar(255) DEFAULT NULL,
+  `driverBio` varchar(255) DEFAULT NULL,
+  `vehicleRules` varchar(255) DEFAULT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `carpool`
 --
 
@@ -45,6 +94,31 @@ CREATE TABLE `carpool` (
 --
 -- Dumping data for table `carpool`
 --
+
+
+CREATE TABLE `user` (
+  `userID` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phoneNo` varchar(255) NOT NULL,
+  `gender` char(1) NOT NULL,
+  `dob` date NOT NULL,
+  `bio` varchar(255) DEFAULT NULL,
+  `rewardPoints` int(11) NOT NULL DEFAULT 0,
+  `OTP` varchar(255) DEFAULT NULL,
+  `isDriver` tinyint(1) NOT NULL DEFAULT 0,
+  `rating` float NOT NULL DEFAULT 0,
+  `carRules` varchar(255) DEFAULT NULL,
+  `accountID` varchar(255) NOT NULL,
+  `profilePic` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`userID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`, `accountID`) VALUES
+('', 'Shaoren', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, '');
+
 
 INSERT INTO `carpool` (`carpoolID`, `accountID`, `carpoolDate`, `carpoolTime`, `passengerAmt`, `toSunway`, `district`, `neighborhood`, `location`, `details`, `isWomenOnly`, `status`) VALUES
 ('C0001', 'A0002', '2023-11-28', '16:25:00', 3, 1, 'Petaling', 'Bandar Subang Jaya', 'Monash University', 'I\'m departing from USJ 11. Feel free to hop on if you\'re around USJ7 or Taipan!', 0, 'Active'),
