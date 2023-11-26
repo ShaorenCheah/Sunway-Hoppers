@@ -39,7 +39,7 @@ if ($_SESSION['user']['gender'] == "M") {
 $edit = true;
 
 //fetch user profile picture and other details
-$stmt = $pdo->prepare('SELECT profilePic, phoneNo, dob, bio FROM user WHERE accountID = :accountID');
+$stmt = $pdo->prepare('SELECT profilePic, phoneNo, dob, bio, rating FROM user WHERE accountID = :accountID');
 $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,6 +48,7 @@ $profPic = $result['profilePic'];
 $phoneNo = $result['phoneNo'];
 $dob = $result['dob'];
 $bio = $result['bio'];
+$rating = $result['rating'];
 
 //check if user has a profile picture
 if ($profPic == null) {
@@ -93,7 +94,7 @@ if ($profPic == null) {
                 <!--Display rating if user is a driver-->
                 <?php if ($isDriver == 1) { ?>
                     <div class="flex-row">
-                        <span>5.0 <i class="bi bi-star-fill"></i></span>
+                        <span><?php echo $rating?> <i class="bi bi-star-fill"></i></span>
                         <span class="text-muted px-1">(12 Ratings)</span>
                     </div>
                 <?php } ?>
