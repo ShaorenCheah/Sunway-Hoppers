@@ -1,4 +1,36 @@
-<?php include 'backend/connection.php'; ?>
+<?php
+require './backend/connection.php';
+
+$loggedIn = true;
+
+//check if user is logged in and not an admin
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user'])) {
+    $loggedIn = false;
+    session_destroy();
+} else if (($_SESSION['user']['type']) == "Admin") {
+?>
+    <script>
+        alert("You are not allowed to access this page!");
+        window.location.href = "./dashboard.php?navPage=dashboard";
+    </script>
+<?php } 
+
+function getUserPoints()
+{
+    global $pdo;
+    $query = "SELECT rewardPoints FROM user WHERE accountID = :accountID";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':accountID', $_SESSION['user']['accountID'], PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch();
+    $points = $result['rewardPoints'];
+    return $points;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,46 +54,52 @@
 <body>
     <header class="w-100 d-flex justify-content-center">
         <?php include './includes/header.inc.php'; ?>
-    </header>
-    <div class="container">
-        <div>
-            <h2 class="text-center my-5"><b>List of <span style="color:var(--secondary)">Reward</span> Vouchers</b></h2>
-        </div>
-        <div class="row position-relative">
-            <nav class="rewardTabs w-100">
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-fnb-tab" data-bs-toggle="tab" data-bs-target="#nav-fnb" role="tab">Food & Beverages</button>
-                    <button class="nav-link" id="nav-petrol-tab" data-bs-toggle="tab" data-bs-target="#nav-petrol" role="tab">Petrol</button>
-                    <button class="nav-link" id="nav-originals-tab" data-bs-toggle="tab" data-bs-target="#nav-originals" role="tab">Sunway Originals</button>
+        <div class="container">
+            <div>
+                <h2 class="text-center my-5"><b>List of <span style="color:var(--secondary)">Reward</span> Vouchers</b></h2>
+            </div>
+            <div class="row position-relative">
+                <nav class="rewardTabs w-100">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-fnb-tab" data-bs-toggle="tab" data-bs-target="#nav-fnb" role="tab">Food & Beverages</button>
+                        <button class="nav-link" id="nav-petrol-tab" data-bs-toggle="tab" data-bs-target="#nav-petrol" role="tab">Petrol</button>
+                        <button class="nav-link" id="nav-originals-tab" data-bs-toggle="tab" data-bs-target="#nav-originals" role="tab">Sunway Originals</button>
+                    </div>
+                </nav>
+                <div class="carrots">
+                    <h3 class="position-absolute fixed-bottom d-flex justify-content-end">
+                        <?php
+                        if (!$loggedIn) {
+                            echo "0";
+                        } else {
+                            echo getUserPoints();
+                        }
+                        ?>
+                        <i class="fa-solid fa-carrot"></i>
+                    </h3>
                 </div>
-            </nav>
-            <div class="carrots">
-                <h3 class="position-absolute fixed-bottom d-flex justify-content-end">1000
-                    <i class="fa-solid fa-carrot"></i>
-                </h3>
+            </div>
+            <div class="tab-content mb-5 shadow" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-fnb" role="tabpanel">
+                    <?php
+                    $type = "fnb";
+                    getCards($type, $pdo) ?>
+                </div>
+                <div class="tab-pane fade" id="nav-petrol" role="tabpanel">
+                    <?php
+                    $type = "petrol";
+                    getCards($type, $pdo) ?>
+                </div>
+                <div class="tab-pane fade" id="nav-originals" role="tabpanel">
+                    <?php
+                    $type = "originals";
+                    getCards($type, $pdo) ?>
+                </div>
+                <div class="mb-4">
+                    <p class="text-muted text-center">The digital voucher code can be viewed under "Profile" section upon redemption </p>
+                </div>
             </div>
         </div>
-        <div class="tab-content mb-5 shadow" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-fnb" role="tabpanel">
-                <?php
-                $type = "fnb";
-                getCards($type, $pdo) ?>
-            </div>
-            <div class="tab-pane fade" id="nav-petrol" role="tabpanel">
-            <?php
-                $type = "petrol";
-                getCards($type, $pdo) ?>
-            </div>
-            <div class="tab-pane fade" id="nav-originals" role="tabpanel">
-            <?php
-                $type = "originals";
-                getCards($type, $pdo) ?>
-            </div>
-            <div class="mb-4">
-                <p class="text-muted text-center">The digital voucher code can be viewed under "Profile" section upon redemption </p>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>
@@ -77,6 +115,15 @@ function getCards($type, $pdo)
 {
     $rewards = getRewardsByType($type, $pdo);
     $count = count($rewards);
+    global $loggedIn;
+
+    if($loggedIn){
+        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2'>Redeem</button>";
+    }
+    else{
+        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2' disabled style='background-color: var(--sub); border: none;'>Redeem</button>";
+    }
+
 
     echo "
     <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
@@ -112,7 +159,7 @@ function getCards($type, $pdo)
                         <p class='card-text'>{$rewardObjects[$j]->description}</p>
                     </div>
                     <div class='d-flex justify-content-center'>
-                        <button type='submit' class='btn btn-primary shadow px-4 my-2'>Redeem</button>
+                        $redeemBtnHtml
                     </div>
                 </div>
             </div>
@@ -138,3 +185,4 @@ function getCards($type, $pdo)
 </button>
 </div>";
 }
+?>
