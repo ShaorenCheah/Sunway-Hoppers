@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  // Get the carpool data 
+  fetch("/sunwayhoppers/backend/findCarpool.php?action=getCarpool")
+    .then((response) => response.text())
+    .then((data) => {
+      document.getElementById("carpoolData").innerHTML = data;
+    });
+
+
+  // New Carpool Form Section
   var districtSelect = document.getElementById("district");
   var pickupInput = document.getElementById("pickupInput");
   var destinationInput = document.getElementById("destinationInput");
@@ -6,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var neighborhoodSelect = document.getElementById("neighborhood");
   var locationSelect = document.getElementById("location");
 
-  // Get the districts
+  // Get the districts for new carpool form
   fetch("/sunwayhoppers/backend/findCarpool.php?action=getDistricts")
     .then((response) => response.text())
     .then((data) => {
@@ -102,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
+          location.reload();
         } else {
           alert(data.message);
         }
