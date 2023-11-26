@@ -12,15 +12,15 @@ if (!isset($_SESSION['user'])) {
         alert("Please login to see your profile!");
         window.location.href = "./index.php";
     </script>
-<?php 
-session_destroy();
-} else if (($_SESSION['user']['type']) == "Admin"){
-    ?>
+<?php
+    session_destroy();
+} else if (($_SESSION['user']['type']) == "Admin") {
+?>
     <script>
         alert("You are not allowed to access this page!");
         window.location.href = "./dashboard.php?navPage=dashboard";
-        </script>
-<?php } 
+    </script>
+<?php }
 
 //check if user is a driver
 $stmt = $pdo->prepare('SELECT isDriver FROM user WHERE accountID = :accountID');
@@ -54,6 +54,70 @@ $rating = $result['rating'];
 if ($profPic == null) {
     $profPic = 'images/person.png';
 }
+
+//check driver application status
+$stmt = $pdo->prepare('SELECT * FROM application WHERE accountID = :accountID');
+$stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$passengerHTML = <<<HTML
+<div class="d-flex justify-content-center">
+        <img src="images/passengerAcc.png" style="height: 7rem; width: auto;">
+    </div>
+    <div class="pt-3 d-flex justify-content-center">
+        <h5>You're currently a <span class="badge bg-primary shadow">Passenger</span></h5>
+    </div>
+HTML;
+
+$driverHTML = <<<HTML
+<div class="d-flex justify-content-center">
+        <img src="images/driverAcc.png" style="height: 7rem; width: auto;">
+    </div>
+    <div class="pt-3 d-flex justify-content-center">
+        <h5>You're currently a <span class="badge bg-secondary shadow">Driver</span></h5>
+    </div>
+HTML;
+
+$becomeDriverHTML = <<<HTML
+<div class="col d-flex justify-content-end">
+        <button class="btn btn-green-outline beDriverBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#registerDriverModal">Become a Driver <i class="bi bi-car-front-fill" style="padding-left: 0.2rem;"></i></button>
+    </div>
+    </div>
+HTML;
+
+$editCarHTML = <<<HTML
+<div class="col d-flex justify-content-end">
+        <button class="btn btn-primary editBtn py-1 shadow">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
+    </div>
+    </div>
+HTML;
+    
+$pendingStatusHTML = <<<HTML
+<div class="col d-flex justify-content-end">
+<span class="badge bg-secondary shadow">Pending Application</span>
+    </div>
+    </div>
+HTML;
+    
+$rejectedStatusHTML = <<<HTML
+<div class="col d-flex justify-content-end">
+<span class="badge bg-secondary shadow">Application Rejected</span>
+    </div>
+    </div>
+HTML;
+
+
+if ($result == null) {
+    $accStatusHTML = $becomeDriverHTML . $passengerHTML;
+} else if ($result['status'] == 'N') {
+    $accStatusHTML = $pendingStatusHTML . $passengerHTML;
+} else if ($result['status'] == 'A') {
+    $accStatusHTML = $editCarHTML . $driverHTML;
+} else if ($result['status'] == 'R') {
+    $accStatusHTML = $rejectedStatusHTML . $passengerHTML;
+} 
+
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +158,7 @@ if ($profPic == null) {
                 <!--Display rating if user is a driver-->
                 <?php if ($isDriver == 1) { ?>
                     <div class="flex-row">
-                        <span><?php echo $rating?> <i class="bi bi-star-fill"></i></span>
+                        <span><?php echo $rating ?> <i class="bi bi-star-fill"></i></span>
                         <span class="text-muted px-1">(12 Ratings)</span>
                     </div>
                 <?php } ?>
@@ -173,47 +237,23 @@ if ($profPic == null) {
                     <div class="col">
                         <h5>Account Status <i class="bi bi-person-badge" style="font-size:1rem"></i></h5>
                     </div>
-                    <div class="col d-flex justify-content-end">
-                        <?php if ($isDriver) { ?>
-                            <button class="btn btn-primary editBtn py-1 shadow">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
-                        <?php } else { ?>
-                            <button class="btn btn-green-outline beDriverBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#registerDriverModal">Become a Driver <i class="bi bi-car-front-fill" style="padding-left: 0.2rem;"></i></button>
-                        <?php } ?>
-                    </div>
+                    <?php echo $accStatusHTML ?>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <?php 
-                    $statusImg = $isDriver ? 'images/driverAcc.png' : 'images/passengerAcc.png'
-                    ?>
-                    <img src="<?php echo $statusImg?>" style="height: 7rem; width: auto;">
-                </div>
-                <div class="pt-3 d-flex justify-content-center">
-                    <h5>You're currently a
-                        <?php
-                        if ($isDriver)
-                            echo '<span class="badge bg-secondary shadow">Driver';
-                        else
-                            echo '<span class="badge bg-primary shadow">Passenger';
-                        ?>
-                        </span></h5>
-                </div>
-
             </div>
         </div>
-    </div>
-    <hr class="mx-5">
-    <nav class="rewardTabs mx-5 mt-4">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <?php if ($isDriver) { ?>
-                <button class="nav-link active" id="nav-request-tab" data-bs-toggle="tab" data-bs-target="#nav-request" role="tab">Carpool Requests</button>
-            <?php } ?>
-            <button class="nav-link <?php if (!$isDriver) echo "active" ?>" id="nav-history-tab" data-bs-toggle="tab" data-bs-target="#nav-history" role="tab">Carpool History</button>
-            <button class="nav-link" id="nav-reward-tab" data-bs-toggle="tab" data-bs-target="#nav-reward" role="tab">Rewards Claimed</button>
-        </div>
-    </nav>
-    <?php
-    if ($isDriver) {
-        <<<HTML
+        <hr class="mx-5">
+        <nav class="rewardTabs mx-5 mt-4">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <?php if ($isDriver) { ?>
+                    <button class="nav-link active" id="nav-request-tab" data-bs-toggle="tab" data-bs-target="#nav-request" role="tab">Carpool Requests</button>
+                <?php } ?>
+                <button class="nav-link <?php if (!$isDriver) echo "active" ?>" id="nav-history-tab" data-bs-toggle="tab" data-bs-target="#nav-history" role="tab">Carpool History</button>
+                <button class="nav-link" id="nav-reward-tab" data-bs-toggle="tab" data-bs-target="#nav-reward" role="tab">Rewards Claimed</button>
+            </div>
+        </nav>
+        <?php
+        if ($isDriver) {
+            <<<HTML
             <div class="tab-content shadow mx-5 px-4 pb-4" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-request" role="tabpanel">
                     <table id="rewardTable" class="" style="width:100%">
@@ -229,21 +269,21 @@ if ($profPic == null) {
                         </thead>
                     <tbody> 
             HTML;
-        $stmt = $pdo->prepare('SELECT * FROM reward');
-        $stmt->execute();
+            $stmt = $pdo->prepare('SELECT * FROM reward');
+            $stmt->execute();
 
-        // Fetch the result
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Fetch the result
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($result as $reward) {
-            $rewardName = $reward['rewardName'];
-            $desc = $reward['description'];
-            $points = $reward['points'];
-            $img = $reward['img'];
-            $type = $reward['type'];
-            $quantity = $reward['quantity'];
-            echo
-            <<<HTML
+            foreach ($result as $reward) {
+                $rewardName = $reward['rewardName'];
+                $desc = $reward['description'];
+                $points = $reward['points'];
+                $img = $reward['img'];
+                $type = $reward['type'];
+                $quantity = $reward['quantity'];
+                echo
+                <<<HTML
                     <tr>
                       <td>$rewardName</td>
                       <td>$desc</td>
@@ -256,21 +296,20 @@ if ($profPic == null) {
         </table>
         </div>
         HTML;
+            }
         }
-    }
-    ?>
-    <div class="tab-pane fade" id="nav-history" role="tabpanel">
+        ?>
+        <div class="tab-pane fade" id="nav-history" role="tabpanel">
 
-    </div>
-    <div class="tab-pane fade" id="nav-reward" role="tabpanel">
+        </div>
+        <div class="tab-pane fade" id="nav-reward" role="tabpanel">
 
-    </div>
-    </div>
-    </div>
-    <?php 
-    include './includes/modals/addPicModal.inc.php';
-    include './includes/modals/registerDriverModal.inc.php';
-    ?>
+        </div>
+
+        <?php
+        include './includes/modals/addPicModal.inc.php';
+        include './includes/modals/registerDriverModal.inc.php';
+        ?>
 </body>
 <script>
     var edit = <?php echo json_encode($edit); ?>;
@@ -280,7 +319,7 @@ if ($profPic == null) {
         // add disabled to textarea if edit is false
         document.getElementById('descText').disabled = edit;
         document.getElementById('updateBioBtn').style.display = edit ? 'none' : '';
-        document.getElementById('editBtn').style.display = edit ?  '' : 'none';
+        document.getElementById('editBtn').style.display = edit ? '' : 'none';
     });
 
     initializeDataTable('#rewardTable', '#txtSearchRewards');
