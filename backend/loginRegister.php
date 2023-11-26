@@ -38,34 +38,37 @@ if ($action == 'login') {
         session_start();
       }
 
-      $stmt = $pdo->prepare('SELECT * FROM user WHERE accountID = :accountID');
-      $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
-      $stmt->execute();
-      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($type == 'Admin'){
+        $stmt = $pdo->prepare('SELECT * FROM admin WHERE accountID = :accountID');
+        $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $success = true;
-
-      // Need to add timeout 
-      $_SESSION['user'] = [
-        'accountID' => $accountID,
-        'name' => $result['name'],
-        'email' => $email,
-        'type' => $type,
-        'gender' => $result['gender'], //might need it to validate carpool session
-      ];
-
-      // Check session values
-      // ob_start();
-      // var_dump($_SESSION['user']);
-      // $message = ob_get_clean();
-
-      if ($type == 'Admin') {
+        $_SESSION['user'] = [
+          'accountID' => $accountID,
+          'name' => $result['name'],
+          'email' => $email,
+          'type' => $type,
+        ];
         $message = "Welcome, " . $_SESSION['user']['name'] . ". You are now logged in as an admin.";
+
       } else {
+        $stmt = $pdo->prepare('SELECT * FROM user WHERE accountID = :accountID');
+        $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Need to add timeout 
+        $_SESSION['user'] = [
+          'accountID' => $accountID,
+          'name' => $result['name'],
+          'email' => $email,
+          'type' => $type,
+          'gender' => $result['gender'], //might need it to validate carpool session
+        ];
         $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
       }
 
-      $user = $_SESSION['user']['type'];
+      $success = true;
       
     } else {
       $success = false;
