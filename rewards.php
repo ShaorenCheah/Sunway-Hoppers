@@ -17,7 +17,7 @@ if (!isset($_SESSION['user'])) {
         alert("You are not allowed to access this page!");
         window.location.href = "./dashboard.php?navPage=dashboard";
     </script>
-<?php } 
+<?php }
 
 function getUserPoints()
 {
@@ -30,6 +30,7 @@ function getUserPoints()
     $points = $result['rewardPoints'];
     return $points;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +45,7 @@ function getUserPoints()
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
     <link rel="stylesheet" type="text/css" href="./styles/reward.css">
     <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
 
 
@@ -68,13 +70,13 @@ function getUserPoints()
                 </nav>
                 <div class="carrots">
                     <h3 class="position-absolute fixed-bottom d-flex justify-content-end">
-                        <?php
-                        if (!$loggedIn) {
-                            echo "0";
-                        } else {
-                            echo getUserPoints();
-                        }
-                        ?>
+                        <span id="userPoints"><?php
+                                                if (!$loggedIn) {
+                                                    echo "0";
+                                                } else {
+                                                    echo getUserPoints();
+                                                }
+                                                ?></span>
                         <i class="fa-solid fa-carrot"></i>
                     </h3>
                 </div>
@@ -100,9 +102,61 @@ function getUserPoints()
                 </div>
             </div>
         </div>
+        <script>
+            var userPoints; // Declare userPoints in a wider scope
+            var acountID;
+
+            $(document).ready(function() {
+                // Use a class selector for the click event
+                $('.redeemBtn').click(function() {
+                    var requiredPoints = $(this).data('points');
+                    userPoints = <?php echo json_encode(getUserPoints()); ?>;
+                    accountID = <?php echo json_encode($_SESSION['user']['accountID']); ?>;
+                    var pointData = {
+                        requiredPoints: requiredPoints,
+                        userPoints: userPoints,
+                        accountID: accountID,
+                    }
+                    redeemReward(pointData);
+                });
+            });
+
+            function redeemReward(pointData) {
+                var confirmation = confirm("Are you sure you want to redeem this reward?");
+                if (confirmation) {
+                    var formData = new FormData();
+                    formData.append("formData", JSON.stringify(pointData));
+                    fetch("./backend/redeemReward.php", {
+                            method: "POST",
+                            body: formData,
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                            }
+                            return response.json();
+                        })
+                        .then((data) => {
+                            if (data.success) {
+                                alert(data.message);
+                                window.location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error during redemption:", error);
+                            alert("Error occurred during redemption");
+                        });
+                }
+            }
+        </script>
+
 </body>
 
 </html>
+
 <?php
 function getRewardsByType($type, $pdo)
 {
@@ -116,14 +170,6 @@ function getCards($type, $pdo)
     $rewards = getRewardsByType($type, $pdo);
     $count = count($rewards);
     global $loggedIn;
-
-    if($loggedIn){
-        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2'>Redeem</button>";
-    }
-    else{
-        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2' disabled style='background-color: var(--sub); border: none;'>Redeem</button>";
-    }
-
 
     echo "
     <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
@@ -143,27 +189,40 @@ function getCards($type, $pdo)
         echo "<div class='container my-5 d-flex justify-content-around'>
                 <div class='row'>";
         for ($j = $i; $j < $i + 4 && $j < $count; $j++) {
-            echo "<div class='col'>
+            echo <<<HTML
+            <div class='col'>
             <div class='card shadow' style='width: 16rem;'>
                 <img class='card-img-top' src='/{$rewardObjects[$j]->img}' alt='Card image cap'>
                 <div class='card-body'>
                     <div class='row'>
-                        <div class='col-8'>
+                        <div style="width: 70%; padding-right: 0rem;">
                             <h5 class='card-title'>{$rewardObjects[$j]->rewardName}</h5>
                         </div>
-                        <div class='col-4 d-flex justify-content-end align-items-center p-0'>
+                        <div class='d-flex justify-content-end align-items-start p-0' style="width: 30%">
                             <p>{$rewardObjects[$j]->points}<i class='fa-solid fa-carrot'></i></p>
                         </div>
                     </div>
-                    <div style='height: 7rem;'>
-                        <p class='card-text'>{$rewardObjects[$j]->description}</p>
+                    <div class='description-container' style='height: 7.5rem; overflow: hidden;'>
+                    <p class='card-text' style='text-align: justify;'>{$rewardObjects[$j]->description}</p>
                     </div>
                     <div class='d-flex justify-content-center'>
-                        $redeemBtnHtml
+HTML;
+            $requiredPoints = $rewardObjects[$j]->points;
+            $userPoints = getUserPoints();
+
+            if ($loggedIn && $userPoints >= $requiredPoints) {
+                $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2 redeemBtn' data-points='{$requiredPoints}'>Redeem</button>";
+            } else {
+                $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2' disabled style='background-color: var(--sub); border: none;'>Redeem</button>";
+            }
+
+            echo <<<HTML
+                        {$redeemBtnHtml}
                     </div>
                 </div>
             </div>
-        </div>";
+        </div> 
+        HTML;
         }
         echo "    
         </div>
@@ -173,7 +232,7 @@ function getCards($type, $pdo)
         $isActive = false; // Set to false after the first iteration
     }
 
-    echo "
+    echo <<<HTML
 </div>
 <button class='carousel-control-prev d-flex justify-content-start mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
     <span class='carousel-control-prev-icon' aria-hidden='true'></span>
@@ -183,6 +242,7 @@ function getCards($type, $pdo)
     <span class='carousel-control-next-icon' aria-hidden='true'></span>
     <span class='visually-hidden'>Next</span>
 </button>
-</div>";
+</div>
+HTML;
 }
 ?>
