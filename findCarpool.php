@@ -51,7 +51,7 @@
           <h5 style="color:var(--primary)"><b>Direction</b> <i class="bi bi-arrow-left-right ms-1"></i></h5>
           <div class="card bg-body-tertiary d-flex p-2 py-3">
             <h6 class="d-flex justify-content-center align-items-center" style="color:var(--black)">Going
-              <select id="filterDirection" class="form-select mx-3" style="width:30%" aria-label="Default select example">
+              <select id="filterDirection" class="form-select mx-3" style="width:40%" aria-label="Default select example">
               <option selected value="" disabled>to / from</option>
                 <option value="to">to</option>
                 <option value="from">from</option>
