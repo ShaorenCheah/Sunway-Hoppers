@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterDestination.appendChild(option2);
     });
 
-    var filterData = { action: "getCarpoolList", type:"allList" };
+    var filterData = { action: "getCarpoolList", type: "allList" };
     getCarpoolList(filterData); // Get carpool list
 
     var districtSelect = document.getElementById("district");
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   filterData = {
     action: "getCarpoolList",
-    type:"filteredList",
+    type: "filteredList",
     filterName: null,
     filterDirection: null,
     filterWomenOnly: null,
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     filterNeighborhood: null,
     filterLocation: null,
   };
-  
+
   filterName.addEventListener("input", function (event) {
     filterData.filterName = filterName.value;
     getCarpoolList(filterData);
@@ -93,14 +93,27 @@ document.addEventListener("DOMContentLoaded", function () {
     getCarpoolList(filterData);
   });
 
+
   filterDirection.addEventListener("change", function (event) {
+    var direction1 = document.getElementById("direction1");
+    var direction2 = document.getElementById("direction2");
+
     if (filterDirection.value == "to") {
+      direction1.outerHTML =
+        '<i id="direction1" class="d-flex align-items-center bi bi-arrow-right mx-3" style="font-size: 1.5rem;"></i>';
+      direction2.outerHTML =
+        '<i id="direction2" class="d-flex align-items-center bi bi-arrow-right mx-3" style="font-size: 1.5rem;"></i>';
+
       // Move the #district and #neighborhood  fields to #pickupInput
       filterPickup.appendChild(filterDistrict);
       filterPickup.appendChild(filterNeighborhood);
       // Move #destination to #destinationInput
       filterDestination.appendChild(filterLocation);
     } else {
+      direction1.outerHTML =
+        '<i id="direction1" class="d-flex align-items-center bi bi-arrow-left mx-3" style="font-size: 1.5rem;"></i>';
+      direction2.outerHTML =
+        '<i id="direction2" class="d-flex align-items-center bi bi-arrow-left mx-3" style="font-size: 1.5rem;"></i>';
       // Move the #district and #neighborhood fields to #destinationInput
       filterDestination.appendChild(filterDistrict);
       filterDestination.appendChild(filterNeighborhood);
