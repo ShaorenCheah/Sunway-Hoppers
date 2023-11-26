@@ -14,6 +14,7 @@ function generateTable($tableID, $pdo)
                 <th>Vehicle Rules</th>
                 <th>Driver Bio</th>
                 <th>Credentials</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +50,7 @@ HTML;
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($result as $application) {
+        $applicationID = $application['applicationID'];
         $vehicleNo = $application['vehicleNo'];
         $vehicleType = $application['vehicleType'];
         $vehicleColour = $application['vehicleColour'];
@@ -58,6 +60,7 @@ HTML;
         $email = $application['email'];
         $name = $application['name'];
         $phoneNo = $application['phoneNo'];
+        $actionHTML = getActions($status, $applicationID);
 
         echo <<<HTML
         <tr data-child-name='{$name}' data-child-phone='{$phoneNo}' data-child-email='{$email}' 
@@ -69,6 +72,7 @@ HTML;
         <td>{$vehicleRules}</td>
         <td>{$driverBio}</td>
         <td><a href ='{$driverCredentials}'>Download</a></td>
+        <td>{$actionHTML}</td>
     </tr>
     HTML;
     }
@@ -78,7 +82,32 @@ HTML;
     </table>
 HTML;
 }
+
+function getActions($status, $applicationID)
+{
+    if ($status === "N") {
+        return <<<HTML
+        <div class="row m-0">
+            <div class="col">
+                <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
+            </div>
+            <div class="col">
+                <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
+            </div>
+        </div>
+        HTML;
+    } else if ($status === "A") {
+        return <<<HTML
+        <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
+        HTML;
+    } else if ($status === "R") {
+        return <<<HTML
+        <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
+        HTML;
+    }
+}
 ?>
+
 <link rel="stylesheet" href="./styles/dashView.css">
 <div class="row">
     <div class="w-75">
@@ -91,7 +120,7 @@ HTML;
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row m-0">
     <div class="">
         <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -116,3 +145,49 @@ HTML;
             <?php generateTable("rejectedAppTable", $pdo); ?>
         </div>
     </div>
+</div>
+
+<script>
+    // JavaScript function to handle button click
+    function rejectApplication(applicationID) {
+        // Make an AJAX request to update the status
+        $.ajax({
+            type: 'POST',
+            url: 'backend/updateAppStatus.php',
+            data: {
+                applicationID: applicationID,
+                status: 'R'
+            },
+            success: function(response) {
+                // Handle the response, if needed
+                console.log(response);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Handle errors, if any
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function approveApplication(applicationID) {
+        // Make an AJAX request to update the status
+        $.ajax({
+            type: 'POST',
+            url: 'backend/updateAppStatus.php',
+            data: {
+                applicationID: applicationID,
+                status: 'A'
+            },
+            success: function(response) {
+                // Handle the response, if needed
+                console.log(response);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Handle errors, if any
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>

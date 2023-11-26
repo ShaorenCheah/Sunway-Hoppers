@@ -109,6 +109,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
     initializeDataTable('#newAppTable', '#txtSearchApplications');
     initializeDataTable('#approvedAppTable', '#txtSearchApplications');
     initializeDataTable('#rejectedAppTable', '#txtSearchApplications');
+    
 
     function redirectLi() {
         // Array of li elements, id and url
