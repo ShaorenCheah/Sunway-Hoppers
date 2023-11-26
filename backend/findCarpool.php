@@ -10,9 +10,7 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
   $action = $_GET['action'];
 
   switch ($action) {
-    case 'getCarpool':
-      echo getCarpool($pdo);
-      break;
+
     case 'getDistricts':
       echo getDistricts($pdo);
       break;
@@ -30,51 +28,127 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
   $data = json_decode($formJSON, true);
 
   $action = $data['action'];
-
-  if ($action == 'newCarpool') {
-    echo newCarpool($data, $pdo);
-  };
+  switch ($action) {
+    case 'newCarpool':
+      echo newCarpool($data, $pdo);
+      break;
+    case 'getCarpoolList':
+      echo getCarpoolList($data, $pdo);
+      break;
+    default:
+      echo "Invalid action";
+      break;
+  }
 }
 
 
 // Functions
-function getCarpool($pdo)
+function getCarpoolList($data, $pdo)
 {
-  $stmt = $pdo->prepare("SELECT * FROM carpool WHERE status = 'Active' AND CONCAT(carpoolDate, ' ', carpoolTime) >= NOW() ORDER BY carpoolDate ASC");
-  $stmt->execute();
+
+  $sql = "SELECT * FROM `account`
+  JOIN `user` ON `account`.`accountID` = `user`.`accountID`
+  JOIN `carpool` ON `account`.`accountID` = `carpool`.`accountID`
+  ";
+
+  $params = [];
+  $whereClauses[] = "(`carpool`.`carpoolDate` > CURDATE() OR (`carpool`.`carpoolDate` = CURDATE() AND `carpool`.`carpoolTime` > CURTIME()))";
+
+  if ($data['type'] == 'filteredList') {
+    
+    $filterDirection = $data['filterDirection'] === 'to' ? true : false;
+
+    if (!empty($data['filterName'])) {
+      $whereClauses[] = "`user`.`name` LIKE :filterName";
+      $params[':filterName'] = '%' . $data['filterName'] . '%';
+    }
+
+    if (!empty($data['filterDirection'])) {
+      $whereClauses[] = "`carpool`.`toSunway` = :filterDirection";
+      $params[':filterDirection'] = $filterDirection;
+    }
+
+    if ($data['filterWomenOnly'] !== null) {
+      $whereClauses[] = "`carpool`.`isWomenOnly` = :filterWomenOnly";
+      $params[':filterWomenOnly'] = $data['filterWomenOnly'];
+    }
+
+    if (!empty($data['filterDate'])) {
+      $whereClauses[] = "`carpool`.`carpoolDate` = :filterDate";
+      $params[':filterDate'] = $data['filterDate'];
+    }
+
+    if (!empty($data['filterStartTime'])) {
+      $whereClauses[] = "`carpool`.`carpoolTime` >= :filterStartTime";
+      $params[':filterStartTime'] = $data['filterStartTime'];
+    }
+
+    if (!empty($data['filterEndTime'])) {
+      $whereClauses[] = "`carpool`.`carpoolTime` <= :filterEndTime";
+      $params[':filterEndTime'] = $data['filterEndTime'];
+    }
+
+    if (!empty($data['filterDistrict'])) {
+      $whereClauses[] = "`carpool`.`district` = :filterDistrict";
+      $params[':filterDistrict'] = $data['filterDistrict'];
+    }
+
+    if (!empty($data['filterNeighborhood'])) {
+      $whereClauses[] = "`carpool`.`neighborhood` = :filterNeighborhood";
+      $params[':filterNeighborhood'] = $data['filterNeighborhood'];
+    }
+
+    if (!empty($data['filterLocation'])) {
+      $whereClauses[] = "`carpool`.`location` = :filterLocation";
+      $params[':filterLocation'] = $data['filterLocation'];
+    }
+  }
+
+  if (!empty($whereClauses)) {
+    $sql .= ' WHERE ' . implode(' AND ', $whereClauses);
+  }
+
+  $sql .= ' ORDER BY `carpool`.`carpoolDate` ASC, `carpool`.`carpoolTime` ASC';
+
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
+
   $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  $html = '';
-  foreach ($carpools as $carpool) {
-    $carpoolID = $carpool['carpoolID'];
-    $accountID = $carpool['accountID'];
+  //$html =  "<h6>" . $sql . "</h6>";
+  $html = "";
 
-    // Get Driver Details
-    $stmt = $pdo->prepare("SELECT * FROM user WHERE accountID = :accountID");
-    $stmt->bindParam(':accountID', $accountID);
-    $stmt->execute();
-    $driver = $stmt->fetch(PDO::FETCH_ASSOC);
-    $rating = number_format($driver['rating'], 1);
+  if (count($carpools) > 0) {
+    foreach ($carpools as $carpool) {
+      $carpoolID = $carpool['carpoolID'];
+      $accountID = $carpool['accountID'];
 
-    // Get Vehicle Details
-    $stmt = $pdo->prepare("SELECT * FROM application WHERE accountID = :accountID");
-    $stmt->bindParam(':accountID', $accountID);
-    $stmt->execute();
-    $vehicle = $stmt->fetch(PDO::FETCH_ASSOC);
+      // Get Driver Details
+      $stmt = $pdo->prepare("SELECT * FROM user WHERE accountID = :accountID");
+      $stmt->bindParam(':accountID', $accountID);
+      $stmt->execute();
+      $driver = $stmt->fetch(PDO::FETCH_ASSOC);
+      $rating = number_format($driver['rating'], 1);
 
-    // Get Passenger Amount
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID");
-    $stmt->bindParam(':carpoolID', $carpoolID);
-    $stmt->execute();
-    $passengerAmt = $stmt->fetchColumn();
+      // Get Vehicle Details
+      $stmt = $pdo->prepare("SELECT * FROM application WHERE accountID = :accountID");
+      $stmt->bindParam(':accountID', $accountID);
+      $stmt->execute();
+      $vehicle = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Get Ratings Amount
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID AND rating != NULL");
-    $stmt->bindParam(':carpoolID', $carpoolID);
-    $stmt->execute();
-    $ratingsAmt = $stmt->fetchColumn();
+      // Get Passenger Amount
+      $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID");
+      $stmt->bindParam(':carpoolID', $carpoolID);
+      $stmt->execute();
+      $passengerAmt = $stmt->fetchColumn();
 
-    $html .= <<<HTML
+      // Get Ratings Amount
+      $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID AND rating != NULL");
+      $stmt->bindParam(':carpoolID', $carpoolID);
+      $stmt->execute();
+      $ratingsAmt = $stmt->fetchColumn();
+
+      $html .= <<<HTML
     <div class="m-3 d-flex flex-row" style="border-radius:0.714rem">
       <!-- First Column (Driver Profile)-->
       <div class="d-flex flex-column p-3 driver-border col-2 align-items-center justify-content-center">
@@ -103,10 +177,10 @@ function getCarpool($pdo)
         <div class="col-5 row p-2 mt-4 mx-2 justify-content-center">
   HTML;
 
-  $carpoolDay = date('l', strtotime($carpool['carpoolDate']));
-  $carpoolTime = date('g:i A', strtotime($carpool['carpoolTime']));
-  
-  $html .= <<<HTML
+      $carpoolDay = date('l', strtotime($carpool['carpoolDate']));
+      $carpoolTime = date('g:i A', strtotime($carpool['carpoolTime']));
+
+      $html .= <<<HTML
           <!-- Date & Contact No -->
           <div class="col-6 d-flex flex-column">
             <h6>Date <i class="ms-2 bi bi-calendar-week"></i></h6>
@@ -134,17 +208,17 @@ function getCarpool($pdo)
           <div class="solid-line"></div>
         </div>
     HTML;
-    if ($carpool['toSunway'] == 1) {
-      $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
-      $pickup .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
-      $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
-    } else {
-      $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
-      $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
-      $destination .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
-    }
+      if ($carpool['toSunway'] == 1) {
+        $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
+        $pickup .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
+        $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
+      } else {
+        $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
+        $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
+        $destination .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
+      }
 
-    $html .= <<<HTML
+      $html .= <<<HTML
         <!-- Second Section -->
         <div class="col-5 px-4 py-3">
           <div class="h-100 rounded d-flex flex-column d-flex  align-items-center p-3" style="border: 1px solid var(--secondary)">
@@ -161,15 +235,15 @@ function getCarpool($pdo)
         </div>
     HTML;
 
-    if($carpool['isWomenOnly'] == 1){
-      $womenOnly = '<span class="badge rounded-pill shadow px-3 mb-3" style="background-color:#FF9BBC">Women-Only</span>';
-    } else {
-      $womenOnly = '';
-    }
+      if ($carpool['isWomenOnly'] == 1) {
+        $womenOnly = '<span class="badge rounded-pill shadow px-3 mb-3" style="background-color:#FF9BBC">Women-Only</span>';
+      } else {
+        $womenOnly = '';
+      }
 
-    $remainingSeats = $carpool['passengerAmt'] - $passengerAmt;
+      $remainingSeats = $carpool['passengerAmt'] - $passengerAmt;
 
-    $html .= <<<HTML
+      $html .= <<<HTML
         <div class="col-2 pe-3 py-3 d-flex flex-column justify-content-center align-items-center">
           {$womenOnly}
           <h1 style="font-size:3.571rem">{$remainingSeats}/{$carpool['passengerAmt']}</h1>
@@ -179,9 +253,30 @@ function getCarpool($pdo)
       </div>
     </div>
     HTML;
-  }
+    }
+  }else{
+    if($data['type'] == 'filteredList'){
+      $message = 'Try changing your filters';
+    }else if($data['type'] == 'allList'){
+      $message = 'Currently no carpool exists';
+    }
 
-  return $html;
+    $html .= <<<HTML
+    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 50vh;">
+      <h1 class="text-center" style="font-size: 3rem; color: var(--primary);">No Carpool Available</h1>
+      <p class="text-center text-muted" style="font-size: 1.5rem;">{$message}</p>
+    </div>
+    HTML;
+  };
+
+
+  $response = [
+    'action' => 'getCarpoolList',
+    'message' => 'Carpool list fetched successfully!',
+    'html' => $html
+  ];
+
+  echo json_encode($response);
 }
 
 function getDistricts($pdo)
