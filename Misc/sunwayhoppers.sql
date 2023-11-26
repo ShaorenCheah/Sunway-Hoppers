@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2023 at 04:40 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Nov 26, 2023 at 09:50 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -79,64 +79,22 @@ CREATE TABLE `application` (
 CREATE TABLE `carpool` (
   `carpoolID` varchar(255) NOT NULL,
   `accountID` varchar(255) NOT NULL,
-  `isApproved` tinyint(1) DEFAULT NULL,
-  `code` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `rating` float(2,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `redemption`
---
-
-CREATE TABLE `redemption` (
-  `redemptionID` varchar(255) NOT NULL,
-  `accountID` varchar(255) NOT NULL,
-  `rewardID` varchar(255) NOT NULL,
-  `code` varchar(255) DEFAULT NULL,
-  `expiryDate` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reward`
---
-
-CREATE TABLE `reward` (
-  `rewardID` varchar(255) NOT NULL,
-  `rewardName` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `quantity` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `session`
---
-
-CREATE TABLE `session` (
-  `carpoolID` varchar(255) NOT NULL,
-  `accountID` varchar(255) NOT NULL,
-  `date` date DEFAULT NULL,
-  `time` time DEFAULT NULL,
-  `area` varchar(255) DEFAULT NULL,
-  `destination` varchar(255) DEFAULT NULL,
-  `passengerAmt` int(1) DEFAULT NULL,
+  `carpoolDate` date DEFAULT NULL,
+  `carpoolTime` time DEFAULT NULL,
+  `passengerAmt` int(2) DEFAULT NULL,
+  `toSunway` tinyint(1) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
+  `neighborhood` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `details` varchar(255) NOT NULL,
   `isWomenOnly` tinyint(1) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Table structure for table `user`
+-- Dumping data for table `carpool`
 --
+
 
 CREATE TABLE `user` (
   `userID` varchar(255) NOT NULL,
@@ -161,29 +119,15 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`userID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`, `accountID`) VALUES
 ('', 'Shaoren', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, '');
 
+
+INSERT INTO `carpool` (`carpoolID`, `accountID`, `carpoolDate`, `carpoolTime`, `passengerAmt`, `toSunway`, `district`, `neighborhood`, `location`, `details`, `isWomenOnly`, `status`) VALUES
+('C0001', 'A0002', '2023-11-28', '16:25:00', 3, 1, 'Petaling', 'Bandar Subang Jaya', 'Monash University', 'I\'m departing from USJ 11. Feel free to hop on if you\'re around USJ7 or Taipan!', 0, 'Active'),
+('C0002', 'A0002', '2023-11-29', '16:34:00', 10, 0, 'Gombak', 'Pekan Batu 20', 'Sunway Medical Centre', 'Hop on yeahh', 1, 'Active'),
+('C0003', 'A0002', '2023-11-08', '16:42:00', 1, 1, 'Ulu Selangor', 'Mukim Serendah', 'Sunway Pyramid', 'Heya', 0, 'Active');
+
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `account`
---
-ALTER TABLE `account`
-  ADD PRIMARY KEY (`accountID`);
-
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`adminID`),
-  ADD KEY `accountID` (`accountID`);
-
---
--- Indexes for table `application`
---
-ALTER TABLE `application`
-  ADD PRIMARY KEY (`applicationID`),
-  ADD KEY `accountID` (`accountID`);
 
 --
 -- Indexes for table `carpool`
@@ -193,74 +137,14 @@ ALTER TABLE `carpool`
   ADD KEY `accountID` (`accountID`);
 
 --
--- Indexes for table `redemption`
---
-ALTER TABLE `redemption`
-  ADD PRIMARY KEY (`redemptionID`),
-  ADD KEY `accountID` (`accountID`),
-  ADD KEY `rewardID` (`rewardID`);
-
---
--- Indexes for table `reward`
---
-ALTER TABLE `reward`
-  ADD PRIMARY KEY (`rewardID`);
-
---
--- Indexes for table `session`
---
-ALTER TABLE `session`
-  ADD PRIMARY KEY (`carpoolID`,`accountID`),
-  ADD KEY `accountID` (`accountID`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`userID`),
-  ADD KEY `account_user_fk` (`accountID`);
-
---
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`);
-
---
--- Constraints for table `application`
---
-ALTER TABLE `application`
-  ADD CONSTRAINT `application_ibfk_1` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`);
 
 --
 -- Constraints for table `carpool`
 --
 ALTER TABLE `carpool`
   ADD CONSTRAINT `carpool_ibfk_1` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`);
-
---
--- Constraints for table `redemption`
---
-ALTER TABLE `redemption`
-  ADD CONSTRAINT `redemption_ibfk_1` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`),
-  ADD CONSTRAINT `redemption_ibfk_2` FOREIGN KEY (`rewardID`) REFERENCES `reward` (`rewardID`);
-
---
--- Constraints for table `session`
---
-ALTER TABLE `session`
-  ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`carpoolID`) REFERENCES `carpool` (`carpoolID`),
-  ADD CONSTRAINT `session_ibfk_2` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`);
-
---
--- Constraints for table `user`
---
-ALTER TABLE `user`
-  ADD CONSTRAINT `account_user_fk` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

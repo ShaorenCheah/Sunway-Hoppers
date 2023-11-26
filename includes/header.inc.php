@@ -1,7 +1,6 @@
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" type="text/css" href="./styles/navbar.css">
-</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" href="./styles/navbar.css">
+<link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&family=Spectral:wght@300&display=swap');
@@ -18,6 +17,7 @@ include './includes/modals/registerModal.inc.php';
       <img src="images/logo/nav.png" width="100">
     </a>
   </div>
+
   <ul class="col navbar-nav w-100 d-flex flex-row justify-content-around">
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/index.php') ? 'active' : ''; ?>">
       <a class="nav-link" href="index.php">Home</a>
@@ -25,12 +25,13 @@ include './includes/modals/registerModal.inc.php';
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/find_carpool.php') ? 'active' : ''; ?>">
       <a class="nav-link" <?php
                           if (isset($_SESSION['user'])) {
-                            echo 'href="find_carpool.php"';
+                            echo 'href="findCarpool.php"';
                           } else {
                             echo 'href="" data-bs-toggle="modal" data-bs-target="#loginModal"';
                           }
                           ?>>
         <i class="bi bi-geo-alt-fill"></i> Find Carpool</a>
+
     </li>
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/rewards.php') ? 'active' : ''; ?>">
       <a class="nav-link" href="rewards.php">Rewards</a>

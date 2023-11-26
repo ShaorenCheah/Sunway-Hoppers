@@ -48,7 +48,6 @@ if ($action == 'login') {
       // Need to add timeout 
       $_SESSION['user'] = [
         'accountID' => $accountID,
-        'userID' => $result['userID'],
         'name' => $result['name'],
         'email' => $email,
         'type' => $type,
@@ -137,14 +136,6 @@ if ($action == 'register') {
       $message = "Account created failed. Please try again.";
     }
 
-    // if ($query_execute) {
-    //   header('Location: index.php');
-    //   exit(0);
-    // } else {
-    //   $_SESSION['message'] = "Not Inserted";
-    //   header('Location: reward.php');
-    //   exit(0);
-    // }
   }
 }
 

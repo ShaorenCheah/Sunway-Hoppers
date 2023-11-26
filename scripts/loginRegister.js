@@ -109,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
         }
       })
-      .catch((error) => {
-        console.error("Fetch error:", error);
-      });
+
   }
 });

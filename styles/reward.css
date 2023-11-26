@@ -1,0 +1,23 @@
+.rewardTabs{
+    z-index: 0;
+}
+
+.carrots{
+    z-index: -1;
+    font-size: 1.5rem;
+}
+
+.nav-link{
+    color: var(--grey);    
+}
+
+.tab-content{
+    border-radius: 0px 0px 4px 4px;
+    border: 1px solid #D2D3D4;
+    border-top: none;
+}
+
+.fa-carrot{
+    padding: 0rem 0.5rem; 
+    color:var(--secondary);
+}
