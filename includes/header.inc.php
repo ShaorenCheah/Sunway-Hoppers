@@ -22,7 +22,7 @@ include './includes/modals/registerModal.inc.php';
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/index.php') ? 'active' : ''; ?>">
       <a class="nav-link" href="index.php">Home</a>
     </li>
-    <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/find_carpool.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/findCarpool.php') ? 'active' : ''; ?>">
       <a class="nav-link" <?php
                           if (isset($_SESSION['user'])) {
                             echo 'href="findCarpool.php"';
