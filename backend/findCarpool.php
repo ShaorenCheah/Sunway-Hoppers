@@ -10,9 +10,7 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
   $action = $_GET['action'];
 
   switch ($action) {
-    case 'getCarpool':
-      echo getCarpool($pdo);
-      break;
+
     case 'getDistricts':
       echo getDistricts($pdo);
       break;
@@ -30,15 +28,22 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
   $data = json_decode($formJSON, true);
 
   $action = $data['action'];
-
-  if ($action == 'newCarpool') {
-    echo newCarpool($data, $pdo);
-  };
+  switch ($action) {
+    case 'newCarpool':
+      echo newCarpool($data, $pdo);
+      break;
+    case 'getCarpoolList':
+      echo getCarpool($data, $pdo);
+      break;
+    default:
+      echo "Invalid action";
+      break;
+  }
 }
 
 
 // Functions
-function getCarpool($pdo)
+function getCarpool($data, $pdo)
 {
   $stmt = $pdo->prepare("SELECT * FROM carpool WHERE status = 'Active' AND CONCAT(carpoolDate, ' ', carpoolTime) >= NOW() ORDER BY carpoolDate ASC");
   $stmt->execute();
@@ -103,10 +108,10 @@ function getCarpool($pdo)
         <div class="col-5 row p-2 mt-4 mx-2 justify-content-center">
   HTML;
 
-  $carpoolDay = date('l', strtotime($carpool['carpoolDate']));
-  $carpoolTime = date('g:i A', strtotime($carpool['carpoolTime']));
-  
-  $html .= <<<HTML
+    $carpoolDay = date('l', strtotime($carpool['carpoolDate']));
+    $carpoolTime = date('g:i A', strtotime($carpool['carpoolTime']));
+
+    $html .= <<<HTML
           <!-- Date & Contact No -->
           <div class="col-6 d-flex flex-column">
             <h6>Date <i class="ms-2 bi bi-calendar-week"></i></h6>
@@ -161,7 +166,7 @@ function getCarpool($pdo)
         </div>
     HTML;
 
-    if($carpool['isWomenOnly'] == 1){
+    if ($carpool['isWomenOnly'] == 1) {
       $womenOnly = '<span class="badge rounded-pill shadow px-3 mb-3" style="background-color:#FF9BBC">Women-Only</span>';
     } else {
       $womenOnly = '';

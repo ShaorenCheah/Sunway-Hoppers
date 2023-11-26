@@ -32,11 +32,12 @@
               </div>
               <div class="d-flex" id="pickupInput">
                 <select id='district' name='district' class='form-select' style='width:30%' placeholder='Select District' required>
-
+                  <!-- Fetch from findCarpool.js -->
                 </select>
 
                 <select id="neighborhood" name="neighborhood" class="form-select ms-3" style="width:70%" required disabled>
                   <option disabled selected>Select Neighborhood</option>
+                  <!-- Fetch from findCarpool.js -->
                 </select>
               </div>
             </div>
@@ -47,15 +48,8 @@
               <label for="carpoolDestination" class="form-label">Destination <i class="ms-2 bi bi-flag"></i></label>
               <div class="d-flex" id="destinationInput">
                 <select id="location" name="location" class="form-select" required>
-                  <option valuedisabled selected>Select Location</option>
-                  <option value="Sunway University">Sunway University</option>
-                  <option value="Monash University">Monash University</option>
-                  <option value="Sunway Pyramid">Sunway Pyramid</option>
-                  <option value="Sunway Residence">Sunway Residence</option>
-                  <option value="Sunway Medical Centre">Sunway Medical Centre</option>
-                  <option value="Sunway Geo">Sunway Geo</option>
-                  <option value="Sunway Mentari">Sunway Mentari</option>
-                  <option value="Sunway Pinnacle">Sunway Pinnacle</option>
+                  <option value='' disabled selected>Select Location</option>
+                  <!-- Fetch from findCarpool.js -->
                 </select>
               </div>
             </div>
