@@ -70,9 +70,6 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
                         <li class="<?= $navPage === 'carpool' ? 'active' : '' ?>" id="carpool">
                             <i class="bi bi-geo-alt-fill"></i><span class="navs">Carpool Requests</span>
                         </li>
-                        <li class="<?= $navPage === 'rating' ? 'active' : '' ?>" id="rating">
-                            <i class="bi bi-geo-alt-fill"></i><span class="navs">Ratings</span>
-                        </li>
                         <li class="<?= $navPage === 'reward' ? 'active' : '' ?>" id="reward">
                             <i class="bi bi-geo-alt-fill"></i><span class="navs">Rewards</span>
                         </li>
@@ -119,7 +116,6 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
             ["account", "./dashboard.php?navPage=account"],
             ["driver", "./dashboard.php?navPage=driver"],
             ["carpool", "./dashboard.php?navPage=carpool"],
-            ["rating", "./dashboard.php?navPage=rating"],
             ["reward", "./dashboard.php?navPage=reward"]
         ]
 
@@ -199,9 +195,6 @@ function getView($navPage)
             break;
         case 'carpool':
             include_once './includes/admin/carpool.inc.php';
-            break;
-        case 'rating':
-            include_once './includes/admin/rating.inc.php';
             break;
         case 'reward':
             include_once './includes/admin/reward.inc.php';
