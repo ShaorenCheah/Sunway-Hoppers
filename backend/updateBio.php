@@ -5,15 +5,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_start();
 
     // Get user ID
-    $userID = $_SESSION['user']['userID'];
+    $accountID = $_SESSION['user']['accountID'];
 
     // Get bio from POST data
     $bio = $_POST['descText'];
 
     // Update the database
-    $stmt = $pdo->prepare('UPDATE user SET bio = :bio WHERE userID = :userID');
+    $stmt = $pdo->prepare('UPDATE user SET bio = :bio WHERE accountID = :accountID');
     $stmt->bindParam(':bio', $bio);
-    $stmt->bindParam(':userID', $userID);
+    $stmt->bindParam(':accountID', $accountID);
     $stmt->execute();
 
     // Send a success response (you can customize this based on your needs)

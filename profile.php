@@ -1,5 +1,5 @@
 <?php
-require './connection.php';
+require './backend/connection.php';
 
 //check if user is logged in and not an admin
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -23,8 +23,8 @@ session_destroy();
 <?php } 
 
 //check if user is a driver
-$stmt = $pdo->prepare('SELECT isDriver FROM user WHERE userID = :userID');
-$stmt->bindParam(':userID', $_SESSION['user']['userID']);
+$stmt = $pdo->prepare('SELECT isDriver FROM user WHERE accountID = :accountID');
+$stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $isDriver = $result['isDriver'];
@@ -39,8 +39,8 @@ if ($_SESSION['user']['gender'] == "M") {
 $edit = true;
 
 //fetch user profile picture and other details
-$stmt = $pdo->prepare('SELECT profilePic, phoneNo, dob, bio FROM user WHERE userID = :userID');
-$stmt->bindParam(':userID', $_SESSION['user']['userID']);
+$stmt = $pdo->prepare('SELECT profilePic, phoneNo, dob, bio FROM user WHERE accountID = :accountID');
+$stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -91,7 +91,7 @@ if ($profPic == null) {
                 </div>
                 <h5 class="mt-2"><?php echo $_SESSION['user']['name'] ?></h5>
                 <!--Display rating if user is a driver-->
-                <?php if ($isDriver) { ?>
+                <?php if ($isDriver == 1) { ?>
                     <div class="flex-row">
                         <span>5.0 <i class="bi bi-star-fill"></i></span>
                         <span class="text-muted px-1">(12 Ratings)</span>
