@@ -144,6 +144,10 @@
       <div class="col-9 card shadow p-0 d-flex align-self-stretch" id="carpoolList">
         <!-- Carpool List is fetched from  findCarpool.js -->
       </div>
+
+      <div id="carpoolModals">
+
+      </div>
     </div>
   </div>
 

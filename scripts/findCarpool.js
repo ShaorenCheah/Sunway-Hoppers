@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
       filterData.filterWomenOnly = true;
     } else {
       filterData.filterWomenOnly = null;
-      console.log("Unchecked");
     }
     getCarpoolList(filterData);
   });
@@ -178,9 +177,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return response.json();
       })
-      .then((data) => {
+      .then((data) => {      
         var carpoolList = document.getElementById("carpoolList");
         carpoolList.innerHTML = data.html;
+
+        var carpoolModals = document.getElementById("carpoolModals");
+        carpoolModals.innerHTML = data.modal;
       });
   }
 
