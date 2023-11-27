@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Sunway Medical Centre",
       "Sunway Geo",
       "Sunway Mentari",
-      "Sunway Pinnacle"
+      "Sunway Pinnacle",
     ];
 
     locations.forEach(function (location) {
@@ -79,11 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   filterWomenOnly.addEventListener("change", function (event) {
-    if(filterWomenOnly.checked) {
+    if (filterWomenOnly.checked) {
       filterData.filterWomenOnly = true;
     } else {
       filterData.filterWomenOnly = null;
-      console.log('Unchecked')
+      console.log("Unchecked");
     }
     getCarpoolList(filterData);
   });
@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
     filterData.filterLocation = filterLocation.value;
     getCarpoolList(filterData);
   });
-
 
   filterDirection.addEventListener("change", function (event) {
     var direction1 = document.getElementById("direction1");
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterPickup.appendChild(filterNeighborhood);
       // Move #destination to #destinationInput
       filterDestination.appendChild(filterLocation);
-    } else {
+    } else if (filterDirection.value == "from") {
       direction1.outerHTML =
         '<i id="direction1" class="d-flex align-items-center bi bi-arrow-left mx-3" style="font-size: 1.5rem;"></i>';
       direction2.outerHTML =
@@ -125,6 +124,9 @@ document.addEventListener("DOMContentLoaded", function () {
       filterDestination.appendChild(filterNeighborhood);
       // Move #destination to #pickupInput
       filterPickup.appendChild(filterLocation);
+    } else if (filterDirection.value == "") {
+      direction1.outerHTML= '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+      direction2.outerHTML= '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
     }
   });
 
@@ -154,10 +156,12 @@ document.addEventListener("DOMContentLoaded", function () {
       filterNeighborhood: null,
       filterLocation: null,
     };
-    
+
+    direction1.outerHTML= '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+    direction2.outerHTML= '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+  
     getCarpoolList(filterData);
   });
-
 
   // Get the carpool list
   function getCarpoolList(filterData) {
@@ -267,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
       sendCarpoolData(carpoolData);
     } else {
       // The form is invalid, show an error message or handle it accordingly
-      carpool.reportValidity()
+      carpool.reportValidity();
     }
   }
 
