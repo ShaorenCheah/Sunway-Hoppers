@@ -123,12 +123,7 @@ function getCarpoolList($data, $pdo)
       $carpoolID = $carpool['carpoolID'];
       $accountID = $carpool['accountID'];
 
-      // Get Driver Details
-      $stmt = $pdo->prepare("SELECT * FROM user WHERE accountID = :accountID");
-      $stmt->bindParam(':accountID', $accountID);
-      $stmt->execute();
-      $driver = $stmt->fetch(PDO::FETCH_ASSOC);
-      $rating = number_format($driver['rating'], 1);
+      $rating = number_format($carpool['rating'], 1);
 
       // Get Vehicle Details
       $stmt = $pdo->prepare("SELECT * FROM application WHERE accountID = :accountID");
@@ -153,7 +148,7 @@ function getCarpoolList($data, $pdo)
       <!-- First Column (Driver Profile)-->
       <div class="d-flex flex-column p-3 driver-border col-2 align-items-center justify-content-center">
           <img src="images/person.png" alt="Avatar" class="shadow mb-3" style="border-radius: 50%;height: 5rem; width: 5rem;">
-          <h5 style="font-weight:600; color:var(--primary)">{$driver['name']}</h5>
+          <h5 style="font-weight:600; color:var(--primary)">{$carpool['name']}</h5>
           <div class="d-flex justify-content-center mb-2">
             <p class="m-0" style="font-weight:600">{$rating}</p>
             <i class="bi bi-star-fill mx-1" style="color:#F6931A"></i>
@@ -188,7 +183,7 @@ function getCarpoolList($data, $pdo)
           </div>
           <div class="col-6 d-flex flex-column">
             <h6>Contact No <i class="ms-2 bi bi-telephone-fill"></i></h6>
-            <p>{$driver['phoneNo']}</p>
+            <p>{$carpool['phoneNo']}</p>
           </div>
 
           <!-- Pickup Time  & Vehicle Details -->
@@ -226,7 +221,7 @@ function getCarpoolList($data, $pdo)
             <div class="d-flex gx-2">
               {$pickup}
             </div>
-            <h3 class="my-2"><i class="bi bi-arrow-down-circle-fill"></i></h3>
+            <h3 class="my-2 mt-3"><i class="bi bi-arrow-down-circle-fill"></i></h3>
             <h6>Destination <i class="ms-2 bi bi-flag"></i></i></h6>
             <div class="d-flex gx-2">
               {$destination}

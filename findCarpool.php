@@ -50,14 +50,15 @@
         <div class="card shadow p-3">
           <h5 style="color:var(--primary)"><b>Direction</b> <i class="bi bi-arrow-left-right ms-1"></i></h5>
           <div class="card bg-body-tertiary d-flex p-2 py-3">
-            <h6 class="d-flex justify-content-center align-items-center" style="color:var(--black)">Going
-              <select id="filterDirection" class="form-select mx-3" style="width:40%" aria-label="Default select example">
-              <option selected value="" disabled>to / from</option>
+            <div class="d-flex justify-content-center align-items-center">
+              <p class="m-0">Going</p>
+              <select id="filterDirection" class="form-select mx-2" style="width:40%" aria-label="Default select example">
+                <option selected value="" disabled>to / from</option>
                 <option value="to">to</option>
                 <option value="from">from</option>
               </select>
-              Bandar Sunway
-            </h6>
+              <p class="m-0"> Bandar Sunway</p>
+            </div>
             <div class="d-flex justify-content-center mt-3">
               <i class="d-flex align-items-center bi bi-house-fill" style="font-size: 1.5rem; color:var(--primary);"></i>
               <i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>
@@ -103,7 +104,7 @@
               <label for="filterStartTime" class="form-label fw-semibold">Time</label>
               <div class="d-flex">
                 <input type="time" class="form-control" id="filterStartTime">
-                <p class="m-0 mx-3 d-flex align-items-center" style="font-size:1rem"> to </p>
+                <p class="m-0 mx-2 d-flex align-items-center" style="font-size:1rem"> to </p>
                 <input type="time" class="form-control" id="filterEndTime">
               </div>
             </div>
@@ -111,15 +112,15 @@
 
           <!-- Location Section -->
           <h5 class="mt-3" style="color:var(--primary)"><b>Location</b> <i class="bi bi-geo-alt-fill ms-1"></i></h5>
-          <div class="card bg-body-tertiary d-flex p-3">
+          <div class="card bg-body-tertiary d-flex p-3 mb-4">
             <div>
               <label for="pickupAreas" class="form-label fw-semibold">Pickup Area</label>
               <div class="d-flex flex-column" id="filterPickup">
-                <select id='filterDistrict' name='district' class='form-select'  placeholder='Select District' required>
+                <select id='filterDistrict' name='district' class='form-select' placeholder='Select District'>
                   <!-- Fetch from findCarpool.js -->
                 </select>
 
-                <select id="filterNeighborhood" name="neighborhood" class="form-select mt-3"  required disabled>
+                <select id="filterNeighborhood" name="neighborhood" class="form-select mt-3" disabled>
                   <option value='' disabled selected>Select Neighborhood</option>
                   <!-- Fetch from findCarpool.js -->
                 </select>
@@ -128,13 +129,14 @@
             <div class="mt-3">
               <label for="filterLocation" class="form-label fw-semibold">Destination</label>
               <div class="d-flex flex-column" id="filterDestination">
-                <select id="filterLocation" name="filterLocation" class="form-select" required>
+                <select id="filterLocation" name="filterLocation" class="form-select">
                   <option value='' disabled selected>Select Location</option>
                   <!-- Fetch from findCarpool.js -->
                 </select>
               </div>
             </div>
           </div>
+          <button type="button" id="resetFilterBtn" class="btn btn-primary mt-3 px-4">Reset Filter</button>
         </div>
       </form>
 

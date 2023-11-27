@@ -79,7 +79,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   filterWomenOnly.addEventListener("change", function (event) {
-    filterData.filterWomenOnly = filterWomenOnly.checked;
+    if(filterWomenOnly.checked) {
+      filterData.filterWomenOnly = true;
+    } else {
+      filterData.filterWomenOnly = null;
+      console.log('Unchecked')
+    }
     getCarpoolList(filterData);
   });
 
@@ -122,6 +127,37 @@ document.addEventListener("DOMContentLoaded", function () {
       filterPickup.appendChild(filterLocation);
     }
   });
+
+  var resetFilterBtn = document.getElementById("resetFilterBtn");
+
+  resetFilterBtn.addEventListener("click", function () {
+    filterName.value = null;
+    filterWomenOnly.checked = false;
+    filterDirection.value = "";
+    filterDate.value = null;
+    filterStartTime.value = "";
+    filterEndTime.value = "";
+    filterDistrict.value = "";
+    filterNeighborhood.value = "";
+    filterLocation.value = "";
+
+    filterData = {
+      action: "getCarpoolList",
+      type: "filteredList",
+      filterName: null,
+      filterDirection: null,
+      filterWomenOnly: null,
+      filterDate: null,
+      filterStartTime: null,
+      filterEndTime: null,
+      filterDistrict: null,
+      filterNeighborhood: null,
+      filterLocation: null,
+    };
+    
+    getCarpoolList(filterData);
+  });
+
 
   // Get the carpool list
   function getCarpoolList(filterData) {
@@ -231,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
       sendCarpoolData(carpoolData);
     } else {
       // The form is invalid, show an error message or handle it accordingly
-      carpool.reportValidity();
+      carpool.reportValidity()
     }
   }
 
