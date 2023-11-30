@@ -146,7 +146,7 @@
       </div>
 
       <div id="carpoolModals">
-
+        <!-- Carpool Modals is fetched from  findCarpool.js -->
       </div>
     </div>
   </div>

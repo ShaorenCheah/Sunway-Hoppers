@@ -159,6 +159,8 @@ document.addEventListener("DOMContentLoaded", function () {
     direction1.outerHTML= '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
     direction2.outerHTML= '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
   
+    filterNeighborhood.disabled = true;
+    
     getCarpoolList(filterData);
   });
 
@@ -188,7 +190,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Get the neighborhoods for filter
   filterDistrict.addEventListener("change", function () {
-    filterNeighborhood.disabled = false;
+    if (filterDistrict.value == "") {
+      filterNeighborhood.disabled = true;
+    }else{
+      filterNeighborhood.disabled = false;
+    }
     fetch(
       `/sunwayhoppers/backend/findCarpool.php?action=getNeighborhoods&district=${filterDistrict.value}`
     )

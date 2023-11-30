@@ -56,8 +56,6 @@ function getCarpoolList($data, $pdo)
 
   if ($data['type'] == 'filteredList') {
 
-    $filterDirection = $data['filterDirection'] === 'to' ? true : false;
-
     if (!empty($data['filterName'])) {
       $whereClauses[] = "`user`.`name` LIKE :filterName";
       $params[':filterName'] = '%' . $data['filterName'] . '%';
