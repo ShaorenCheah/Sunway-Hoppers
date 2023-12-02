@@ -124,11 +124,14 @@ document.addEventListener("DOMContentLoaded", function () {
       // Move #destination to #pickupInput
       filterPickup.appendChild(filterLocation);
     } else if (filterDirection.value == "") {
-      direction1.outerHTML= '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
-      direction2.outerHTML= '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+      direction1.outerHTML =
+        '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+      direction2.outerHTML =
+        '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
     }
   });
 
+  // Reset filter
   var resetFilterBtn = document.getElementById("resetFilterBtn");
 
   resetFilterBtn.addEventListener("click", function () {
@@ -156,11 +159,13 @@ document.addEventListener("DOMContentLoaded", function () {
       filterLocation: null,
     };
 
-    direction1.outerHTML= '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
-    direction2.outerHTML= '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
-  
+    direction1.outerHTML =
+      '<i id="direction1" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+    direction2.outerHTML =
+      '<i id="direction2" class="d-flex align-items-center bi bi-dot mx-3" style="font-size: 1.5rem;"></i>';
+
     filterNeighborhood.disabled = true;
-    
+
     getCarpoolList(filterData);
   });
 
@@ -168,21 +173,28 @@ document.addEventListener("DOMContentLoaded", function () {
   function getCarpoolList(filterData) {
     console.log(filterData);
     var filterDataString = encodeURIComponent(JSON.stringify(filterData));
-    fetch(`/sunwayhoppers/includes/carpoolList.inc.php?filterData=${filterDataString}`)
+    fetch(
+      `/sunwayhoppers/includes/carpoolList.inc.php?filterData=${filterDataString}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.text().then(function(text) {
-          return text ? JSON.parse(text) : {}
-        })
+        return response.text().then(function (text) {
+          return text ? JSON.parse(text) : {};
+        });
       })
-      .then((data) => {      
+      .then((data) => {
         var carpoolList = document.getElementById("carpoolList");
         carpoolList.innerHTML = data.html;
 
         var carpoolModals = document.getElementById("carpoolModals");
         carpoolModals.innerHTML = data.modal;
+
+        var joinCarpoolBtns = document.getElementsByClassName("join-carpool");
+        for (var i = 0; i < joinCarpoolBtns.length; i++) {
+          joinCarpoolBtns[i].addEventListener("click", joinCarpool);
+        }
       });
   }
 
@@ -190,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
   filterDistrict.addEventListener("change", function () {
     if (filterDistrict.value == "") {
       filterNeighborhood.disabled = true;
-    }else{
+    } else {
       filterNeighborhood.disabled = false;
     }
     fetch(
@@ -281,10 +293,61 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Send to PHP
+  // New carpool form send to database
   function sendCarpoolData(carpoolData) {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(carpoolData));
+
+    fetch("/sunwayhoppers/backend/findCarpool.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          alert(data.message);
+          location.reload();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  }
+
+  // Join carpool
+  function joinCarpool(event) {
+    event.preventDefault();
+    var forms = document.querySelectorAll(".join-carpool-forms");
+
+    forms.forEach((form) => {
+      if (form.checkValidity()) {
+        // All required form values are entered, you can submit the form
+        var carpoolID = this.getAttribute("data-carpoolID");
+        console.log(carpoolID);
+        
+        var joinCarpoolData = {
+          action: "joinCarpool",
+          carpoolID,
+        };
+
+        sendJoinCarpoolData(joinCarpoolData);
+      } else {
+        form.reportValidity();
+      }
+    });
+  }
+
+  // Send join carpool data to database
+  function sendJoinCarpoolData(joinCarpoolData) {
+    var formData = new FormData();
+    formData.append("formData", JSON.stringify(joinCarpoolData));
 
     fetch("/sunwayhoppers/backend/findCarpool.php", {
       method: "POST",
