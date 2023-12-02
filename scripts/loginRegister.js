@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     registerModal.show();
   };
 
+  //Login Script
   document.getElementById("loginBtn").addEventListener("click", getLoginData);
 
   function getLoginData(event) {
@@ -48,15 +49,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Register Script
-  document
-    .getElementById("registerBtn")
-    .addEventListener("click", getRegisterData);
+  document.getElementById("registerForm").addEventListener("submit", getRegisterData);
 
   function getRegisterData(event) {
     event.preventDefault();
-    var register = document.getElementById("registerForm");
 
-    if (register.checkValidity()) {
+    var register = document.getElementById("registerForm");
+    var userPwd = register.elements["userPwd"].value;
+    var repeatPwd = register.elements["repeatPwd"].value;
+
+    if (userPwd !== repeatPwd) {
+      alert("Passwords do not match. Please try again.");
+    } else if (register.checkValidity()) {
       var username = register.elements["username"].value;
       var email = register.elements["email"].value;
       var phoneNo = register.elements["phoneNo"].value;
@@ -91,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body: formData,
     })
       .then((response) => {
+        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -99,10 +104,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          if(data.action == 'register'){
+          if (data.action == 'register') {
             window.showLoginModal();
             console.log('Hi')
-          }else{
+          } else {
             location.reload();
           }
         } else {

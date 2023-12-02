@@ -26,10 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (move_uploaded_file($fileTmpPath, $dest_path)) {
 
                     // update data into the database
-                    $updateQuery = "UPDATE user SET profilePic = :profilePic WHERE userID = :userID";
+                    $updateQuery = "UPDATE user SET profilePic = :profilePic WHERE accountID = :accountID";
                     $updateStmt = $pdo->prepare($updateQuery);
                     $updateStmt->bindParam(':profilePic', $dest_path, PDO::PARAM_STR);
-                    $updateStmt->bindParam(':userID', $_SESSION['user']['userID'], PDO::PARAM_STR);
+                    $updateStmt->bindParam(':accountID', $_SESSION['user']['accountID'], PDO::PARAM_STR);
                     $updateStmt->execute();
                     $message ='Profile picture is successfully changed.';
                 } else {

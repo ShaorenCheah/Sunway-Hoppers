@@ -17,8 +17,8 @@ body{
   font-size: 1rem;
 }
 
-body:not(.hero){
-  margin-top: 4rem;
+body:not(.hero):not(.dashboard){
+  margin-top: 4.5rem;
 }
 
 /* Button components */

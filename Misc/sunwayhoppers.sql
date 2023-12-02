@@ -39,8 +39,10 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
-('A0001', 'shaorencheah@gmail.com', '$2y$10$pOEoVHr3/QyMEAS/r8uwv.6UumWaMcyyHtCks/3Szqkt5DLAfdM2a', 'Passenger'),
-('A0002', 'driver@gmail.com', '$2y$10$bwxoEPV4pfHoSWcHRN4ySesswB5JUiHEvXsGfXyt4Rs2OGeO/aLTC', 'Driver');
+('A0001', 'weikean184@gmail.com', '$2y$10$rzrpwrbk0xIEPaxOUJaNSeW54jFQ2R64IsMn5LYFZJy2sXUpJFQ/6', 'Admin'),
+('A0002', 'mwj@gmail.com', '$2y$10$wPue2X8O.Rmw66hRhb/eKuXok1qr32/6He/nxErfZtoz/N2RVhP7.', 'Passenger'),
+('A0003', 'dionneteh44@gmail.com', '$2y$10$vN0HAZW/bT6cePy69l4ljevrZkgGIeqDeq8cTCm2ARqUSKsHA0zwu', 'Passenger');
+
 
 -- --------------------------------------------------------
 
@@ -51,8 +53,16 @@ INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 CREATE TABLE `admin` (
   `adminID` varchar(255) NOT NULL,
   `accountID` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL
+  `name` varchar(255) NOT NULL,
+  `phoneNo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`adminID`, `accountID`, `name`, `phoneNo`) VALUES
+('AD0001', 'A0001', 'Chean', '017-5590375');
 
 -- --------------------------------------------------------
 
@@ -68,16 +78,9 @@ CREATE TABLE `application` (
   `vehicleColour` varchar(255) DEFAULT NULL,
   `driverCredentials` varchar(255) DEFAULT NULL,
   `vehicleRules` varchar(255) DEFAULT NULL,
-  `driverBio` varchar(255) DEFAULT NULL,
-  `status` char(1) DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `status` varchar(255) DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `application`
---
-
-INSERT INTO `application` (`applicationID`, `accountID`, `vehicleNo`, `vehicleType`, `vehicleColour`, `driverCredentials`, `vehicleRules`, `driverBio`, `status`) VALUES
-('AP0001', 'A0002', 'WXV9855', 'Perodua Axia', 'White', NULL, NULL, NULL, 'A');
 
 -- --------------------------------------------------------
 
@@ -99,6 +102,18 @@ CREATE TABLE `carpool` (
   `isWomenOnly` tinyint(1) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carpool_passenger`
+--
+
+INSERT INTO `carpool` (`carpoolID`, `accountID`, `carpoolDate`, `carpoolTime`, `passengerAmt`, `toSunway`, `district`, `neighborhood`, `location`, `details`, `isWomenOnly`, `status`) VALUES
+('C0001', 'A0002', '2023-11-28', '16:25:00', 3, 1, 'Petaling', 'Bandar Subang Jaya', 'Monash University', 'I\'m departing from USJ 11. Feel free to hop on if you\'re around USJ7 or Taipan!', 0, 'Active'),
+('C0002', 'A0002', '2023-11-29', '16:34:00', 10, 0, 'Gombak', 'Pekan Batu 20', 'Sunway Medical Centre', 'Hop on yeahh', 1, 'Active'),
+('C0003', 'A0002', '2023-11-08', '16:42:00', 1, 1, 'Ulu Selangor', 'Mukim Serendah', 'Sunway Pyramid', 'Heya', 0, 'Active'),
+('C0004', 'A0002', '2023-11-28', '17:51:00', 7, 0, 'Kuala Langat', 'Mukim Tanjong Duabelas', 'Sunway Residence', 'Yoo', 1, 'Active');
 
 -- --------------------------------------------------------
 
@@ -396,6 +411,7 @@ CREATE TABLE `redemption` (
 -- Table structure for table `reward`
 --
 
+
 CREATE TABLE `reward` (
   `rewardID` varchar(255) NOT NULL,
   `rewardName` varchar(255) DEFAULT NULL,
@@ -421,16 +437,17 @@ CREATE TABLE `user` (
   `OTP` varchar(255) DEFAULT NULL,
   `isDriver` tinyint(1) NOT NULL DEFAULT 0,
   `rating` float NOT NULL DEFAULT 0,
-  `carRules` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `carRules` varchar(255) DEFAULT NULL,
+  `profilePic` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`) VALUES
-('A0001', 'Shaoren', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL),
-('A0002', 'Jason', '0163381806', 'M', '2023-11-15', NULL, 0, NULL, 0, 0, NULL);
+('A0002', 'Mak', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL);
+--
 
 --
 -- Indexes for dumped tables
@@ -452,6 +469,7 @@ ALTER TABLE `admin`
 --
 -- Indexes for table `application`
 --
+
 ALTER TABLE `application`
   ADD PRIMARY KEY (`applicationID`),
   ADD KEY `accountID` (`accountID`);

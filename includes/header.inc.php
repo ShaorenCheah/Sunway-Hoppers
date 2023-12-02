@@ -22,7 +22,7 @@ include './includes/modals/registerModal.inc.php';
     <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/index.php') ? 'active' : ''; ?>">
       <a class="nav-link" href="index.php">Home</a>
     </li>
-    <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/find_carpool.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/findCarpool.php') ? 'active' : ''; ?>">
       <a class="nav-link" <?php
                           if (isset($_SESSION['user'])) {
                             echo 'href="findCarpool.php"';
@@ -51,7 +51,7 @@ include './includes/modals/registerModal.inc.php';
       echo '<button type="button" class="btn btn-primary shadow login px-4" onclick="showLoginModal()">Login</button>';
     } else if (($_SESSION['user']['type'] == 'Passenger')) {
     ?>
-      <button type="button" class="btn btn-primary btn-circle shadow profile px-4" onclick="window.location.href='./profile.php';"><i class="bi bi-person"></i></button>
+      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = 'profile.php'"><i class="bi bi-person" style="height:60%"></i></button>
     <?php
     } else if (($_SESSION['user']['type'] == 'Admin')) { ?>
       <script>
