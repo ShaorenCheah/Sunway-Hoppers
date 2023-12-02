@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 09:51 AM
+-- Generation Time: Dec 02, 2023 at 07:09 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -41,8 +41,9 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 ('A0001', 'weikean184@gmail.com', '$2y$10$rzrpwrbk0xIEPaxOUJaNSeW54jFQ2R64IsMn5LYFZJy2sXUpJFQ/6', 'Admin'),
 ('A0002', 'mwj@gmail.com', '$2y$10$wPue2X8O.Rmw66hRhb/eKuXok1qr32/6He/nxErfZtoz/N2RVhP7.', 'Passenger'),
-('A0003', 'dionneteh44@gmail.com', '$2y$10$vN0HAZW/bT6cePy69l4ljevrZkgGIeqDeq8cTCm2ARqUSKsHA0zwu', 'Passenger');
-
+('A0003', 'dionneteh44@gmail.com', '$2y$10$vN0HAZW/bT6cePy69l4ljevrZkgGIeqDeq8cTCm2ARqUSKsHA0zwu', 'Passenger'),
+('A0004', 'shaorencheah@gmail.com', '$2y$10$eqPt4GFYLp/SnDWgUoMnTuu2iCaqGrpUPLq4yNRvQa2aCnpVlQxYe', 'Passenger'),
+('A0005', 'driver@gmail.com', '$2y$10$VX4IuiYM6Ywyxfi7cI5DaelsbObrwC4tDHEaMw/bkxU4iuHD7msXW', 'Driver');
 
 -- --------------------------------------------------------
 
@@ -51,7 +52,6 @@ INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 --
 
 CREATE TABLE `admin` (
-  `adminID` varchar(255) NOT NULL,
   `accountID` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phoneNo` varchar(255) NOT NULL
@@ -61,8 +61,8 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`adminID`, `accountID`, `name`, `phoneNo`) VALUES
-('AD0001', 'A0001', 'Chean', '017-5590375');
+INSERT INTO `admin` (`accountID`, `name`, `phoneNo`) VALUES
+('A0001', 'Wey Ken', '0123891239');
 
 -- --------------------------------------------------------
 
@@ -79,8 +79,7 @@ CREATE TABLE `application` (
   `driverCredentials` varchar(255) DEFAULT NULL,
   `vehicleRules` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -103,10 +102,8 @@ CREATE TABLE `carpool` (
   `status` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `carpool_passenger`
+-- Dumping data for table `carpool`
 --
 
 INSERT INTO `carpool` (`carpoolID`, `accountID`, `carpoolDate`, `carpoolTime`, `passengerAmt`, `toSunway`, `district`, `neighborhood`, `location`, `details`, `isWomenOnly`, `status`) VALUES
@@ -411,7 +408,6 @@ CREATE TABLE `redemption` (
 -- Table structure for table `reward`
 --
 
-
 CREATE TABLE `reward` (
   `rewardID` varchar(255) NOT NULL,
   `rewardName` varchar(255) DEFAULT NULL,
@@ -439,15 +435,17 @@ CREATE TABLE `user` (
   `rating` float NOT NULL DEFAULT 0,
   `carRules` varchar(255) DEFAULT NULL,
   `profilePic` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`) VALUES
-('A0002', 'Mak', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL);
---
+INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`, `profilePic`) VALUES
+('A0002', 'Mak', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, NULL),
+('A0003', 'Dionne', '0163381806', 'f', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, NULL),
+('A0004', 'Cheah Shaoren', '0163381806', 'm', '2003-06-18', NULL, 0, NULL, 0, 0, NULL, NULL),
+('A0005', 'Jason', '0162882026', 'M', '2023-12-03', NULL, 0, NULL, 0, 0, NULL, 'default.png');
 
 --
 -- Indexes for dumped tables
@@ -463,13 +461,12 @@ ALTER TABLE `account`
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`adminID`),
+  ADD PRIMARY KEY (`accountID`),
   ADD KEY `accountID` (`accountID`);
 
 --
 -- Indexes for table `application`
 --
-
 ALTER TABLE `application`
   ADD PRIMARY KEY (`applicationID`),
   ADD KEY `accountID` (`accountID`);

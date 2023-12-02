@@ -126,14 +126,13 @@ else if ($action == 'register') {
     $userID = "U" . str_pad($count + 1, 4, "0", STR_PAD_LEFT);
 
     // Insert new user
-    $query   = "INSERT INTO user (userID, name, phoneNo, gender, dob, accountID) VALUES (:userID, :name, :phoneNo, :gender, :dob, :accountID)";
+    $query   = "INSERT INTO user (accountID, name, phoneNo, gender, dob, bio, rewardPoints, OTP, isDriver, rating, carRules, profilePic) VALUES (:accountID, :name, :phoneNo, :gender, :dob, null, 0, null, 0, 0, null, 'default.png')";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':userID', $userID, PDO::PARAM_STR);
+    $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
     $stmt->bindParam(':name', $username, PDO::PARAM_STR);
     $stmt->bindParam(':phoneNo', $phoneNo, PDO::PARAM_STR);
     $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
     $stmt->bindParam(':dob', $dob, PDO::PARAM_STR);
-    $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
     $stmt->execute();
 
     $success = true;
