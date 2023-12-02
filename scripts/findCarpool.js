@@ -167,17 +167,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Get the carpool list
   function getCarpoolList(filterData) {
     console.log(filterData);
-    var formData = new FormData();
-    formData.append("formData", JSON.stringify(filterData));
-    fetch("/sunwayhoppers/backend/findCarpool.php", {
-      method: "POST",
-      body: formData,
-    })
+    var filterDataString = encodeURIComponent(JSON.stringify(filterData));
+    fetch(`/sunwayhoppers/includes/carpoolList.inc.php?filterData=${filterDataString}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
+        return response.text().then(function(text) {
+          return text ? JSON.parse(text) : {}
+        })
       })
       .then((data) => {      
         var carpoolList = document.getElementById("carpoolList");
