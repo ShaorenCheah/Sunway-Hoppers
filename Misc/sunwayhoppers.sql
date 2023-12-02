@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2023 at 07:09 PM
+-- Generation Time: Dec 02, 2023 at 07:29 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -413,10 +413,18 @@ CREATE TABLE `reward` (
   `rewardName` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `img` varchar(255) NOT NULL,
-  `points` int NOT NULL,
+  `points` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `quantity` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `reward`
+--
+
+INSERT INTO `reward` (`rewardID`, `rewardName`, `description`, `img`, `points`, `type`, `quantity`) VALUES
+('R0001', 'Tealive', 'Kill the summer heat by enjoying a nice, cold beverage. Get RM10 off your favourite Tealive! ', '../images/uploads/6928e09c06c405bf03d642ca799460d2.png', 1000, 'fnb', '12'),
+('R0002', 'Sunway Originals', 'Use it at Sunway Originals', '../images/uploads/5044c2acf6f482a6630204c3be4ed02b.png', 500, 'originals', '23');
 
 -- --------------------------------------------------------
 
