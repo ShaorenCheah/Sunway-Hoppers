@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2023 at 07:29 PM
+-- Generation Time: Dec 02, 2023 at 07:35 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -441,7 +441,6 @@ CREATE TABLE `user` (
   `bio` varchar(255) DEFAULT NULL,
   `rewardPoints` int(11) NOT NULL DEFAULT 0,
   `OTP` varchar(255) DEFAULT NULL,
-  `isDriver` tinyint(1) NOT NULL DEFAULT 0,
   `rating` float NOT NULL DEFAULT 0,
   `carRules` varchar(255) DEFAULT NULL,
   `profilePic` varchar(255) DEFAULT NULL
@@ -451,11 +450,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `isDriver`, `rating`, `carRules`, `profilePic`) VALUES
-('A0002', 'Mak', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, NULL),
-('A0003', 'Dionne', '0163381806', 'f', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, NULL),
-('A0004', 'Cheah Shaoren', '0163381806', 'm', '2003-06-18', NULL, 0, NULL, 0, 0, NULL, NULL),
-('A0005', 'Jason', '0162882026', 'M', '2023-12-03', NULL, 0, NULL, 0, 0, NULL, 'default.png');
+INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `rating`, `carRules`, `profilePic`) VALUES
+('A0002', 'Mak', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, NULL, NULL),
+('A0003', 'Dionne', '0163381806', 'f', '2023-11-20', NULL, 0, NULL, 0, NULL, NULL),
+('A0004', 'Cheah Shaoren', '0163381806', 'm', '2003-06-18', NULL, 0, NULL, 0, NULL, NULL),
+('A0005', 'Jason', '0162882026', 'M', '2023-12-03', NULL, 0, NULL, 0, NULL, 'default.png');
 
 --
 -- Indexes for dumped tables
