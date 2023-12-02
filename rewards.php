@@ -207,8 +207,8 @@ function getCards($type, $pdo)
                     </div>
                     <div class='d-flex justify-content-center'>
 HTML;
-      $requiredPoints = $rewardObjects[$j]->points;
-      $userPoints = getUserPoints();
+            $requiredPoints = $rewardObjects[$j]->points;
+            $userPoints = !$loggedIn ? 0 : getUserPoints();
 
       if ($loggedIn && $userPoints >= $requiredPoints) {
         $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2 redeemBtn' data-points='{$requiredPoints}'>Redeem</button>";
