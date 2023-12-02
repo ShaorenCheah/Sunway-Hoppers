@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(filterData);
     var filterDataString = encodeURIComponent(JSON.stringify(filterData));
     fetch(
-      `/sunwayhoppers/includes/carpoolList.inc.php?filterData=${filterDataString}`
+      `/sunwayhoppers/backend/findCarpool.php?action=getCarpoolList&filterData=${filterDataString}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -327,19 +327,18 @@ document.addEventListener("DOMContentLoaded", function () {
     var forms = document.querySelectorAll(".join-carpool-forms");
 
     forms.forEach((form) => {
-      if (form.checkValidity()) {
+      if (!form.elements.permission.checked) {
+        form.elements.permission.focus();
+        form.elements.permission.reportValidity();
+      } else {
         // All required form values are entered, you can submit the form
         var carpoolID = this.getAttribute("data-carpoolID");
         console.log(carpoolID);
-        
+
         var joinCarpoolData = {
           action: "joinCarpool",
           carpoolID,
         };
-
-        sendJoinCarpoolData(joinCarpoolData);
-      } else {
-        form.reportValidity();
       }
     });
   }
