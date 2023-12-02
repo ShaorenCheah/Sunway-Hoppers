@@ -410,10 +410,12 @@ CREATE TABLE `redemption` (
 
 CREATE TABLE `reward` (
   `rewardID` varchar(255) NOT NULL,
-  `rewardName` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `quantity` varchar(255) DEFAULT NULL
+  `rewardName` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `img` varchar(255) NOT NULL,
+  `points` int NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `quantity` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
