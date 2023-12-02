@@ -88,7 +88,7 @@ HTML;
 
 $editCarHTML = <<<HTML
 <div class="col d-flex justify-content-end">
-        <button class="btn btn-primary editBtn py-1 shadow">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
+        <button class="btn btn-primary editBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#editCarModal">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
     </div>
     </div>
 HTML;
@@ -132,6 +132,7 @@ if ($result == null) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="scripts/dataTable.js"></script>
     <script src="scripts/dateFormatter.js"></script>
+    <script src="scripts/editCar.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link rel="stylesheet" type="text/css" href="./styles/profile.css">
     <title>SunwayHoppers</title>
@@ -219,7 +220,7 @@ if ($result == null) {
                             Edit<i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i>
                         </button>
                         <form id="bioForm" method="post" action="./backend/updateBio.php">
-                            <button type="submit" name="updateBioBtn" id="updateBioBtn" class="btn btn-secondary saveBtn shadow py-2" style="display: none;">
+                            <button type="submit" name="updateBioBtn" id="updateBioBtn" class="btn btn-secondary saveBtn shadow py-1" style="display: none;">
                                 Save <i class=" bi bi-save" style="padding-left: 0.2rem;"></i>
                             </button>
                     </div>
@@ -309,6 +310,7 @@ if ($result == null) {
         <?php
         include './includes/modals/addPicModal.inc.php';
         include './includes/modals/registerDriverModal.inc.php';
+        include './includes/modals/editCarDetails.inc.php';
         ?>
 </body>
 <script>

@@ -16,7 +16,7 @@
                             </div>
                             <div class="col">
                                 <label for="carColour" class="form-label">Car Colour <i class="bi bi-palette"></i></label>
-                                <select name="carColour" id="carColour" class="form-select" onchange="checkColor()">
+                                <select name="carColour" id="carColour" class="form-select">
                                     <option selected disabled>-Select-</option>
                                     <option value="red">Red</option>
                                     <option value="blue">Blue</option>
@@ -48,7 +48,6 @@
                         </div>
                     </form>
                 </div>
-                <div class="col"></div>
             </div>
         </div>
     </div>
