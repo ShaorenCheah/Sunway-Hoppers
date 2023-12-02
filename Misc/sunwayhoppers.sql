@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2023 at 09:50 AM
+-- Generation Time: Nov 30, 2023 at 09:51 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -32,7 +32,7 @@ CREATE TABLE `account` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
@@ -42,6 +42,7 @@ INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 ('A0001', 'weikean184@gmail.com', '$2y$10$rzrpwrbk0xIEPaxOUJaNSeW54jFQ2R64IsMn5LYFZJy2sXUpJFQ/6', 'Admin'),
 ('A0002', 'mwj@gmail.com', '$2y$10$wPue2X8O.Rmw66hRhb/eKuXok1qr32/6He/nxErfZtoz/N2RVhP7.', 'Passenger'),
 ('A0003', 'dionneteh44@gmail.com', '$2y$10$vN0HAZW/bT6cePy69l4ljevrZkgGIeqDeq8cTCm2ARqUSKsHA0zwu', 'Passenger');
+
 
 -- --------------------------------------------------------
 
@@ -54,7 +55,7 @@ CREATE TABLE `admin` (
   `accountID` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phoneNo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -80,6 +81,7 @@ CREATE TABLE `application` (
   `status` varchar(255) DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 -- --------------------------------------------------------
 
 --
@@ -101,8 +103,10 @@ CREATE TABLE `carpool` (
   `status` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `carpool`
+-- Table structure for table `carpool_passenger`
 --
 
 INSERT INTO `carpool` (`carpoolID`, `accountID`, `carpoolDate`, `carpoolTime`, `passengerAmt`, `toSunway`, `district`, `neighborhood`, `location`, `details`, `isWomenOnly`, `status`) VALUES
@@ -407,6 +411,7 @@ CREATE TABLE `redemption` (
 -- Table structure for table `reward`
 --
 
+
 CREATE TABLE `reward` (
   `rewardID` varchar(255) NOT NULL,
   `rewardName` varchar(255) DEFAULT NULL,
@@ -464,6 +469,7 @@ ALTER TABLE `admin`
 --
 -- Indexes for table `application`
 --
+
 ALTER TABLE `application`
   ADD PRIMARY KEY (`applicationID`),
   ADD KEY `accountID` (`accountID`);
