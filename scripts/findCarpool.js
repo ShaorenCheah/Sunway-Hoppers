@@ -337,8 +337,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var joinCarpoolData = {
           action: "joinCarpool",
-          carpoolID,
+          carpoolID
         };
+
+        sendJoinCarpoolData(joinCarpoolData);
       }
     });
   }

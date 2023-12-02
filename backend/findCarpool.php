@@ -36,12 +36,14 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
     case 'newCarpool':
       echo newCarpool($data, $pdo);
       break;
+    case 'joinCarpool':
+      echo joinCarpool($data, $pdo);
+      break;
     default:
       echo "Invalid action";
       break;
   }
 }
-
 
 // Functions
 function getDistricts($pdo)
@@ -80,7 +82,8 @@ function getCarpoolList($data, $pdo)
   ";
 
   $params = [];
-  $whereClauses[] = "(`carpool`.`carpoolDate` > CURDATE() OR (`carpool`.`carpoolDate` = CURDATE() AND `carpool`.`carpoolTime` > CURTIME()))";
+  $whereClauses[] = "(`carpool`.`carpoolDate` > CURDATE() OR (`carpool`.`carpoolDate` = CURDATE() AND `carpool`.`carpoolTime` > CURTIME())) AND `carpool`.`status` = 'Active' AND `carpool`.`accountID` != :accountID";
+  $params[':accountID'] = $_SESSION['user']['accountID'];
 
   if ($data['type'] == 'filteredList') {
 
@@ -148,10 +151,24 @@ function getCarpoolList($data, $pdo)
   $html = "";
   $modal = "";
 
+  // Fetch user carpool requests
+  $request = 0;
+
+  $stmt = $pdo->prepare("SELECT carpoolID FROM carpool_passenger WHERE accountID = :accountID");
+  $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+  $stmt->execute();
+  $userCarpools = $stmt->fetchAll(PDO::FETCH_COLUMN, 0); // Fetch only the 'carpoolID' column
+
   if (count($carpools) > 0) {
     foreach ($carpools as $carpool) {
       $carpoolID = $carpool['carpoolID'];
       $accountID = $carpool['accountID'];
+
+      // Skip this carpool if the user has already requested it
+      if (in_array($carpoolID, $userCarpools)) {
+        $request++;
+        continue;
+      }
 
       $rating = number_format($carpool['rating'], 1);
 
@@ -162,7 +179,7 @@ function getCarpoolList($data, $pdo)
       $vehicle = $stmt->fetch(PDO::FETCH_ASSOC);
 
       // Get Passenger Amount
-      $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID");
+      $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID AND isApproved = 1");
       $stmt->bindParam(':carpoolID', $carpoolID);
       $stmt->execute();
       $passengerAmt = $stmt->fetchColumn();
@@ -214,6 +231,15 @@ function getCarpoolList($data, $pdo)
     </div>
     HTML;
   };
+
+  if ($request == count($carpools) && $request != 0) {
+    $html .= <<<HTML
+    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 50vh;">
+      <h1 class="text-center" style="font-size: 3rem; color: var(--primary);">No Carpool Available</h1>
+      <p class="text-center text-muted" style="font-size: 1.5rem;">Please check your profile page for carpool request status</p>
+    </div>
+    HTML;
+  }
 
   $response = [
     'action' => 'getCarpoolList',
@@ -270,6 +296,35 @@ function newCarpool($data, $pdo)
   $response = [
     'success' => $success,
     'action' => 'newCarpool',
+    'message' => $message
+  ];
+
+  echo json_encode($response);
+}
+
+function joinCarpool($data, $pdo)
+{
+  $carpoolID = $data['carpoolID'];
+  $accountID = $_SESSION['user']['accountID'];
+
+  $stmt = $pdo->prepare("INSERT INTO carpool_passenger (carpoolID, accountID, isApproved, code, status, rating) VALUES (:carpoolID, :accountID, 0, NULL, 'Pending', NULL)");
+
+  $data = array(
+    ':carpoolID' => $carpoolID,
+    ':accountID' => $accountID
+  );
+
+  if ($stmt->execute($data)) {
+    $success = true;
+    $message = "Joined carpool successfully!";
+  } else {
+    $success = false;
+    $message = "Joined carpool failed. Please try again.";
+  }
+
+  $response = [
+    'success' => $success,
+    'action' => 'joinCarpool',
     'message' => $message
   ];
 
