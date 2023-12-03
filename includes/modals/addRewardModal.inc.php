@@ -4,7 +4,7 @@
             <div class="modal-body w-100 px-4 py-5">
                 <div class="container-fluid">
                     <h3 style="font-weight:700;">Add New Reward</h3>
-                    <form id="rewardForm" class="pt-3" action="../../backend/addReward.php" method="post" enctype="multipart/form-data">
+                    <form id="rewardForm" class="pt-3" action="./backend/addReward.php" method="post" enctype="multipart/form-data">
                         <div class="row mb-4">
                             <div class="col">
                                 <label for="rewardName">Reward Name</label>
