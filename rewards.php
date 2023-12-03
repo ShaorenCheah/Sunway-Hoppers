@@ -190,7 +190,7 @@ function getCards($type, $pdo)
     echo "<div class='container my-5 d-flex justify-content-around'>
                 <div class='row'>";
     for ($j = $i; $j < $i + 4 && $j < $count; $j++) {
-      $cardCount = $j+1;
+      $cardCount = $j + 1;
       echo <<<HTML
             <div class='col'>
             <div class='card shadow' style='width: 16rem;'>
@@ -209,8 +209,8 @@ function getCards($type, $pdo)
                     </div>
                     <div class='d-flex justify-content-center'>
 HTML;
-            $requiredPoints = $rewardObjects[$j]->points;
-            $userPoints = !$loggedIn ? 0 : getUserPoints();
+      $requiredPoints = $rewardObjects[$j]->points;
+      $userPoints = !$loggedIn ? 0 : getUserPoints();
 
       if ($loggedIn && $userPoints >= $requiredPoints) {
         $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2 redeemBtn' data-points='{$requiredPoints}'>Redeem</button>";
@@ -234,7 +234,7 @@ HTML;
     $isActive = false; // Set to false after the first iteration
   }
 
-  if($cardCount > 4){
+  if ($cardCount > 4) {
     echo <<<HTML
   </div>
   <button class='carousel-control-prev d-flex justify-content-start mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
