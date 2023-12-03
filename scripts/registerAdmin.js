@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
       var username = register.elements["username"].value;
       var email = register.elements["email"].value;
       var phoneNo = register.elements["phoneNo"].value;
-      var userPwd = register.elements["userPwd"].value;
-      var repeatPwd = register.elements["repeatPwd"].value;
 
       var adminData = {
         action: "addAdmin",
@@ -25,48 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
         email,
         phoneNo,
         userPwd,
-        repeatPwd,
       };
       
       sendData(adminData);
     }
   }
 
-  // //add reward
-  // console.log('form submitted');
-
-  // document.getElementById('addRewardBtn').addEventListener('click', getRewardData);
-
-  // function getRewardData(event) {
-  //   event.preventDefault();
-
-  //   var rewardForm = document.getElementById('rewardForm');
-  //   var rewardName = rewardForm.elements['rewardName'].value;
-  //   var desc = rewardForm.elements['desc'].value;
-  //   var points = rewardForm.elements['points'].value;
-  //   var type = rewardForm.elements['type'].value;
-  //   var qty = rewardForm.elements['qty'].value;
-
-  //   var rewardData = {
-  //     action: 'addReward',
-  //     rewardName,
-  //     desc,
-  //     points,
-  //     type,
-  //     qty,
-  //   };
-
-  //   console.log(rewardData);
-
-  //   sendData(rewardData);
-  // }
-
   function sendData(data) {
     var formData = new FormData();
     formData.append('formData', JSON.stringify(data));
     console.log(formData);
 
-    fetch('./backend/dashboard.php', {
+    fetch('./backend/registerAdmin.php', {
       method: 'POST',
       body: formData
     })

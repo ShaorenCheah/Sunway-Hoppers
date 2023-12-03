@@ -92,11 +92,11 @@ require './backend/connection.php';
                 </thead>
                 <tbody>
                     <?php
-                    $stmt = $pdo->prepare('SELECT user.*, account.email, application.vehicleNo
-                FROM user
-                JOIN account ON user.accountID = account.accountID
-                JOIN application ON user.accountID = application.accountID
-                WHERE user.isDriver = 1;');
+                    $stmt = $pdo->prepare("SELECT user.*, account.email, application.vehicleNo
+                    FROM user
+                    JOIN account ON user.accountID = account.accountID
+                    LEFT JOIN application ON user.accountID = application.accountID
+                    WHERE account.type = 'Driver';");
                     $stmt->execute();
 
                     // Fetch the result

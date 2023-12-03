@@ -22,16 +22,16 @@ HTML;
 
     switch ($tableID) {
         case "newAppTable":
-            $status = "N";
+            $status = "New";
             break;
         case "approvedAppTable":
-            $status = "A";
+            $status = "Approved";
             break;
         case "rejectedAppTable":
-            $status = "R";
+            $status = "Rejected";
             break;
         default:
-            $status = "N";
+            $status = "New";
             break;
     }
 
@@ -82,7 +82,7 @@ HTML;
 
 function getActions($status, $applicationID)
 {
-    if ($status === "N") {
+    if ($status === "New") {
         return <<<HTML
         <div class="row m-0">
             <div class="col">
@@ -93,11 +93,11 @@ function getActions($status, $applicationID)
             </div>
         </div>
         HTML;
-    } else if ($status === "A") {
+    } else if ($status === "Approved") {
         return <<<HTML
         <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
         HTML;
-    } else if ($status === "R") {
+    } else if ($status === "Rejected") {
         return <<<HTML
         <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
         HTML;
@@ -153,7 +153,7 @@ function getActions($status, $applicationID)
             url: 'backend/updateAppStatus.php',
             data: {
                 applicationID: applicationID,
-                status: 'R'
+                status: 'Rejected'
             },
             success: function(response) {
                 // Handle the response, if needed
@@ -174,7 +174,7 @@ function getActions($status, $applicationID)
             url: 'backend/updateAppStatus.php',
             data: {
                 applicationID: applicationID,
-                status: 'A'
+                status: 'Approved'
             },
             success: function(response) {
                 // Handle the response, if needed

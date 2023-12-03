@@ -118,13 +118,6 @@ else if ($action == 'register') {
   if ($result) {
     $accountID = $result->accountID;
 
-    // Create new userID
-    $query = "SELECT COUNT(*) FROM User";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    $count = $stmt->fetchColumn();
-    $userID = "U" . str_pad($count + 1, 4, "0", STR_PAD_LEFT);
-
     // Insert new user
     $query   = "INSERT INTO user (accountID, name, phoneNo, gender, dob, bio, rewardPoints, OTP, isDriver, rating, carRules, profilePic) VALUES (:accountID, :name, :phoneNo, :gender, :dob, null, 0, null, 0, 0, null, 'default.png')";
     $stmt = $pdo->prepare($query);
