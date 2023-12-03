@@ -42,69 +42,6 @@ if ($profPic == null) {
   $profPic = 'images/person.png';
 }
 
-//check driver application status
-$stmt = $pdo->prepare('SELECT * FROM application WHERE accountID = :accountID');
-$stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-$passengerHTML = <<<HTML
-<div class="d-flex justify-content-center">
-        <img src="images/passengerAcc.png" style="height: 7rem; width: auto;">
-    </div>
-    <div class="pt-3 d-flex justify-content-center">
-        <h5>You're currently a <span class="badge bg-primary shadow">Passenger</span></h5>
-    </div>
-HTML;
-
-$driverHTML = <<<HTML
-<div class="d-flex justify-content-center">
-        <img src="images/driverAcc.png" style="height: 7rem; width: auto;">
-    </div>
-    <div class="pt-3 d-flex justify-content-center">
-        <h5>You're currently a <span class="badge bg-secondary shadow">Driver</span></h5>
-    </div>
-HTML;
-
-$becomeDriverHTML = <<<HTML
-<div class="col d-flex justify-content-end">
-        <button class="btn btn-green-outline beDriverBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#registerDriverModal">Become a Driver <i class="bi bi-car-front-fill" style="padding-left: 0.2rem;"></i></button>
-    </div>
-    </div>
-HTML;
-
-$editCarHTML = <<<HTML
-<div class="col d-flex justify-content-end">
-        <button class="btn btn-primary editBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#editCarModal">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
-    </div>
-    </div>
-HTML;
-
-$pendingStatusHTML = <<<HTML
-<div class="col d-flex justify-content-end">
-<span class="badge bg-secondary shadow">Pending Application</span>
-    </div>
-    </div>
-HTML;
-
-$rejectedStatusHTML = <<<HTML
-<div class="col d-flex justify-content-end">
-<span class="badge bg-secondary shadow">Application Rejected</span>
-    </div>
-    </div>
-HTML;
-
-
-if ($result == null) {
-  $accStatusHTML = $becomeDriverHTML . $passengerHTML;
-} else if ($result['status'] == 'N') {
-  $accStatusHTML = $pendingStatusHTML . $passengerHTML;
-} else if ($result['status'] == 'A') {
-  $accStatusHTML = $editCarHTML . $driverHTML;
-} else if ($result['status'] == 'R') {
-  $accStatusHTML = $rejectedStatusHTML . $passengerHTML;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -120,6 +57,7 @@ if ($result == null) {
   <script src="scripts/dataTable.js"></script>
   <script src="scripts/dateFormatter.js"></script>
   <script src="scripts/editCar.js"></script>
+  <script src="scripts/profile.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <link rel="stylesheet" type="text/css" href="./styles/profile.css">
   <title>SunwayHoppers</title>
@@ -202,13 +140,23 @@ if ($result == null) {
           </div>
         </form>
       </div>
+
       <!-- Account Status -->
       <div class="accStatus w-50 px-4 py-3">
         <div class="row">
           <div class="col">
             <h5>Account Status <i class="bi bi-person-badge" style="font-size:1rem"></i></h5>
           </div>
-          <?php echo $accStatusHTML ?>
+          <!-- Fetch profile status from profile.js-->
+          <div class="col d-flex justify-content-end" id="accStatus">
+            <!-- $html['accStatus'] -->
+          </div>
+          <div class="d-flex justify-content-center" id="statusImg">
+            <!-- $html['statusImg'] -->
+          </div>
+          <div class="pt-3 d-flex justify-content-center" id="statusMsg">
+            <!-- $html['statusMsg'] -->
+          </div>
         </div>
       </div>
     </div>
