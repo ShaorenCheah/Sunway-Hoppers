@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var districtSelect = document.getElementById("district");
 
     // Get the districts for new carpool form
-    fetch("/sunwayhoppers/backend/findCarpool.php?action=getDistricts")
+    fetch("./backend/findCarpool.php?action=getDistricts")
       .then((response) => response.text())
       .then((data) => {
         districtSelect.innerHTML = data;
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var filterDistrict = document.getElementById("filterDistrict");
     // Get the districts for filter
-    fetch("/sunwayhoppers/backend/findCarpool.php?action=getDistricts")
+    fetch("./backend/findCarpool.php?action=getDistricts")
       .then((response) => response.text())
       .then((data) => {
         filterDistrict.innerHTML = data;
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(filterData);
     var filterDataString = encodeURIComponent(JSON.stringify(filterData));
     fetch(
-      `/sunwayhoppers/backend/findCarpool.php?action=getCarpoolList&filterData=${filterDataString}`
+      `./backend/findCarpool.php?action=getCarpoolList&filterData=${filterDataString}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterNeighborhood.disabled = false;
     }
     fetch(
-      `/sunwayhoppers/backend/findCarpool.php?action=getNeighborhoods&district=${filterDistrict.value}`
+      `./backend/findCarpool.php?action=getNeighborhoods&district=${filterDistrict.value}`
     )
       .then((response) => response.text())
       .then((data) => {
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
   districtSelect.addEventListener("change", function () {
     neighborhoodSelect.disabled = false;
     fetch(
-      `/sunwayhoppers/backend/findCarpool.php?action=getNeighborhoods&district=${districtSelect.value}`
+      `./backend/findCarpool.php?action=getNeighborhoods&district=${districtSelect.value}`
     )
       .then((response) => response.text())
       .then((data) => {
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(carpoolData));
 
-    fetch("/sunwayhoppers/backend/findCarpool.php", {
+    fetch("./backend/findCarpool.php", {
       method: "POST",
       body: formData,
     })
@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(joinCarpoolData));
 
-    fetch("/sunwayhoppers/backend/findCarpool.php", {
+    fetch("./backend/findCarpool.php", {
       method: "POST",
       body: formData,
     })
