@@ -22,7 +22,6 @@ if (isset($_GET['action'])) {
 
 
 //Functions
-
 function getProfile($pdo)
 {
   // Get user data
@@ -60,7 +59,7 @@ function getProfile($pdo)
     $html['accStatus'] = <<<HTML
       <span class="badge bg-secondary shadow">Application Rejected</span>
     HTML;
-  } else if ($application['status'] == 'Accepted') {
+  } else if ($application['status'] == 'Approved') {
     $html['accStatus'] = <<<HTML
       <button class="btn btn-primary editBtn py-1 shadow" data-bs-toggle="modal" data-bs-target="#editCarModal">Edit Car Details <i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i></button>
     HTML;
@@ -72,8 +71,12 @@ function getProfile($pdo)
     HTML;
   }
 
+  $user['rating'] = number_format($user['rating'], 1);
+  $user['dob'] = date('F j, Y', strtotime($user['dob']));
+
   $response = [
     'action' => 'getProfile',
+    'type'=> $_SESSION['user']['type'],
     'user'  => $user,
     'html' => $html
   ];

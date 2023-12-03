@@ -21,27 +21,7 @@ if (!isset($_SESSION['user'])) {
     window.location.href = "./dashboard.php?navPage=dashboard";
   </script>
 <?php }
-
-
-$edit = true;
-
-//fetch user profile picture and other details
-$stmt = $pdo->prepare('SELECT profilePic, phoneNo, dob, bio, rating FROM user WHERE accountID = :accountID');
-$stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-$profPic = $result['profilePic'];
-$phoneNo = $result['phoneNo'];
-$dob = $result['dob'];
-$bio = $result['bio'];
-$rating = $result['rating'];
-
-//check if user has a profile picture
-if ($profPic == null) {
-  $profPic = 'images/person.png';
-}
-
+  $edit = true;
 ?>
 
 <!DOCTYPE html>
@@ -78,13 +58,13 @@ if ($profPic == null) {
     <div class="d-flex" style="border-radius:0.714rem">
       <!-- First Column (Driver Profile)-->
       <div class="driver-border d-flex flex-column align-items-center justify-content-center text-center p-3 " style="width:26%">
-        <img src="<?php echo $profPic ?>" alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
+        <img id="profilePic" src="" alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
         <h5 class="mt-3"><?php echo $_SESSION['user']['name'] ?></h5>
         <!--Display rating if user is a driver-->
         <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
           <div class="flex-row">
-            <span><?php echo $rating ?> <i class="bi bi-star-fill"></i></span>
-            <span class="text-muted px-1">(12 Ratings)</span>
+            <span id="userRating"></span>
+            <span class="text-muted px-1" id="ratingsAmt"></span>
           </div>
         <?php } ?>
         <span class="badge bg-primary shadow mt-2"><?php echo $_SESSION['user']['gender'] ?></span>
@@ -108,11 +88,11 @@ if ($profPic == null) {
           </div>
           <div class="col-6 d-flex flex-column">
             <h5>Contact No <i class="ms-2 bi bi-telephone-fill"></i></h5>
-            <p><?php echo $phoneNo ?></p>
+            <p id="userPhoneNo"></p>
           </div>
           <div class="col-6 d-flex flex-column">
             <h5>Date of Birth <i class="ms-2 bi bi-calendar-week-fill"></i></h5>
-            <p><?php echo date('F j, Y', strtotime($dob)); ?></p>
+            <p id="userDOB"></p>
           </div>
         </div>
 
@@ -135,7 +115,7 @@ if ($profPic == null) {
           </div>
 
           <div class="desc">
-            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." <?php echo $edit ? 'disabled' : ''; ?> rows="4"><?php echo $bio ?></textarea>
+            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." <?php echo $edit ? 'disabled' : ''; ?> rows="4"></textarea>
             </textarea>
           </div>
         </form>
