@@ -160,7 +160,7 @@ function getUserPoints()
 <?php
 function getRewardsByType($type, $pdo)
 {
-  $stmt = $pdo->prepare("SELECT * FROM reward WHERE type = :type");
+  $stmt = $pdo->prepare("SELECT * FROM reward WHERE type = :type ORDER BY points ASC");
   $stmt->bindParam(':type', $type, PDO::PARAM_STR);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
