@@ -187,14 +187,14 @@ if ($result == null) {
         <form id="bioForm" method="post" action="./backend/updateBio.php" class="aboutMe-border col-6  p-3 d-flex flex-column justify-content-center">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5>About Me <i class="bi bi-person-square"></i></h5>
-            <button class="btn btn-primary editBtn py-1 shadow" id="editBtn">
+            <button type="button" class="btn btn-primary editBtn py-1 shadow" id="editBtn">
               Edit<i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i>
             </button>
-          </div>
 
-          <button type="submit" name="updateBioBtn" id="updateBioBtn" class="btn btn-secondary saveBtn shadow py-1" style="display: none;">
-            Save <i class=" bi bi-save" style="padding-left: 0.2rem;"></i>
-          </button>
+            <button type="submit" name="updateBioBtn" id="updateBioBtn" class="btn btn-secondary saveBtn shadow py-1" style="display: none;">
+              Save <i class=" bi bi-save" style="padding-left: 0.2rem;"></i>
+            </button>
+          </div>
 
           <div class="desc">
             <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." <?php echo $edit ? 'disabled' : ''; ?> rows="4"><?php echo $bio ?></textarea>
@@ -299,8 +299,6 @@ if ($result == null) {
     document.getElementById('updateBioBtn').style.display = edit ? 'none' : '';
     document.getElementById('editBtn').style.display = edit ? '' : 'none';
   });
-
-  initializeDataTable('#rewardTable', '#txtSearchRewards');
 </script>
 
 
