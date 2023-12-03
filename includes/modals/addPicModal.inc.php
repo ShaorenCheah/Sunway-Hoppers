@@ -8,7 +8,7 @@
             <div class="justify-content-center d-flex">
               <img id="previewImage" src="<?php echo $profPic ?>" alt="Avatar" class="my-4" style="border-radius: 50%; height: 10rem; width: 10rem; border: 0.2rem solid var(--secondary); object-fit: cover;">
             </div>
-            <form id="profPicForm" method="post" enctype="multipart/form-data" action="../backend/updateProfPic.php">
+            <form id="profPicForm" method="post" enctype="multipart/form-data" action="./backend/updateProfPic.php">
               <div class="mb-4 px-4">
                 <input type="file" class="form-control" id="image" name="image" required onchange="previewImage()">
               </div>

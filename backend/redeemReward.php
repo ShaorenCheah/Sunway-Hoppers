@@ -3,13 +3,13 @@ require_once 'connection.php';
 
 // Check if the 'formData' key exists in the POST request
 if (!isset($_POST['formData'])) {
-    $response = [
-        'success' => false,
-        'message' => 'Invalid request. formData is missing.',
-    ];
+  $response = [
+    'success' => false,
+    'message' => 'Invalid request. formData is missing.',
+  ];
 
-    echo json_encode($response);
-    exit; // Stop further execution
+  echo json_encode($response);
+  exit; // Stop further execution
 }
 
 $formJSON = $_POST['formData'];
@@ -17,13 +17,13 @@ $data = json_decode($formJSON, true);
 
 // Check if required keys exist in the decoded JSON
 if (!isset($data['userPoints']) || !isset($data['requiredPoints'])) {
-    $response = [
-        'success' => false,
-        'message' => 'Invalid request. Missing userPoints or requiredPoints.',
-    ];
+  $response = [
+    'success' => false,
+    'message' => 'Invalid request. Missing userPoints or requiredPoints.',
+  ];
 
-    echo json_encode($response);
-    exit; // Stop further execution
+  echo json_encode($response);
+  exit; // Stop further execution
 }
 
 $userPoints = $data['userPoints'];
@@ -41,18 +41,17 @@ $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
 
 // Check if the update query was successful
 if ($stmt->execute()) {
-    $success = true;
-    $message = "You have successfully redeemed this reward! Your new points balance is $newPoints.";
+  $success = true;
+  $message = "You have successfully redeemed this reward! Your new points balance is $newPoints.";
 } else {
-    $success = false;
-    $message = "Error updating user points in the database.";
+  $success = false;
+  $message = "Error updating user points in the database.";
 }
 
 $response = [
-    'success' => $success,
-    'message' => $message,
+  'success' => $success,
+  'message' => $message,
 ];
 
 // Send a JSON response indicating success or failure
 echo json_encode($response);
-?>

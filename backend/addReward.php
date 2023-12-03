@@ -5,7 +5,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     // Check if the file was uploaded without errors
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-
       $fileTmpPath = $_FILES['image']['tmp_name'];
       $fileName = $_FILES['image']['name'];
       $fileSize = $_FILES['image']['size'];
@@ -29,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $points = $_POST['points'];
           $type = $_POST['type'];
           $quantity = $_POST['qty'];
+          $img = "./uploads/rewards/" . $newFileName;
 
           // Generate rewardID
           $query = "SELECT COUNT(*) FROM reward";
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $insertStmt->bindParam(':rewardID', $rewardID, PDO::PARAM_STR);
           $insertStmt->bindParam(':rewardName', $rewardName, PDO::PARAM_STR);
           $insertStmt->bindParam(':description', $description, PDO::PARAM_STR);
-          $insertStmt->bindParam(':img', $dest_path, PDO::PARAM_STR);
+          $insertStmt->bindParam(':img', $img, PDO::PARAM_STR);
           $insertStmt->bindParam(':points', $points, PDO::PARAM_STR);
           $insertStmt->bindParam(':type', $type, PDO::PARAM_STR);
           $insertStmt->bindParam(':quantity', $quantity, PDO::PARAM_STR);

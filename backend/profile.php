@@ -20,9 +20,7 @@ if (isset($_GET['action'])) {
   // POST Requests
 }
 
-
 //Functions
-
 function getProfile($pdo)
 {
   // Get user data

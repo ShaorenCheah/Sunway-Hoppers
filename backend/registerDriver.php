@@ -14,64 +14,60 @@ $stmt->execute();
 $count = $stmt->fetchColumn();
 $appID = "APP" . str_pad($count + 1, 4, "0", STR_PAD_LEFT);
 
-//	applicationID	accountID	vehicleNo	vehicleType	vehicleColour	driverCredentials	driverBio vehicleRules
-
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        // Check if the file was uploaded without errors
-        if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES['file']['tmp_name'];
-            $fileName = $_FILES['file']['name'];
-            $fileSize = $_FILES['file']['size'];
-            $fileType = $_FILES['file']['type'];
-            $fileNameCmps = explode(".", $fileName);
-            $fileExtension = strtolower(end($fileNameCmps));
+  try {
+    // Check if the file was uploaded without errors
+    if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+      $fileTmpPath = $_FILES['file']['tmp_name'];
+      $fileName = $_FILES['file']['name'];
+      $fileSize = $_FILES['file']['size'];
+      $fileType = $_FILES['file']['type'];
+      $fileNameCmps = explode(".", $fileName);
+      $fileExtension = strtolower(end($fileNameCmps));
 
-            // Check if the file extension is allowed
-            $allowedfileExtensions = array('zip');
-            if (in_array($fileExtension, $allowedfileExtensions)) {
-                $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-                // Set the upload directory
-                $uploadFileDir = "../uploads/applications/";
-                $dest_path = $uploadFileDir . $newFileName;
+      // Check if the file extension is allowed
+      $allowedfileExtensions = array('zip');
+      if (in_array($fileExtension, $allowedfileExtensions)) {
+        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+        // Set the upload directory
+        $uploadFileDir = "../uploads/applications/";
+        $dest_path = $uploadFileDir . $newFileName;
 
-                // Move the uploaded file to the destination
-                if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                    $downloadLink = 'http://localhost/sunwayhoppers/uploads/applications/' . $newFileName;
+        // Move the uploaded file to the destination
+        if (move_uploaded_file($fileTmpPath, $dest_path)) {
+          $downloadLink = 'http://localhost/sunwayhoppers/uploads/applications/' . $newFileName;
 
-                    // Insert new account
-                    $query   = "INSERT INTO application (applicationID, accountID, vehicleNo, vehicleType, vehicleColour, driverCredentials, vehicleRules) 
+          // Insert new account
+          $query   = "INSERT INTO application (applicationID, accountID, vehicleNo, vehicleType, vehicleColour, driverCredentials, vehicleRules) 
     VALUES (:applicationID, :accountID, :vehicleNo, :vehicleType, :vehicleColour, :driverCredentials, :vehicleRules)";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
-                    $stmt->bindParam(':applicationID', $appID, PDO::PARAM_STR);
-                    $stmt->bindParam(':vehicleNo', $carNo, PDO::PARAM_STR);
-                    $stmt->bindParam(':vehicleType', $carType, PDO::PARAM_STR);
-                    $stmt->bindParam(':vehicleColour', $carColour, PDO::PARAM_STR);
-                    $stmt->bindParam(':driverCredentials', $downloadLink, PDO::PARAM_STR);
-                    $stmt->bindParam(':vehicleRules', $carRules, PDO::PARAM_STR);
+          $stmt = $pdo->prepare($query);
+          $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
+          $stmt->bindParam(':applicationID', $appID, PDO::PARAM_STR);
+          $stmt->bindParam(':vehicleNo', $carNo, PDO::PARAM_STR);
+          $stmt->bindParam(':vehicleType', $carType, PDO::PARAM_STR);
+          $stmt->bindParam(':vehicleColour', $carColour, PDO::PARAM_STR);
+          $stmt->bindParam(':driverCredentials', $downloadLink, PDO::PARAM_STR);
+          $stmt->bindParam(':vehicleRules', $carRules, PDO::PARAM_STR);
 
-                    $stmt->execute();
-                    $message = 'Application sent.';
-                } else {
-                    $message = 'Error moving the uploaded file.';
-                }
-            } else {
-                $message = 'Invalid file extension. Allowed extensions: zip.';
-            }
+          $stmt->execute();
+          $message = 'Application sent.';
         } else {
-            $message = 'Error uploading the file.';
+          $message = 'Error moving the uploaded file.';
         }
-    } catch (Exception $e) {
-        $message = 'Error processing the request: ' . $e->getMessage();
+      } else {
+        $message = 'Invalid file extension. Allowed extensions: zip.';
+      }
+    } else {
+      $message = 'Error uploading the file.';
     }
-    alert($message);
+  } catch (Exception $e) {
+    $message = 'Error processing the request: ' . $e->getMessage();
+  }
+  alert($message);
 }
 
 function alert($msg)
 {
-    echo "<script>alert('" . $msg . "');</script>";
-    echo "<script>window.location = '../profile.php';</script>";
+  echo "<script>alert('" . $msg . "');</script>";
+  echo "<script>window.location = '../profile.php';</script>";
 }
