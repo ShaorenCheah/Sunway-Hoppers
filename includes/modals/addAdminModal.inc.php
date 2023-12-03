@@ -1,4 +1,4 @@
-    <script src="scripts/dashboard.js"></script>
+<script src="scripts/registerAdmin.js"></script>
 <div class="modal fade" tabindex="-1" id="addAdminModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
