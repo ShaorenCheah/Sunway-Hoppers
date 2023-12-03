@@ -22,8 +22,8 @@
       </li>
     </ul>
   </div>
-  <div class="w-25 d-flex align-items-center justify-content-end">
-    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addRewardModal"></i>
+  <div class="w-25 d-flex align-items-center justify-content-end" id="addRewardBtn">
+    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addRewardModal" id="addRewardIcon"></i>
   </div>
 </div>
 <div class="tab-content" id="pills-tabContent">
@@ -77,3 +77,13 @@
     ...
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $('#pills-inventory-tab').click(function() {
+      document.getElementById('addRewardIcon').style.display = 'block';
+    });
+    $('#pills-claim-tab').click(function() {
+      document.getElementById('addRewardIcon').style.display = 'none';
+    });
+  });
+</script>

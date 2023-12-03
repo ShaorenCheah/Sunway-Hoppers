@@ -30,7 +30,7 @@ require './backend/connection.php';
     </ul>
   </div>
   <div class="w-25 d-flex align-items-center justify-content-end" id="addAdminBtn">
-    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addAdminModal" id="circle"></i>
+    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addAdminModal" id="circle" style="display: none"></i>
   </div>
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
@@ -168,3 +168,17 @@ require './backend/connection.php';
       </div>
     </div>
   </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('#pills-user-tab').click(function() {
+      document.getElementById('circle').style.display = 'none';
+    });
+    $('#pills-driver-tab').click(function() {
+      document.getElementById('circle').style.display = 'none';
+    });
+    $('#pills-admin-tab').click(function() {
+      document.getElementById('circle').style.display = 'block';
+    });
+  });
+</script>
