@@ -97,11 +97,11 @@ HTML;
 
 if ($result == null) {
   $accStatusHTML = $becomeDriverHTML . $passengerHTML;
-} else if ($result['status'] == 'N') {
+} else if ($result['status'] == 'New') {
   $accStatusHTML = $pendingStatusHTML . $passengerHTML;
-} else if ($result['status'] == 'A') {
+} else if ($result['status'] == 'Approved') {
   $accStatusHTML = $editCarHTML . $driverHTML;
-} else if ($result['status'] == 'R') {
+} else if ($result['status'] == 'Rejected') {
   $accStatusHTML = $rejectedStatusHTML . $passengerHTML;
 }
 
