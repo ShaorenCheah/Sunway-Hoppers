@@ -34,36 +34,37 @@ require './backend/connection.php';
   </div>
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
-      <table id="userTable" class="" style="width:100%">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Gender</th>
-            <th>Date of Birth</th>
-            <th>Points Collected</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
+      <div class="table-container">
+        <table id="userTable" class="" style="width:100%">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Gender</th>
+              <th>Date of Birth</th>
+              <th>Points Collected</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
 
-          $stmt = $pdo->prepare('SELECT user.*, account.email
+            $stmt = $pdo->prepare('SELECT user.*, account.email
                 FROM user
                 JOIN account ON user.accountID = account.accountID;');
-          $stmt->execute();
+            $stmt->execute();
 
-          // Fetch the result
-          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Fetch the result
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-          foreach ($result as $user) {
-            $name = $user['name'];
-            $email = $user['email'];
-            $phoneNo = $user['phoneNo'];
-            $gender = $user['gender'];
-            $dob = $user['dob'];
-            $rewardPoints = $user['rewardPoints'];
-            echo "<tr>
+            foreach ($result as $user) {
+              $name = $user['name'];
+              $email = $user['email'];
+              $phoneNo = $user['phoneNo'];
+              $gender = $user['gender'];
+              $dob = $user['dob'];
+              $rewardPoints = $user['rewardPoints'];
+              echo "<tr>
                       <td>{$name}</td>
                       <td>{$email}</td>
                       <td>{$phoneNo}</td>
@@ -71,48 +72,50 @@ require './backend/connection.php';
                       <td>{$dob}</td>
                       <td>{$rewardPoints}</td>
                       </tr>";
-          }
-          ?>
-        </tbody>
-      </table>
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="tab-pane fade" id="pills-driver" role="tabpanel" aria-labelledby="pills-driver-tab">
-      <table id="driverTable" class="" style="width:100%">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Gender</th>
-            <th>Date of Birth</th>
-            <th>Points Collected</th>
-            <th>Rating</th>
-            <th>Vehicle No</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $stmt = $pdo->prepare("SELECT user.*, account.email, application.vehicleNo
+      <div class="table-container">
+        <table id="driverTable" class="" style="width:100%">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Gender</th>
+              <th>Date of Birth</th>
+              <th>Points Collected</th>
+              <th>Rating</th>
+              <th>Vehicle No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $stmt = $pdo->prepare("SELECT user.*, account.email, application.vehicleNo
                     FROM user
                     JOIN account ON user.accountID = account.accountID
                     LEFT JOIN application ON user.accountID = application.accountID
                     WHERE account.type = 'Driver';");
-          $stmt->execute();
+            $stmt->execute();
 
-          // Fetch the result
-          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Fetch the result
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-          foreach ($result as $driver) {
-            $name = $driver['name'];
-            $email = $driver['email'];
-            $phoneNo = $driver['phoneNo'];
-            $gender = $driver['gender'];
-            $dob = $driver['dob'];
-            $rewardPoints = $driver['rewardPoints'];
-            $rating = $driver['rating'];
-            $vehicleNo = $driver['vehicleNo'];
+            foreach ($result as $driver) {
+              $name = $driver['name'];
+              $email = $driver['email'];
+              $phoneNo = $driver['phoneNo'];
+              $gender = $driver['gender'];
+              $dob = $driver['dob'];
+              $rewardPoints = $driver['rewardPoints'];
+              $rating = $driver['rating'];
+              $vehicleNo = $driver['vehicleNo'];
 
-            echo "<tr>
+              echo "<tr>
                       <td>{$name}</td>
                       <td>{$email}</td>
                       <td>{$phoneNo}</td>
@@ -122,43 +125,46 @@ require './backend/connection.php';
                       <td>{$rating}</td>
                       <td>{$vehicleNo}</td>
                       </tr>";
-          }
-          ?>
-        </tbody>
-      </table>
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="tab-pane fade" id="pills-admin" role="tabpanel" aria-labelledby="pills-admin-tab">
-      <table id="adminTable" class="" style="width:100%">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
+      <div class="table-container">
+        <table id="adminTable" class="" style="width:100%">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
 
-          $stmt = $pdo->prepare('SELECT admin.*, account.email
+            $stmt = $pdo->prepare('SELECT admin.*, account.email
                 FROM admin
                 JOIN account ON admin.accountID = account.accountID;');
-          $stmt->execute();
+            $stmt->execute();
 
-          // Fetch the result
-          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Fetch the result
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-          foreach ($result as $user) {
-            $name = $user['name'];
-            $email = $user['email'];
-            $phoneNo = $user['phoneNo'];
-            echo "<tr>
+            foreach ($result as $user) {
+              $name = $user['name'];
+              $email = $user['email'];
+              $phoneNo = $user['phoneNo'];
+              echo "<tr>
                       <td>{$name}</td>
                       <td>{$email}</td>
                       <td>{$phoneNo}</td>
                   </tr>";
-          }
-          ?>
-        </tbody>
-      </table>
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>

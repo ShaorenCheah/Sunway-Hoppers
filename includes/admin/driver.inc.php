@@ -4,19 +4,20 @@ require_once './backend/connection.php';
 function generateTable($tableID, $pdo)
 {
   $tableHTML = <<<HTML
-    <table id="$tableID" class="" style="width:100%">
-        <thead>
-            <tr>
-                <th>Driver Details</th>
-                <th>Driver Name</th>
-                <th>Vehicle Type</th>
-                <th>Vehicle Colour</th>
-                <th>Vehicle Rules</th>
-                <th>Credentials</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="table-container">
+      <table id="$tableID" class="" style="width:100%">
+          <thead>
+              <tr>
+                  <th>Driver Details</th>
+                  <th>Driver Name</th>
+                  <th>Vehicle Type</th>
+                  <th>Vehicle Colour</th>
+                  <th>Vehicle Rules</th>
+                  <th>Credentials</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
 HTML;
   echo $tableHTML;
 
@@ -77,6 +78,7 @@ HTML;
   echo <<<HTML
         </tbody>
     </table>
+  </div>
 HTML;
 }
 
@@ -117,7 +119,7 @@ function getActions($status, $applicationID)
     </div>
   </div>
 </div>
-<div class="row m-0">
+<div class="row">
   <div class="">
     <ul class="nav nav-pills" id="pills-tab" role="tablist">
       <li class="nav-item" role="presentation">

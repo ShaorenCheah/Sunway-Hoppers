@@ -28,35 +28,36 @@
 </div>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-inventory" role="tabpanel" aria-labelledby="pills-inventory-tab">
-    <table id="rewardTable" class="" style="width:100%">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Points</th>
-          <th>Image</th>
-          <th>Type</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        require './backend/connection.php';
+    <div class="table-container">
+      <table id="rewardTable" class="" style="width:100%">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Points</th>
+            <th>Image</th>
+            <th>Type</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          require './backend/connection.php';
 
-        $stmt = $pdo->prepare('SELECT * FROM reward');
-        $stmt->execute();
+          $stmt = $pdo->prepare('SELECT * FROM reward');
+          $stmt->execute();
 
-        // Fetch the result
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          // Fetch the result
+          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($result as $reward) {
-          $rewardName = $reward['rewardName'];
-          $desc = $reward['description'];
-          $points = $reward['points'];
-          $img = $reward['img'];
-          $type = $reward['type'];
-          $quantity = $reward['quantity'];
-          echo <<<HTML
+          foreach ($result as $reward) {
+            $rewardName = $reward['rewardName'];
+            $desc = $reward['description'];
+            $points = $reward['points'];
+            $img = $reward['img'];
+            $type = $reward['type'];
+            $quantity = $reward['quantity'];
+            echo <<<HTML
                     <tr>
                       <td>$rewardName</td>
                       <td>$desc</td>
@@ -66,10 +67,11 @@
                       <td>$quantity</td>
                     </tr>
                   HTML;
-        }
-        ?>
-      </tbody>
-    </table>
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="tab-pane fade" id="pills-claim" role="tabpanel" aria-labelledby="pills-claim-tab">
     ...

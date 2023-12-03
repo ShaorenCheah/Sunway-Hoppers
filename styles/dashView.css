@@ -54,3 +54,22 @@ label{
     color:var(--primary);
     margin-left: 0.1rem;
 }
+
+/* Style for a thinner scrollbar */
+.table-container::-webkit-scrollbar {
+    width: 8px; /* Adjust the width as needed */
+  }
+  
+  .table-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary); /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Adjust the border-radius as needed */
+  }
+  
+  .table-container::-webkit-scrollbar-track {
+    background-color: #eee; /* Color of the scrollbar track */
+    border-radius: 4px; /* Adjust the border-radius as needed */
+  }
+
+    .table-container{
+        max-height: 500px; /* Adjust the max-height as needed */
+        overflow-y: auto;    }
