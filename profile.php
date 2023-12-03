@@ -21,7 +21,6 @@ if (!isset($_SESSION['user'])) {
     window.location.href = "./dashboard.php?navPage=dashboard";
   </script>
 <?php }
-  $edit = true;
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +104,7 @@ if (!isset($_SESSION['user'])) {
         <form id="bioForm" method="post" action="./backend/updateBio.php" class="aboutMe-border col-6  p-3 d-flex flex-column justify-content-center">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5>About Me <i class="bi bi-person-square"></i></h5>
-            <button type="button" class="btn btn-primary editBtn py-1 shadow" id="editBtn">
+            <button type="button" class="btn btn-primary editBtn py-1 shadow" value="true" id="editBtn">
               Edit<i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i>
             </button>
 
@@ -115,7 +114,7 @@ if (!isset($_SESSION['user'])) {
           </div>
 
           <div class="desc">
-            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." <?php echo $edit ? 'disabled' : ''; ?> rows="4"></textarea>
+            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..."  rows="4"></textarea>
             </textarea>
           </div>
         </form>
@@ -141,8 +140,8 @@ if (!isset($_SESSION['user'])) {
       </div>
     </div>
 
-    <hr class="mx-5">
-    <nav class="mx-5 mt-4">
+    <hr class="my-4">
+    <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
           <button class="nav-link active" id="nav-request-tab" data-bs-toggle="tab" data-bs-target="#nav-request" role="tab">Carpool Requests</button>
@@ -151,62 +150,21 @@ if (!isset($_SESSION['user'])) {
         <button class="nav-link" id="nav-reward-tab" data-bs-toggle="tab" data-bs-target="#nav-reward" role="tab">Rewards Claimed</button>
       </div>
     </nav>
-    <?php
-    if ($_SESSION['user']['type'] == 'Driver') {
-      $html = "";
-      $html . <<<HTML
-      <div class="tab-content shadow mx-5 px-4 pb-4" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-request" role="tabpanel">
-              <table id="rewardTable" class="" style="width:100%">
-                  <thead>
-                      <tr>
-                          <th>Name</th>
-                          <th>Description</th>
-                          <th>Points</th>
-                          <th>Image</th>
-                          <th>Type</th>
-                          <th>Quantity</th>
-                      </tr>
-                  </thead>
-              <tbody> 
-      HTML;
-      $stmt = $pdo->prepare('SELECT * FROM reward');
-      $stmt->execute();
+    <div class="tab-content mb-5 shadow p-3" id="nav-tabContent">
+      <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
+      <div class="tab-pane fade show active table-responsive" id="nav-request" role="tabpanel">
+        <!-- Fetch from profile.js -->
+      </div>
+      <?php } ?>
+      
+      <div class="tab-pane fade table-responsive" id="nav-history" role="tabpanel">
+        <!-- Fetch from profile.js -->
+      </div>
 
-      // Fetch the result
-      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      <div class="tab-pane fade table-responsive" id="nav-reward" role="tabpanel">
+        <!-- Fetch from profile.js -->
+      </div>
 
-      foreach ($result as $reward) {
-        $rewardName = $reward['rewardName'];
-        $desc = $reward['description'];
-        $points = $reward['points'];
-        $img = $reward['img'];
-        $type = $reward['type'];
-        $quantity = $reward['quantity'];
-
-        $html . <<<HTML
-                    <tr>
-                      <td>$rewardName</td>
-                      <td>$desc</td>
-                      <td>$points</td>
-                      <td>$img</td>
-                      <td>$type</td>
-                      <td>$quantity</td>
-                    </tr>
-            </tbody>
-        </table>
-        </div>
-        HTML;
-      }
-    }
-    ?>
-
-    <div class="tab-pane fade" id="nav-history" role="tabpanel">
-      Hi
-    </div>
-
-    <div class="tab-pane fade" id="nav-reward" role="tabpanel">
-      Hello
     </div>
 
     <?php
@@ -217,17 +175,7 @@ if (!isset($_SESSION['user'])) {
     }
     ?>
 </body>
-<script>
-  var edit = <?php echo json_encode($edit); ?>;
 
-  document.getElementById('editBtn').addEventListener('click', function() {
-    edit = !edit;
-    // add disabled to textarea if edit is false
-    document.getElementById('descText').disabled = edit;
-    document.getElementById('updateBioBtn').style.display = edit ? 'none' : '';
-    document.getElementById('editBtn').style.display = edit ? '' : 'none';
-  });
-</script>
 
 
 </html>

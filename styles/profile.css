@@ -154,3 +154,9 @@ label > .bi {
   font-size: 1rem;
   margin-left: 0.5rem;
 }
+
+.badge.rounded-pill{
+  background-color:var(--primary); 
+  font-size:0.857rem; 
+  font-weight:400;
+}

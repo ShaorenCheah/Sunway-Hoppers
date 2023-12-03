@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          location.reload();
+          window.location.href = './profile.php'; // Redirect to profile.php
         } else {
           alert(data.message);
         }

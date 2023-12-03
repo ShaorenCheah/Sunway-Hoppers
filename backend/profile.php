@@ -12,6 +12,13 @@ if (isset($_GET['action'])) {
     case 'getProfile':
       echo getProfile($pdo);
       break;
+    case 'getRequestTable':
+      echo getRequestTable($pdo);
+      break;
+    case 'createRequestModal':
+      $data = $_GET['data'];
+      echo createRequestModal($data,$pdo);
+      break;
     default:
       echo 'Invalid action';
       break;
@@ -82,4 +89,67 @@ function getProfile($pdo)
   ];
 
   echo json_encode($response);
+}
+
+function getRequestTable($pdo){
+  $sql = "SELECT * FROM carpool WHERE accountID = :accountID ORDER BY carpoolDate DESC";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+  $stmt->execute();
+  $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+  $count = 1;
+  $html = '';
+
+  $html .= <<<HTML
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center" >No.</th>
+        <th scope="col" class="text-center">Date</th>
+        <th scope="col" class="text-center">Time</th>
+        <th scope="col" class="text-center">Passengers No.</th>
+        <th scope="col" class="text-center">Pickup Area</th>
+        <th scope="col" class="text-center">Destination</th>
+        <th scope="col" class="text-center">Status</th>
+        <th scope="col" class="text-center">Points Earned</th>
+        <th scope="col" class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+  HTML;
+
+  foreach ($carpools as $carpool) {
+
+    if ($carpool['toSunway'] == 1) {
+      $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
+      $pickup .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
+      $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
+    } else {
+      $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
+      $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
+      $destination .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
+    }
+
+    include '../includes/requestTable.inc.php';
+    $count++;
+  }
+
+  $html .= <<<HTML
+    </tbody>
+  </table>
+  HTML;
+
+  $response = [
+    'action' => 'getRequestTable',
+    'html' => $html
+  ];
+
+  echo json_encode($response);
+
+}
+
+function createRequestModal($data,$pdo){
+
 }
