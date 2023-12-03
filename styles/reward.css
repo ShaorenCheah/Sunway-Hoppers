@@ -49,3 +49,10 @@
 .carousel-control-next-icon {
   margin-right: 0; /* Adjust as needed */
 }
+
+.card-img-top {
+  width: auto;
+  height: 16rem;
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  object-position: center; /* Center the image within the container */
+}
