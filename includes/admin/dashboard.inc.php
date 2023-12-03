@@ -5,12 +5,12 @@ require './backend/connection.php';
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $userCount = $result['COUNT(*)'];
 
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM user WHERE isDriver = 1');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM account WHERE type = "Driver"');
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $driverCount = $result['COUNT(*)'];
 
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM application WHERE status = "N"');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM application WHERE status = "New"');
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $newApplicationCount = $result['COUNT(*)'];

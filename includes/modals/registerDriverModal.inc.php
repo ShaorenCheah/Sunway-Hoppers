@@ -18,18 +18,18 @@
                                 <label for="carColour" class="form-label">Car Colour <i class="bi bi-palette"></i></label>
                                 <select name="carColour" id="carColour" class="form-select">
                                     <option selected disabled>-Select-</option>
-                                    <option value="red">Red</option>
-                                    <option value="blue">Blue</option>
-                                    <option value="green">Green</option>
-                                    <option value="white">White</option>
-                                    <option value="black">Black</option>
-                                    <option value="silver">Silver</option>
-                                    <option value="gray">Gray</option>
-                                    <option value="yellow">Yellow</option>
-                                    <option value="orange">Orange</option>
-                                    <option value="purple">Purple</option>
-                                    <option value="brown">Brown</option>
-                                    <option value="pink">Pink</option>
+                                    <option value="Red">Red</option>
+                                    <option value="Blue">Blue</option>
+                                    <option value="Green">Green</option>
+                                    <option value="White">White</option>
+                                    <option value="Black">Black</option>
+                                    <option value="Silver">Silver</option>
+                                    <option value="Gray">Gray</option>
+                                    <option value="Yellow">Yellow</option>
+                                    <option value="Orange">Orange</option>
+                                    <option value="Purple">Purple</option>
+                                    <option value="Brown">Brown</option>
+                                    <option value="'Pink">Pink</option>
                                 </select>
                             </div>
                         </div>

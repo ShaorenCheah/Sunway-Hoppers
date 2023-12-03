@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (in_array($fileExtension, $allowedfileExtensions)) {
                 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
                 // Set the upload directory
-                $uploadFileDir = "../images/uploads/";
+                $uploadFileDir = "../uploads/profile_pics/";
                 $dest_path = $uploadFileDir . $newFileName;
                 
                 // Move the uploaded file to the destination

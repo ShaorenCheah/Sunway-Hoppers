@@ -34,12 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (in_array($fileExtension, $allowedfileExtensions)) {
                 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
                 // Set the upload directory
-                $uploadFileDir = "../applications/";
+                $uploadFileDir = "../uploads/applications/";
                 $dest_path = $uploadFileDir . $newFileName;
 
                 // Move the uploaded file to the destination
                 if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                    $downloadLink = 'http://localhost/sunwayhoppers/applications/' . $newFileName;
+                    $downloadLink = 'http://localhost/sunwayhoppers/uploads/applications/' . $newFileName;
 
                     // Insert new account
                     $query   = "INSERT INTO application (applicationID, accountID, vehicleNo, vehicleType, vehicleColour, driverCredentials, vehicleRules) 

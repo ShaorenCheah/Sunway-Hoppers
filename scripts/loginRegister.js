@@ -106,7 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
           if (data.action == 'register') {
             window.showLoginModal();
-            console.log('Hi')
           } else {
             location.reload();
           }

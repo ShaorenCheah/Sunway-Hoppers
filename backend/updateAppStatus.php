@@ -20,17 +20,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accountID = $result['accountID'];
     $vehicleRules = $result['vehicleRules'];
 
-    if($status == "A"){
-        $stmt = $pdo->prepare('UPDATE user SET carRules = :vehicleRules, isDriver = 1 WHERE accountID = :accountID');
-        $stmt->bindParam(':vehicleRules', $vehicleRules, PDO::PARAM_STR);
-        $stmt->bindParam(':accountID', $accountID, PDO::PARAM_INT);
-        $stmt->execute();
-    } else if($status == "R"){
-        $stmt = $pdo->prepare('UPDATE user SET carRules = null, isDriver = 0, rating = 0 WHERE accountID = :accountID');
-        $stmt->bindParam(':accountID', $accountID, PDO::PARAM_INT);
-        $stmt->execute();
+    try {
+        $pdo->beginTransaction();
+    
+        if ($status == "Approved") {
+            $stmt1 = $pdo->prepare('UPDATE user SET carRules = :vehicleRules WHERE accountID = :accountID');
+            $stmt1->bindParam(':vehicleRules', $vehicleRules, PDO::PARAM_STR);
+            $stmt1->bindParam(':accountID', $accountID, PDO::PARAM_INT);
+            $stmt1->execute();
+    
+            $stmt2 = $pdo->prepare('UPDATE account SET type = "Driver" WHERE accountID = :accountID');
+            $stmt2->bindParam(':accountID', $accountID, PDO::PARAM_INT);
+            $stmt2->execute();
+        } elseif ($status == "Rejected") {
+            $stmt1 = $pdo->prepare('UPDATE user SET carRules = null, rating = 0 WHERE accountID = :accountID');
+            $stmt1->bindParam(':accountID', $accountID, PDO::PARAM_INT);
+            $stmt1->execute();
+    
+            $stmt2 = $pdo->prepare('UPDATE account SET type = "Passenger" WHERE accountID = :accountID');
+            $stmt2->bindParam(':accountID', $accountID, PDO::PARAM_INT);
+            $stmt2->execute();
+        }
+    
+        $pdo->commit();
+    } catch (Exception $e) {
+        // An error occurred, rollback changes
+        $pdo->rollBack();
+        echo "Failed: " . $e->getMessage();
     }
-
 } else {
     // Handle invalid requests
     http_response_code(400);

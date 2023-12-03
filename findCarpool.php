@@ -37,8 +37,6 @@
 
     </div>
 
-
-
     <div class="row gx-5 m-0">
       <!-- Filter Section -->
       <form id="filterCarpool" class="col-3 h-auto d-flex flex-column ps-0">

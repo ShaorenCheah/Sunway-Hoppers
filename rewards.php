@@ -178,6 +178,7 @@ function getCards($type, $pdo)
   $isActive = true; // Variable to track if the item is active
 
   $rewardObjects = [];
+  $cardCount = 0;
 
   foreach ($rewards as $reward) {
     $rewardObjects[] = (object)$reward;
@@ -189,6 +190,7 @@ function getCards($type, $pdo)
     echo "<div class='container my-5 d-flex justify-content-around'>
                 <div class='row'>";
     for ($j = $i; $j < $i + 4 && $j < $count; $j++) {
+      $cardCount = $j+1;
       echo <<<HTML
             <div class='col'>
             <div class='card shadow' style='width: 16rem;'>
@@ -232,17 +234,21 @@ HTML;
     $isActive = false; // Set to false after the first iteration
   }
 
-  echo <<<HTML
-</div>
-<button class='carousel-control-prev d-flex justify-content-start mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
-    <span class='carousel-control-prev-icon' aria-hidden='true'></span>
-    <span class='visually-hidden'>Previous</span>
-</button>
-<button class='carousel-control-next d-flex justify-content-end  mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>
-    <span class='carousel-control-next-icon' aria-hidden='true'></span>
-    <span class='visually-hidden'>Next</span>
-</button>
-</div>
-HTML;
+  if($cardCount > 4){
+    echo <<<HTML
+  </div>
+  <button class='carousel-control-prev d-flex justify-content-start mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
+      <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+      <span class='visually-hidden'>Previous</span>
+  </button>
+  <button class='carousel-control-next d-flex justify-content-end  mx-5' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>
+      <span class='carousel-control-next-icon' aria-hidden='true'></span>
+      <span class='visually-hidden'>Next</span>
+  </button>
+  </div>
+  HTML;
+  } else {
+    echo "</div></div>";
+  }
 }
 ?>

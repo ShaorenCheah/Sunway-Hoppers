@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2023 at 07:35 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Dec 03, 2023 at 09:02 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `account` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
@@ -43,7 +43,8 @@ INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 ('A0002', 'mwj@gmail.com', '$2y$10$wPue2X8O.Rmw66hRhb/eKuXok1qr32/6He/nxErfZtoz/N2RVhP7.', 'Passenger'),
 ('A0003', 'dionneteh44@gmail.com', '$2y$10$vN0HAZW/bT6cePy69l4ljevrZkgGIeqDeq8cTCm2ARqUSKsHA0zwu', 'Passenger'),
 ('A0004', 'shaorencheah@gmail.com', '$2y$10$eqPt4GFYLp/SnDWgUoMnTuu2iCaqGrpUPLq4yNRvQa2aCnpVlQxYe', 'Passenger'),
-('A0005', 'driver@gmail.com', '$2y$10$VX4IuiYM6Ywyxfi7cI5DaelsbObrwC4tDHEaMw/bkxU4iuHD7msXW', 'Driver');
+('A0005', 'driver@gmail.com', '$2y$10$VX4IuiYM6Ywyxfi7cI5DaelsbObrwC4tDHEaMw/bkxU4iuHD7msXW', 'Driver'),
+('A0006', 'celine@gmail.com', '$2y$10$ZHqD3bmLlKXUrgchtaeJ3.3QsqM79PSiQLI1Pc7dHOAunXKkeLFcO', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -55,14 +56,15 @@ CREATE TABLE `admin` (
   `accountID` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phoneNo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`accountID`, `name`, `phoneNo`) VALUES
-('A0001', 'Wey Ken', '0123891239');
+('A0001', 'Wey Ken', '0123891239'),
+('A0006', 'Celine', '0112783174');
 
 -- --------------------------------------------------------
 
@@ -78,8 +80,16 @@ CREATE TABLE `application` (
   `vehicleColour` varchar(255) DEFAULT NULL,
   `driverCredentials` varchar(255) DEFAULT NULL,
   `vehicleRules` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `status` varchar(255) DEFAULT 'New'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `application`
+--
+
+INSERT INTO `application` (`applicationID`, `accountID`, `vehicleNo`, `vehicleType`, `vehicleColour`, `driverCredentials`, `vehicleRules`, `status`) VALUES
+('APP0001', 'A0002', 'ABC1234', 'Avanza', 'Blue', 'http://localhost/sunwayhoppers/uploads/applications/a0cf5943143b2b5049a8b99e7aed6a6b.zip', 'No food and drinks in my car. Thank you for your cooperation!', 'Rejected'),
+('APP0002', 'A0005', 'BCD988', 'Perodua Axia', 'White', 'http://localhost/sunwayhoppers/uploads/applications/1ae7690f6d39fce5f3084598265da4a7.zip', "You can have food and drinks in my car but be sure not to spill any.\nDon\'t be shy to ask for charges. \n", 'Approved');
 
 -- --------------------------------------------------------
 
@@ -100,7 +110,7 @@ CREATE TABLE `carpool` (
   `details` varchar(255) NOT NULL,
   `isWomenOnly` tinyint(1) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `carpool`
@@ -125,7 +135,7 @@ CREATE TABLE `carpool_passenger` (
   `code` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `rating` float(2,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -136,7 +146,7 @@ CREATE TABLE `carpool_passenger` (
 CREATE TABLE `district_neighborhood` (
   `district_name` varchar(255) NOT NULL,
   `neighborhood_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `district_neighborhood`
@@ -400,7 +410,7 @@ CREATE TABLE `redemption` (
   `code` varchar(255) DEFAULT NULL,
   `expiryDate` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -416,15 +426,27 @@ CREATE TABLE `reward` (
   `points` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reward`
 --
 
 INSERT INTO `reward` (`rewardID`, `rewardName`, `description`, `img`, `points`, `type`, `quantity`) VALUES
-('R0001', 'Tealive', 'Kill the summer heat by enjoying a nice, cold beverage. Get RM10 off your favourite Tealive! ', '../images/uploads/6928e09c06c405bf03d642ca799460d2.png', 1000, 'fnb', '12'),
-('R0002', 'Sunway Originals', 'Use it at Sunway Originals', '../images/uploads/5044c2acf6f482a6630204c3be4ed02b.png', 500, 'originals', '23');
+('R0001', 'Tealive', 'Kill the summer heat by enjoying a nice, cold beverage. Get RM10 off your favourite Tealive! ', '../uploads/rewards/7d76bce2c89dd130435e2463abdcfeba.png', 1000, 'fnb', '20'),
+('R0002', 'GrabFood', 'Satisfy every craving and order your meal at GrabFood. Receive RM10 off your bill with no minimum spend required.', '../uploads/rewards/19f1ea4c53a1875d0c0050248e14fbaf.png', 1000, 'fnb', '30'),
+('R0003', 'foodpanda', 'Get RM50 off food delivered to your doorstep by foodpanda. No minimum spend required.', '../uploads/rewards/9e4ab4dc960788f6811dd034fad5d526.png', 5000, 'fnb', '34'),
+('R0004', 'KFC', 'Enjoy finger lickin good chicken with KFC today and get RM5 off your bill.', '../uploads/rewards/c90e84ffec251addb90deddfcbed6039.png', 500, 'fnb', '40'),
+('R0005', 'Boost Juice', '\r\nUnlock a world of flavor with our exclusive Boost Juice RM5 E-Voucher! Redeem it today and savor the goodness of refreshing smoothies, bursting with fresh fruits and invigorating boosts. ðŸ“ðŸ¥¤ðŸ’¥', '../uploads/rewards/39ab190f03ab17377f17e3ec21fa08c3.png', 500, 'fnb', '32'),
+('R0006', 'llaollao', 'Dive into the delectable world of llao llao! Grab any medium tub for just RM11 with our exclusive voucher. Treat yourself to swirls of frozen yogurt perfection! ', '../uploads/rewards/24036c192fc28322b3fd424e1f207aba.png', 600, 'fnb', '43'),
+('R0007', 'Petronas', '\r\nFuel your journey with Petronas! Enjoy savings with our RM50 voucher on fuel purchases. Drive further, pay less. Grab your voucher and hit the road today! ', '../uploads/rewards/54b7b46b223dc269a8f17cf6b24f64b3.png', 5000, 'petrol', '23'),
+('R0008', 'Setel', 'Elevate your Setel experience with a RM50 voucher! Enjoy seamless fuel payments, rewards, and more. Top up now and embark on a journey of convenience and savings! ', '../uploads/rewards/acb2c5b6b9e9f78a90a7b1f6b2c1b01f.png', 5000, 'petrol', '12'),
+('R0009', 'Caltex', 'Rev up your savings! Unlock a RM20 voucher for Caltex fuel. Terms and conditions apply. Fuel up and hit the road with extra savings today! â›½ðŸ’³ðŸš—', '../uploads/rewards/ec084b9991735753c40cb5c45fefb00e.png', 2000, 'petrol', '34'),
+('R0010', 'Petron', 'Power up your ride and more with a Petron RM50 voucher! Use it for fuel or snag cool merchandise. Versatility at its best. T&Cs apply. â›½ðŸ›ï¸ðŸ’³', '../uploads/rewards/eebf563503a7d8e47e2c38439b51c518.png', 5000, 'petrol', '46'),
+('R0011', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM5 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', '../uploads/rewards/76bce98b005310d9c515741624d0dbae.png', 500, 'originals', '34'),
+('R0012', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM10 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', '../uploads/rewards/6d833a6caac10ff156c5d4963a9345a9.png', 1000, 'originals', '55'),
+('R0013', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM20 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', '../uploads/rewards/ebcea574d66439118509a4b795f02030.png', 2000, 'originals', '34'),
+('R0014', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM50 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', '../uploads/rewards/0e2febc87ab321e60e611c08191665f5.png', 5000, 'originals', '10');
 
 -- --------------------------------------------------------
 
@@ -436,7 +458,7 @@ CREATE TABLE `user` (
   `accountID` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phoneNo` varchar(255) NOT NULL,
-  `gender` char(1) NOT NULL,
+  `gender` varchar(10) NOT NULL,
   `dob` date NOT NULL,
   `bio` varchar(255) DEFAULT NULL,
   `rewardPoints` int(11) NOT NULL DEFAULT 0,
@@ -444,17 +466,17 @@ CREATE TABLE `user` (
   `rating` float NOT NULL DEFAULT 0,
   `carRules` varchar(255) DEFAULT NULL,
   `profilePic` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `rating`, `carRules`, `profilePic`) VALUES
-('A0002', 'Mak', '0163381806', 'm', '2023-11-20', NULL, 0, NULL, 0, NULL, NULL),
-('A0003', 'Dionne', '0163381806', 'f', '2023-11-20', NULL, 0, NULL, 0, NULL, NULL),
-('A0004', 'Cheah Shaoren', '0163381806', 'm', '2003-06-18', NULL, 0, NULL, 0, NULL, NULL),
-('A0005', 'Jason', '0162882026', 'M', '2023-12-03', NULL, 0, NULL, 0, NULL, 'default.png');
+('A0002', 'Mak', '0163381806', 'Male', '2023-11-20', '', 0, NULL, 0, NULL, '../uploads/profile_pics/4a67cb0d0ec7840e615fa92099a414e9.jpg'),
+('A0003', 'Dionne', '0163381806', 'Female', '2023-11-20', NULL, 0, NULL, 0, NULL, NULL),
+('A0004', 'Cheah Shaoren', '0163381806', 'Male', '2003-06-18', NULL, 0, NULL, 0, NULL, NULL),
+('A0005', 'Jason', '0162882026', 'Male', '2023-12-03', 'Body-building maniac. Loves to drive. We can talk about driving or body-building.', 0, NULL, 0, "You can have food and drinks in my car but be sure not to spill any.\nDon\'t be shy to ask for charges. \n", '../uploads/profile_pics/87514912ec234abf55b68829a5849dfa.jpg');
 
 --
 -- Indexes for dumped tables
