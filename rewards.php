@@ -110,12 +110,15 @@ function getUserPoints()
         // Use a class selector for the click event
         $('.redeemBtn').click(function() {
           var requiredPoints = $(this).data('points');
+          var rewardID = $(this).data('reward');
           userPoints = <?php echo json_encode(getUserPoints()); ?>;
           accountID = <?php echo json_encode($_SESSION['user']['accountID']); ?>;
+
           var pointData = {
             requiredPoints: requiredPoints,
             userPoints: userPoints,
             accountID: accountID,
+            rewardID: rewardID,
           }
           redeemReward(pointData);
         });
@@ -160,7 +163,7 @@ function getUserPoints()
 <?php
 function getRewardsByType($type, $pdo)
 {
-  $stmt = $pdo->prepare("SELECT * FROM reward WHERE type = :type ORDER BY points ASC");
+  $stmt = $pdo->prepare("SELECT * FROM reward WHERE type = :type AND quantity > 0 ORDER BY points ASC");
   $stmt->bindParam(':type', $type, PDO::PARAM_STR);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -168,12 +171,16 @@ function getRewardsByType($type, $pdo)
 function getCards($type, $pdo)
 {
   $rewards = getRewardsByType($type, $pdo);
+  echo "
+  <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
+  <div class='carousel-inner'>";
+  
   $count = count($rewards);
+  if ($count == 0) {
+    echo "<div class='container my-5'><h3 class='text-center'>No rewards available at the moment.</h3></div>";
+  }
   global $loggedIn;
 
-  echo "
-    <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
-        <div class='carousel-inner'>";
 
   $isActive = true; // Variable to track if the item is active
 
@@ -210,10 +217,11 @@ function getCards($type, $pdo)
                     <div class='d-flex justify-content-center'>
 HTML;
       $requiredPoints = $rewardObjects[$j]->points;
+      $rewardID = $rewardObjects[$j]->rewardID;
       $userPoints = !$loggedIn ? 0 : getUserPoints();
 
       if ($loggedIn && $userPoints >= $requiredPoints) {
-        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2 redeemBtn' data-points='{$requiredPoints}'>Redeem</button>";
+        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2 redeemBtn' data-points='{$requiredPoints}' data-reward='{$rewardID}'>Redeem</button>";
       } else {
         $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2' disabled style='background-color: var(--sub); border: none;'>Redeem</button>";
       }
