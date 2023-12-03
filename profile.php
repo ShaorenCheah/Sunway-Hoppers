@@ -114,7 +114,7 @@ if (!isset($_SESSION['user'])) {
           </div>
 
           <div class="desc">
-            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..."  rows="4"></textarea>
+            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." rows="4"></textarea>
             </textarea>
           </div>
         </form>
@@ -152,11 +152,11 @@ if (!isset($_SESSION['user'])) {
     </nav>
     <div class="tab-content mb-5 shadow p-3" id="nav-tabContent">
       <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
-      <div class="tab-pane fade show active table-responsive" id="nav-request" role="tabpanel">
-        <!-- Fetch from profile.js -->
-      </div>
+        <div class="tab-pane fade show active table-responsive" id="nav-request" role="tabpanel">
+          <!-- Fetch from profile.js -->
+        </div>
       <?php } ?>
-      
+
       <div class="tab-pane fade table-responsive" id="nav-history" role="tabpanel">
         <!-- Fetch from profile.js -->
       </div>
@@ -165,6 +165,10 @@ if (!isset($_SESSION['user'])) {
         <!-- Fetch from profile.js -->
       </div>
 
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="requestModal">
+      <!-- Generated upon user request-->
     </div>
 
     <?php

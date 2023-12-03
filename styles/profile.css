@@ -155,6 +155,10 @@ label > .bi {
   margin-left: 0.5rem;
 }
 
+/* Request Modal */
+.modal-lg{
+  width: 600px !important;
+}
 .badge.rounded-pill{
   background-color:var(--primary); 
   font-size:0.857rem; 

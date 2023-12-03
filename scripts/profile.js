@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('editBtn').style.display = edit ? '' : 'none';
   });
 
+
   function createRequestModal(){
     var data = {
       'index': this.getAttribute("data-carpoolIndex"),
@@ -53,14 +54,25 @@ document.addEventListener("DOMContentLoaded", function () {
       'pickup': this.getAttribute("data-carpoolPickup"),
       'destination': this.getAttribute("data-carpoolDestination"),
     };
-    console.log(data)
-    fetch(`./backend/profile.php?action=createRequestModal&data=${data}`)
-    .then((response) => response.json())
+    // console.log(data)
+    var requestData = encodeURIComponent(JSON.stringify(data));
+
+    fetch(`./backend/profile.php?action=createRequestModal&requestData=${requestData}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.text().then(function (text) {
+        return text ? JSON.parse(text) : {};
+      });
+    })
     .then((data) => {
       console.log(data)
       // Insert Request Table HTML
-      document.getElementById("nav-request").innerHTML += data.html;
-
+      var modal = document.getElementById("requestModal");
+      modal.innerHTML = data.modal;
+      var requestModal = new bootstrap.Modal(modal);
+      requestModal.show();
     });
   }
 });

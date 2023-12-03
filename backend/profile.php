@@ -16,8 +16,8 @@ if (isset($_GET['action'])) {
       echo getRequestTable($pdo);
       break;
     case 'createRequestModal':
-      $data = $_GET['data'];
-      echo createRequestModal($data,$pdo);
+      $data = json_decode($_GET['requestData'], true);
+      echo createRequestModal($data, $pdo);
       break;
     default:
       echo 'Invalid action';
@@ -83,7 +83,7 @@ function getProfile($pdo)
 
   $response = [
     'action' => 'getProfile',
-    'type'=> $_SESSION['user']['type'],
+    'type' => $_SESSION['user']['type'],
     'user'  => $user,
     'html' => $html
   ];
@@ -91,7 +91,8 @@ function getProfile($pdo)
   echo json_encode($response);
 }
 
-function getRequestTable($pdo){
+function getRequestTable($pdo)
+{
   $sql = "SELECT * FROM carpool WHERE accountID = :accountID ORDER BY carpoolDate DESC";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
@@ -147,9 +148,105 @@ function getRequestTable($pdo){
   ];
 
   echo json_encode($response);
-
 }
 
-function createRequestModal($data,$pdo){
+function createRequestModal($data, $pdo)
+{
 
+  // Get pending requests data
+  $sql = "SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND status = 'Pending'";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':carpoolID', $data['carpoolID']);
+  $stmt->execute();
+  $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $pendingHTML = "<div class='w-100 d-flex flex-column align-items-start justify-content-start'>";
+
+  if (count($requests) > 0) {
+    $count = 1;
+    foreach ($requests as $request) {
+      $sql = "SELECT * FROM user WHERE accountID = :accountID";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':accountID', $request['accountID']);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      $pendingHTML .= <<<HTML
+      <div class="row w-100 p-0 d-flex align-items-center justify-content-center">
+        <div class="p-0 col-1 d-flex justify-content-center align-items-center">
+          <p class="fw-b mb-0 pt-2" style="color: var(--black); font-size: 1.143rem;">{$count}.</p>
+        </div>
+        <div class="p-0 col-8 d-flex ustify-content-center align-items-center">
+          <p class="mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['name']}</p>
+          <p class="ms-3 mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['phoneNo']}</p>
+        </div>
+        <div class="p-0 col-3 d-flex justify-content-end align-items-center">
+          <button class="btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem"></i></button>
+          <button class="ms-2 btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem"></i></button>
+        </div>
+      </div>
+      HTML;
+      $count++;
+    }
+    $pendingHTML .= "<p class='text-muted mt-4' style='font-size: 0.75rem;'>**Make sure to discuss on the exact pick up location before accepting the request</p>";
+  } else {
+    $pendingHTML .= "<p class='my-2 fw-b text-muted w-100 text-center'>No Pending Requests </p>";
+  }
+
+
+  // Get accepted passenger data
+  $sql = "SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND isApproved = true";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':carpoolID', $data['carpoolID']);
+  $stmt->execute();
+  $passengers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $passengerHTML = "<div class='w-100 d-flex flex-column align-items-start justify-content-start'>";
+
+  if (count($passengers) > 0) {
+    $count = 1;
+    foreach ($passengers as $passenger) {
+      $sql = "SELECT * FROM user WHERE accountID = :accountID";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':accountID', $passenger['accountID']);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      $passengerHTML .= <<<HTML
+      <div class="row w-100 p-0 d-flex align-items-center justify-content-center">
+        <div class="p-0 col-1 d-flex justify-content-center align-items-center">
+          <p class="fw-b mb-0 pt-2" style="color: var(--black); font-size: 1.143rem;">{$count}.</p>
+        </div>
+        <div class="p-0 col-8 d-flex ustify-content-center align-items-center">
+          <p class="mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['name']}</p>
+          <p class="ms-3 mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['phoneNo']}</p>
+        </div>
+        <div class="p-0 col-3 d-flex justify-content-end align-items-center">
+          <button class="btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem"></i></button>
+          <button class="ms-2 btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem"></i></button>
+        </div>
+      </div>
+      HTML;
+      $count++;
+      
+    }
+    $passengerHTML .= "<p class='text-muted mt-4' style='font-size: 0.75rem;'>**Ask for arrival code from passenger after reaching the destination</p>";
+  } else {
+    $passengerHTML .= "<p class='my-2 fw-b text-muted w-100 text-center'>No Passenger Accepted </p>";
+  }
+
+  $pendingHTML .= "</div>";
+  $passengerHTML .= "</div>";
+
+  $modal = "";
+
+  include '../includes/modals/viewRequestModal.inc.php';
+
+
+  $response = [
+    'action' => 'createRequestModal',
+    'modal' => $modal
+  ];
+
+  echo json_encode($response);
 }
