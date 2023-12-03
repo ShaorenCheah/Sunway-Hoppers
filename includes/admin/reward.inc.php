@@ -22,8 +22,8 @@
       </li>
     </ul>
   </div>
-  <div class="w-25 d-flex align-items-center justify-content-end">
-    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addRewardModal"></i>
+  <div class="w-25 d-flex align-items-center justify-content-end" id="addRewardBtn">
+    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addRewardModal" id="addRewardIcon"></i>
   </div>
 </div>
 <div class="tab-content" id="pills-tabContent">
@@ -74,6 +74,73 @@
     </div>
   </div>
   <div class="tab-pane fade" id="pills-claim" role="tabpanel" aria-labelledby="pills-claim-tab">
-    ...
+    <div class="table-container">
+      <table id="claimTable" class="" style="width:100%">
+        <thead>
+          <tr>
+            <th>Reward Claimed</th>
+            <th>Points</th>
+            <th>Type</th>
+            <th>Email</th>
+            <th>Code</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          require './backend/connection.php';
+
+          $stmt = $pdo->prepare('SELECT
+          reward.rewardName AS "Reward Name",
+          reward.points AS "Points",
+          reward.type AS "Type",
+          account.email AS "Email",
+          redemption.code AS "Code",
+          redemption.expiryDate AS "Expiry Date",
+          redemption.status AS "Status"
+      FROM
+          redemption
+      JOIN account ON redemption.accountID = account.accountID
+      JOIN reward ON redemption.rewardID = reward.rewardID;');
+          $stmt->execute();
+
+          // Fetch the result
+          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          foreach ($result as $claim) {
+            $rewardName = $claim['Reward Name'];
+            $points = $claim['Points'];
+            $type = $claim['Type'];
+            $email = $claim['Email'];
+            $code = $claim['Code'];
+            $expiryDate = $claim['Expiry Date'];
+            $status = $claim['Status'];
+            echo <<<HTML
+                    <tr>
+                      <td>$rewardName</td>
+                      <td>$points</td>
+                      <td>$type</td>
+                      <td>$email</td>
+                      <td>$code</td>
+                      <td>$expiryDate</td>
+                      <td>$status</td>
+                    </tr>
+                  HTML;
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $('#pills-inventory-tab').click(function() {
+      document.getElementById('addRewardIcon').style.display = 'block';
+    });
+    $('#pills-claim-tab').click(function() {
+      document.getElementById('addRewardIcon').style.display = 'none';
+    });
+  });
+</script>

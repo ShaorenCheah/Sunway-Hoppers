@@ -14,6 +14,19 @@ $stmt = $pdo->prepare('SELECT COUNT(*) FROM application WHERE status = "New"');
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $newApplicationCount = $result['COUNT(*)'];
+
+// Get total quantity of rewards
+$stmt = $pdo->prepare('SELECT SUM(quantity) FROM reward');
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$rewardCount = $result['SUM(quantity)'];
+
+// Get total number of carpools
+$stmt = $pdo->prepare('SELECT COUNT(*) FROM carpool');
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$carpoolCount = $result['COUNT(*)'];
+
 ?>
 <h2>Dashboard</h2>
 <div class="row">
@@ -47,7 +60,7 @@ $newApplicationCount = $result['COUNT(*)'];
       <h5 class="text-muted mb-0">Total Carpools</h5>
       <div class="row">
         <span class="w-50">
-          <p class="summary-text">20</p>
+          <p class="summary-text"><?php echo $carpoolCount?></p>
         </span>
         <span class="w-50 summary-icon-orange">
           <i class="fa-solid fa-car"></i>
@@ -60,7 +73,7 @@ $newApplicationCount = $result['COUNT(*)'];
       <h5 class="text-muted mb-0">Rewards Left</h5>
       <div class="row ">
         <span class="w-50">
-          <p class="summary-text">20</p>
+          <p class="summary-text"><?php echo $rewardCount?></p>
         </span>
         <span class="w-50 summary-icon-green">
           <i class="bi bi-gift-fill"></i>

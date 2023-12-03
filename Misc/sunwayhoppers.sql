@@ -413,7 +413,13 @@ CREATE TABLE `redemption` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
+--
+-- Dumping data for table `redemption`
+--
 
+INSERT INTO `redemption` (`redemptionID`, `accountID`, `rewardID`, `code`, `expiryDate`, `status`) VALUES
+('RD0001', 'A0002', 'R0006', 'oShwj0c6', '2024-12-03', 'Active'),
+('RD0002', 'A0002', 'R0006', 'm0iSSNVh', '2024-12-03', 'Active');
 --
 -- Table structure for table `reward`
 --
