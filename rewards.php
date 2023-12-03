@@ -194,7 +194,7 @@ function getCards($type, $pdo)
       echo <<<HTML
             <div class='col'>
             <div class='card shadow' style='width: 16rem;'>
-                <img class='card-img-top' src='/{$rewardObjects[$j]->img}' alt='Card image cap'>
+                <img class='card-img-top' src='{$rewardObjects[$j]->img}' alt='Card image cap'>
                 <div class='card-body'>
                     <div class='row'>
                         <div style="width: 70%; padding-right: 0rem;">
