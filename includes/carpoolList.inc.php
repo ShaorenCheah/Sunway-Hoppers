@@ -4,9 +4,9 @@ $html .= <<<HTML
 <div class="m-3 d-flex flex-row" style="border-radius:0.714rem">
   <!-- First Column (Driver Profile)-->
   <div class="d-flex flex-column p-3 driver-border col-2 align-items-center justify-content-center">
-      <img src="{$carpool['profilePic']}" alt="Avatar" class="shadow mb-3" style="border-radius: 50%;height: 7rem; width: 7rem;">
-      <h5 style="font-weight:600; color:var(--primary)">{$carpool['name']}</h5>
-      <div class="d-flex justify-content-center mb-2">
+      <img src="{$carpool['profilePic']}" alt="Avatar" class="shadow mb-2" style="border-radius: 50%;height: 6rem; width: 6rem; object-fit: cover;">
+      <h5 class="m-0 pb-1" style="font-weight:600; color:var(--primary)">{$carpool['name']}</h5>
+      <div class="d-flex justify-content-center mb-1">
         <p class="m-0" style="font-weight:600">{$rating}</p>
         <i class="bi bi-star-fill mx-1" style="color:#F6931A"></i>
         <p class="text-muted m-0" style="font-size:0.857rem; font-weight:500">({$ratingsAmt} Ratings)</p>
