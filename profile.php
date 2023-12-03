@@ -113,8 +113,8 @@ if (!isset($_SESSION['user'])) {
             </button>
           </div>
 
-          <div class="desc">
-            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." rows="4"></textarea>
+          <div class="desc p-2">
+            <textarea name="descText" id="descText" placeholder="Write something interesting about yourself..." rows="4" disabled></textarea>
             </textarea>
           </div>
         </form>
