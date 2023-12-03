@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Move the uploaded file to the destination
                 if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                    $downloadLink = 'http://localhost/sunwayhoppers/applications/' . $newFileName;
+                    $downloadLink = 'http://localhost/sunwayhoppers/uploads/applications/' . $newFileName;
 
                     // Insert new account
                     $query   = "INSERT INTO application (applicationID, accountID, vehicleNo, vehicleType, vehicleColour, driverCredentials, vehicleRules) 
