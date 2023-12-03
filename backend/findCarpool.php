@@ -10,7 +10,6 @@ if (isset($_GET['action']) && $_GET['action'] != '') {
   $action = $_GET['action'];
 
   switch ($action) {
-
     case 'getDistricts':
       echo getDistricts($pdo);
       break;

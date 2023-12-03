@@ -2,7 +2,7 @@
 require_once 'connection.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
+  session_start();
 }
 
 $formJSON = $_POST['formData'];
@@ -27,10 +27,9 @@ $message = "Car details updated successfully!";
 $success = true;
 
 $response = [
-    'success' => $success,
-    'message' => $message,
-  ];
-  // Send a JSON response indicating success or failure
-  
-  echo json_encode($response);
+  'success' => $success,
+  'message' => $message,
+];
+// Send a JSON response indicating success or failure
 
+echo json_encode($response);

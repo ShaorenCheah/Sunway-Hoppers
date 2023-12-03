@@ -38,7 +38,7 @@ if ($action == 'login') {
         session_start();
       }
 
-      if($type == 'Admin'){
+      if ($type == 'Admin') {
         $stmt = $pdo->prepare('SELECT * FROM admin WHERE accountID = :accountID');
         $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
         $stmt->execute();
@@ -51,7 +51,6 @@ if ($action == 'login') {
           'type' => $type,
         ];
         $message = "Welcome, " . $_SESSION['user']['name'] . ". You are now logged in as an admin.";
-
       } else {
         $stmt = $pdo->prepare('SELECT * FROM user WHERE accountID = :accountID');
         $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
@@ -69,7 +68,6 @@ if ($action == 'login') {
       }
 
       $success = true;
-      
     } else {
       $success = false;
       $message = "Invalid username/password combination";

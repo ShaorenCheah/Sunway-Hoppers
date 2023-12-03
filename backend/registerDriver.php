@@ -14,10 +14,6 @@ $stmt->execute();
 $count = $stmt->fetchColumn();
 $appID = "APP" . str_pad($count + 1, 4, "0", STR_PAD_LEFT);
 
-//	applicationID	accountID	vehicleNo	vehicleType	vehicleColour	driverCredentials	driverBio vehicleRules
-
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Check if the file was uploaded without errors
