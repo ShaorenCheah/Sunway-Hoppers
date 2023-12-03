@@ -32,18 +32,18 @@ $carRules = $result['vehicleRules'];
               <div class="col">
                 <label for="carColour" class="form-label">Car Colour <i class="bi bi-palette"></i></label>
                 <select name="carColour" id="carColour" class="form-select">
-                  <option <?php echo ($carColour === "red") ? 'selected' : ''; ?> value="red">Red</option>
-                  <option <?php echo ($carColour === "blue") ? 'selected' : ''; ?> value="blue">Blue</option>
-                  <option <?php echo ($carColour === "green") ? 'selected' : ''; ?> value="green">Green</option>
-                  <option <?php echo ($carColour === "white") ? 'selected' : ''; ?> value="white">White</option>
-                  <option <?php echo ($carColour === "black") ? 'selected' : ''; ?> value="black">Black</option>
-                  <option <?php echo ($carColour === "silver") ? 'selected' : ''; ?> value="silver">Silver</option>
-                  <option <?php echo ($carColour === "gray") ? 'selected' : ''; ?> value="gray">Gray</option>
-                  <option <?php echo ($carColour === "yellow") ? 'selected' : ''; ?> value="yellow">Yellow</option>
-                  <option <?php echo ($carColour === "orange") ? 'selected' : ''; ?> value="orange">Orange</option>
-                  <option <?php echo ($carColour === "purple") ? 'selected' : ''; ?> value="purple">Purple</option>
-                  <option <?php echo ($carColour === "brown") ? 'selected' : ''; ?> value="brown">Brown</option>
-                  <option <?php echo ($carColour === "pink") ? 'selected' : ''; ?> value="pink">Pink</option>
+                  <option <?php echo ($carColour === "Red") ? 'selected' : ''; ?> value="Red">Red</option>
+                  <option <?php echo ($carColour === "Blue") ? 'selected' : ''; ?> value="Blue">Blue</option>
+                  <option <?php echo ($carColour === "Green") ? 'selected' : ''; ?> value="Green">Green</option>
+                  <option <?php echo ($carColour === "White") ? 'selected' : ''; ?> value="White">White</option>
+                  <option <?php echo ($carColour === "Black") ? 'selected' : ''; ?> value="Black">Black</option>
+                  <option <?php echo ($carColour === "Silver") ? 'selected' : ''; ?> value="Silver">Silver</option>
+                  <option <?php echo ($carColour === "Gray") ? 'selected' : ''; ?> value="Gray">Gray</option>
+                  <option <?php echo ($carColour === "Yellow") ? 'selected' : ''; ?> value="Yellow">Yellow</option>
+                  <option <?php echo ($carColour === "Orange") ? 'selected' : ''; ?> value="Orange">Orange</option>
+                  <option <?php echo ($carColour === "Purple") ? 'selected' : ''; ?> value="Purple">Purple</option>
+                  <option <?php echo ($carColour === "Brown") ? 'selected' : ''; ?> value="Brown">Brown</option>
+                  <option <?php echo ($carColour === "Pink") ? 'selected' : ''; ?> value="Pink">Pink</option>
                 </select>
               </div>
             </div>
