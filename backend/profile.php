@@ -192,8 +192,8 @@ function createRequestModal($data, $pdo)
           <p class="ms-3 mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['phoneNo']}</p>
         </div>
         <div class="p-0 col-3 d-flex justify-content-end align-items-center">
-          <button class="btn btn-success shadow accept-request" data-type="Accept" data-accountID="{$request['accountID']}" data-carpoolID="{$data['carpoolID']}" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem; color:white;"></i></button>
-          <button class="ms-2 btn btn-danger shadow reject-request" data-type="Reject" data-accountID="{$request['accountID']}" data-carpoolID="{$data['carpoolID']}" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem; color:white;"></i></button>
+          <button class="btn btn-success shadow accept-request" data-type="Accepted" data-accountID="{$request['accountID']}" data-carpoolID="{$data['carpoolID']}" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem; color:white;"></i></button>
+          <button class="ms-2 btn btn-danger shadow reject-request" data-type="Rejected" data-accountID="{$request['accountID']}" data-carpoolID="{$data['carpoolID']}" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem; color:white;"></i></button>
         </div>
       </div>
       HTML;
@@ -233,7 +233,17 @@ function createRequestModal($data, $pdo)
           <p class="ms-3 mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['phoneNo']}</p>
         </div>
         <div class="p-0 col-3 d-flex justify-content-end align-items-center">
-          <p>{$passenger['code']}</p>
+      HTML;
+      if ($passenger['code'] != null && $passenger['status'] != 'Redeemed') {
+        $passengerHTML .= <<<HTML
+          <input type="text" class="form-control redeem-code" placeholder="Enter code">
+        HTML;
+      } else {
+        $passengerHTML .= <<<HTML
+          <input type="text" class="form-control" placeholder="Enter code" value="{$passenger['code']}" disabled>
+        HTML;
+      }
+      $passengerHTML .= <<<HTML
         </div>
       </div>
       HTML;
@@ -251,10 +261,9 @@ function createRequestModal($data, $pdo)
 
   include '../includes/modals/viewRequestModal.inc.php';
 
-
   $response = [
     'action' => 'createRequestModal',
-    'modal' => $modal
+    'modal' => $modal,
   ];
 
   echo json_encode($response);
@@ -287,22 +296,22 @@ function manageRequest($data, $pdo)
   $stmt->bindParam(':accountID', $data['accountID']);
   $stmt->bindParam(':carpoolID', $data['carpoolID']);
   if($stmt->execute()){
-    $status = 'success';
+    $status = true;
     if($data['type'] == 'Accept'){
       $message = 'Request accepted successfully';
     }else{
       $message = 'Request rejected successfully';
     }
   }else{
-    $status = 'error';
+    $status = false;
     $message = 'Error processing request';
   }
 
   $response = [
     'action' => 'manageRequest',
+    'carpoolID' => $data['carpoolID'],
     'status' => $status,
-    'message' => $message,
-    'code' => $code
+    'message' => $message
   ];
 
   echo json_encode($response);

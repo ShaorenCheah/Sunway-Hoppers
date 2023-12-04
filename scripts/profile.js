@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("./backend/profile.php?action=getProfile")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         document
           .getElementById("profilePic")
           .setAttribute("src", data.user.profilePic);
@@ -27,14 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("./backend/profile.php?action=getRequestTable")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
 
         // Insert Request Table HTML
         document.getElementById("nav-request").innerHTML += data.html;
 
         var viewRequestBtns = document.getElementsByClassName("view-request");
         for (var i = 0; i < viewRequestBtns.length; i++) {
-          viewRequestBtns[i].addEventListener("click", createRequestModal);
+          viewRequestBtns[i].addEventListener("click", getSelectedData);
         }
       });
   };
@@ -49,14 +49,21 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("editBtn").style.display = edit ? "" : "none";
   });
 
-  function createRequestModal() {
+  function getSelectedData() {
     var data = {
       index: this.getAttribute("data-carpoolIndex"),
       carpoolID: this.getAttribute("data-carpoolID"),
       pickup: this.getAttribute("data-carpoolPickup"),
       destination: this.getAttribute("data-carpoolDestination"),
     };
-    // console.log(data)
+    createRequestModal(data);
+  }
+
+  var requestContent = document.getElementById("requestModal");
+  var requestModal = null;
+
+  function createRequestModal(data) {
+    console.log(data)
     var requestData = encodeURIComponent(JSON.stringify(data));
 
     fetch(
@@ -71,11 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         // Insert Request Table HTML
-        var modal = document.getElementById("requestModal");
-        modal.innerHTML = data.modal;
-        var requestModal = new bootstrap.Modal(modal);
+        requestContent.innerHTML = data.modal;
+
+        requestModal = new bootstrap.Modal(requestContent);
 
         var acceptRequestBtns =
           document.getElementsByClassName("accept-request");
@@ -115,12 +122,19 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json();
       })
       .then((data) => {
-        if (data.success) {
+        if (data.status) {
           alert(data.message);
-          console.log(data.code);
+          var refresh = {
+            action: "refresh",
+            index: document.getElementById('index').innerHTML,
+            carpoolID: data.carpoolID,
+            pickup: document.getElementById('pickup').innerHTML,
+            destination: document.getElementById('destination').innerHTML,
+          };
+          createRequestModal(refresh);
         } else {
           alert(data.message);
         }
-      })
+      });
   }
 });
