@@ -80,22 +80,23 @@ document.addEventListener("DOMContentLoaded", function () {
         var acceptRequestBtns =
           document.getElementsByClassName("accept-request");
         for (var i = 0; i < acceptRequestBtns.length; i++) {
-          acceptRequestBtns[i].addEventListener("click", acceptRequest);
+          acceptRequestBtns[i].addEventListener("click", manageRequest);
         }
 
         var rejectRequestBtns =
           document.getElementsByClassName("reject-request");
         for (var i = 0; i < rejectRequestBtns.length; i++) {
-          rejectRequestBtns[i].addEventListener("click", rejectRequest);
+          rejectRequestBtns[i].addEventListener("click", manageRequest);
         }
 
         requestModal.show();
       });
   }
 
-  function acceptRequest() {
+  function manageRequest() {
     var requestData = {
-      action: "acceptRequest",
+      action: "manageRequest",
+      type: this.getAttribute("data-type"),
       carpoolID: this.getAttribute("data-carpoolID"),
       accountID: this.getAttribute("data-accountID"),
     };
@@ -121,12 +122,5 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
         }
       })
-      .catch((error) => {
-        console.error("Fetch error:", error);
-      });
-  }
-
-  function rejectRequest(){
-    
   }
 });
