@@ -55,10 +55,10 @@ include './includes/modals/registerModal.inc.php';
         window.location.href = "./dashboard.php?navPage=dashboard";
       </script>
     <?php
-    } else  { ?>
-       <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = 'profile.php'"><i class="bi bi-person" style="height:60%"></i></button>
+    } else { ?>
+      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = 'profile.php'"><i class="bi bi-person" style="height:60%"></i></button>
     <?php
-    } 
+    }
     ?>
   </div>
 </nav>
