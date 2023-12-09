@@ -1,112 +1,3 @@
-<?php
-require_once './backend/connection.php';
-
-function generateTable($tableID, $pdo)
-{
-  $tableHTML = <<<HTML
-    <div class="table-container">
-      <table id="$tableID" class="" style="width:100%">
-          <thead>
-              <tr>
-                  <th>Driver Details</th>
-                  <th>Driver Name</th>
-                  <th>Vehicle Type</th>
-                  <th>Vehicle Colour</th>
-                  <th>Vehicle Rules</th>
-                  <th>Credentials</th>
-                  <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-HTML;
-  echo $tableHTML;
-
-  switch ($tableID) {
-    case "newAppTable":
-      $status = "New";
-      break;
-    case "approvedAppTable":
-      $status = "Approved";
-      break;
-    case "rejectedAppTable":
-      $status = "Rejected";
-      break;
-    default:
-      $status = "New";
-      break;
-  }
-
-  $stmt = $pdo->prepare(
-    'SELECT application.*, account.email, user.name, user.phoneNo
-        FROM application
-        JOIN user ON application.accountID = user.accountID
-        JOIN account ON user.accountID = account.accountID
-        WHERE application.status = :status;'
-  );
-  $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-  $stmt->execute();
-
-  // Fetch the result
-  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-  foreach ($result as $application) {
-    $applicationID = $application['applicationID'];
-    $vehicleNo = $application['vehicleNo'];
-    $vehicleType = $application['vehicleType'];
-    $vehicleColour = $application['vehicleColour'];
-    $driverCredentials = $application['driverCredentials'];
-    $vehicleRules = $application['vehicleRules'];
-    $email = $application['email'];
-    $name = $application['name'];
-    $phoneNo = $application['phoneNo'];
-    $actionHTML = getActions($status, $applicationID);
-
-    echo <<<HTML
-        <tr data-child-name='{$name}' data-child-phone='{$phoneNo}' data-child-email='{$email}' 
-        data-child-vehicle='{$vehicleNo}'>
-        <td class='dt-control'></td>
-        <td>{$name}</td>
-        <td>{$vehicleType}</td>
-        <td>{$vehicleColour}</td>
-        <td>{$vehicleRules}</td>
-        <td><a href ='{$driverCredentials}'>Download</a></td>
-        <td>{$actionHTML}</td>
-    </tr>
-    HTML;
-  }
-
-  echo <<<HTML
-        </tbody>
-    </table>
-  </div>
-HTML;
-}
-
-function getActions($status, $applicationID)
-{
-  if ($status === "New") {
-    return <<<HTML
-        <div class="row m-0">
-            <div class="col">
-                <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
-            </div>
-            <div class="col">
-                <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
-            </div>
-        </div>
-        HTML;
-  } else if ($status === "Approved") {
-    return <<<HTML
-        <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
-        HTML;
-  } else if ($status === "Rejected") {
-    return <<<HTML
-        <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
-        HTML;
-  }
-}
-?>
-
 <link rel="stylesheet" href="./styles/dashView.css">
 <div class="row">
   <div class="w-75">
@@ -135,58 +26,19 @@ function getActions($status, $applicationID)
   </div>
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-new" role="tabpanel" aria-labelledby="pills-new-tab">
-      <?php generateTable("newAppTable", $pdo); ?>
+      <?php generateAppTable("newAppTable"); ?>
     </div>
     <div class="tab-pane fade" id="pills-approved" role="tabpanel" aria-labelledby="pills-approved-tab">
-      <?php generateTable("approvedAppTable", $pdo); ?>
+      <?php generateAppTable("approvedAppTable"); ?>
     </div>
     <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab">
-      <?php generateTable("rejectedAppTable", $pdo); ?>
+      <?php generateAppTable("rejectedAppTable"); ?>
     </div>
   </div>
 </div>
-
 <script>
-  // JavaScript function to handle button click
-  function rejectApplication(applicationID) {
-    // Make an AJAX request to update the status
-    $.ajax({
-      type: 'POST',
-      url: 'backend/updateAppStatus.php',
-      data: {
-        applicationID: applicationID,
-        status: 'Rejected'
-      },
-      success: function(response) {
-        // Handle the response, if needed
-        console.log(response);
-        location.reload();
-      },
-      error: function(xhr, status, error) {
-        // Handle errors, if any
-        console.error(xhr.responseText);
-      }
-    });
-  }
-
-  function approveApplication(applicationID) {
-    // Make an AJAX request to update the status
-    $.ajax({
-      type: 'POST',
-      url: 'backend/updateAppStatus.php',
-      data: {
-        applicationID: applicationID,
-        status: 'Approved'
-      },
-      success: function(response) {
-        // Handle the response, if needed
-        console.log(response);
-        location.reload();
-      },
-      error: function(xhr, status, error) {
-        // Handle errors, if any
-        console.error(xhr.responseText);
-      }
-    });
-  }
+  initializeDataTable('#newAppTable', '#txtSearchApplications');
+  initializeDataTable('#approvedAppTable', '#txtSearchApplications');
+  initializeDataTable('#rejectedAppTable', '#txtSearchApplications');
 </script>
+<script src="./scripts/manageApplications.js"></script>

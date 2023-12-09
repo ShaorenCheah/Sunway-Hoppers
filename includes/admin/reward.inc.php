@@ -23,13 +23,13 @@
     </ul>
   </div>
   <div class="w-25 d-flex align-items-center justify-content-end" id="addRewardBtn">
-    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addRewardModal" id="addRewardIcon"></i>
+    <i class="bi bi-plus-circle add-btn" data-bs-toggle="modal" data-bs-target="#addRewardModal" id="addRewardIcon"></i>
   </div>
 </div>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-inventory" role="tabpanel" aria-labelledby="pills-inventory-tab">
     <div class="table-container">
-      <table id="rewardTable" class="" style="width:100%">
+      <table id="rewardTable" class="dashboardTable" style="width:100%">
         <thead>
           <tr>
             <th>Name</th>
@@ -75,7 +75,7 @@
   </div>
   <div class="tab-pane fade" id="pills-claim" role="tabpanel" aria-labelledby="pills-claim-tab">
     <div class="table-container">
-      <table id="claimTable" class="" style="width:100%">
+      <table id="claimTable" class="dashboardTable" style="width:100%">
         <thead>
           <tr>
             <th>Reward Claimed</th>
@@ -135,6 +135,10 @@
   </div>
 </div>
 <script>
+  initializeDataTable('#rewardTable', '#txtSearchRewards');
+  initializeDataTable('#claimTable', '#txtSearchRewards');
+
+  //display add reward icon when inventory tab is clicked
   $(document).ready(function() {
     $('#pills-inventory-tab').click(function() {
       document.getElementById('addRewardIcon').style.display = 'block';

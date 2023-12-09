@@ -8,18 +8,9 @@
     cursor: default;
 }
 
-.bi-search {
+.search-btn>.bi-search {
     color: white !important;
     padding: 0.5rem 0.2rem;
-}
-
-thead>tr {
-    color: var(--primary);
-    background-color: #b4d4ba;
-}
-
-.dataTables_length {
-    margin-bottom: 1rem !important;
 }
 
 .nav-link.active {
@@ -38,38 +29,55 @@ thead>tr {
     color: var(--primary) !important;
 }
 
-.bi-plus-circle {
+.dashboardTable>thead>tr {
+    color: var(--primary);
+    background-color: #b4d4ba;
+}
+
+.dataTables_length {
+    margin-bottom: 1rem !important;
+}
+
+/* add admin and add reward buttons */
+.add-btn {
     font-size: 2.2rem;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
-
 }
 
-.bi-plus-circle:hover {
+.add-btn:hover {
     color: var(--sub);
 }
 
-label{
+/* add admin and add reward modals input label */
+label {
     font-weight: 600;
-    color:var(--primary);
+    color: var(--primary);
     margin-left: 0.1rem;
 }
 
-/* Style for a thinner scrollbar */
+/* scrollbar if table exceeds max-height of container */
 .table-container::-webkit-scrollbar {
-    width: 8px; /* Adjust the width as needed */
-  }
-  
-  .table-container::-webkit-scrollbar-thumb {
-    background-color: var(--primary); /* Color of the scrollbar thumb */
-    border-radius: 4px; /* Adjust the border-radius as needed */
-  }
-  
-  .table-container::-webkit-scrollbar-track {
-    background-color: #eee; /* Color of the scrollbar track */
-    border-radius: 4px; /* Adjust the border-radius as needed */
-  }
+    width: 8px;
+}
 
-    .table-container{
-        max-height: 500px; /* Adjust the max-height as needed */
-        overflow-y: auto;    }
+.table-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #eee;
+    border-radius: 4px;
+}
+
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* reward table tooltip */
+.tooltip-image {
+    width: 100px;
+    height: auto;
+}

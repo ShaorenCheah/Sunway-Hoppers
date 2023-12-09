@@ -1,12 +1,15 @@
-/*dashboard.php*/
 .sideNav-group {
   font-weight: 500;
   color: var(--grey);
 }
 
-.navs {
-  color: var(--black);
-  margin-left: 0.5rem;
+.nav-links li:not(.active) i {
+  /* Hide the icon when the link is not active */
+  color: #E8E8E8;
+}
+
+.active i {
+  color: var(--secondary);
 }
 
 li {
@@ -18,15 +21,9 @@ li:hover {
   cursor: pointer;
 }
 
-.nav-links li:not(.active) i {
-  /* Hide the icon when the link is not active */
-  color: #E8E8E8;
-}
-
-.active i {
-  /* Add styles for the icon when the link is active */
-  color: var(--secondary);
-  /* Change the color to your desired color */
+.navs {
+  color: var(--black);
+  margin-left: 0.5rem;
 }
 
 .nav-links > i {
@@ -39,10 +36,16 @@ li:hover {
   height: 93vh;
 }
 
+/* dashboard.inc.php */
 .summary {
   padding: 1rem 1rem 0rem 1rem;
   width: 75%;
   border-radius: 8px;
+}
+
+.summary-text {
+  font-size: 2rem;
+  margin-bottom: 0;
 }
 
 .summary-icon-orange>i {
@@ -61,22 +64,8 @@ li:hover {
   display: flex;
 }
 
-.summary-text {
-  font-size: 2rem;
-  margin-bottom: 0;
-}
-
 .date:hover {
   cursor: default;
   background-color: var(--primary);
   color: white !important;
-}
-
-h2{
-  font-weight: 700;
-}
-
-.tooltip-image {
-  width: 100px;
-  height: auto; /* This ensures the image maintains its aspect ratio */
 }

@@ -33,8 +33,8 @@ include './includes/modals/registerModal.inc.php';
         <i class="bi bi-geo-alt-fill"></i> Find Carpool</a>
 
     </li>
-    <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/rewards.php') ? 'active' : ''; ?>">
-      <a class="nav-link" href="rewards.php">Rewards</a>
+    <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/reward.php') ? 'active' : ''; ?>">
+      <a class="nav-link" href="reward.php">Rewards</a>
     </li>
     <?php
     if (isset($_SESSION['user'])) {
@@ -55,10 +55,10 @@ include './includes/modals/registerModal.inc.php';
         window.location.href = "./dashboard.php?navPage=dashboard";
       </script>
     <?php
-    } else  { ?>
-       <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = 'profile.php'"><i class="bi bi-person" style="height:60%"></i></button>
+    } else { ?>
+      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = 'profile.php'"><i class="bi bi-person" style="height:60%"></i></button>
     <?php
-    } 
+    }
     ?>
   </div>
 </nav>
