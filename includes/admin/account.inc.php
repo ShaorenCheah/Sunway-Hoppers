@@ -1,7 +1,6 @@
 <?php
 include './includes/modals/addAdminModal.inc.php';
 require './backend/connection.php';
-
 ?>
 <link rel="stylesheet" href="./styles/dashView.css">
 <div class="row">
@@ -30,12 +29,12 @@ require './backend/connection.php';
     </ul>
   </div>
   <div class="w-25 d-flex align-items-center justify-content-end" id="addAdminBtn">
-    <i class="bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#addAdminModal" id="circle" style="display: none"></i>
+    <i class="bi bi-plus-circle add-btn" data-bs-toggle="modal" data-bs-target="#addAdminModal" id="circle" style="display: none"></i>
   </div>
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
       <div class="table-container">
-        <table id="userTable" class="" style="width:100%">
+        <table id="userTable" class="dashboardTable" style="width:100%">
           <thead>
             <tr>
               <th>Name</th>
@@ -48,7 +47,6 @@ require './backend/connection.php';
           </thead>
           <tbody>
             <?php
-
             $stmt = $pdo->prepare('SELECT user.*, account.email
                 FROM user
                 JOIN account ON user.accountID = account.accountID;');
@@ -80,7 +78,7 @@ require './backend/connection.php';
     </div>
     <div class="tab-pane fade" id="pills-driver" role="tabpanel" aria-labelledby="pills-driver-tab">
       <div class="table-container">
-        <table id="driverTable" class="" style="width:100%">
+        <table id="driverTable" class="dashboardTable" style="width:100%">
           <thead>
             <tr>
               <th>Name</th>
@@ -133,7 +131,7 @@ require './backend/connection.php';
     </div>
     <div class="tab-pane fade" id="pills-admin" role="tabpanel" aria-labelledby="pills-admin-tab">
       <div class="table-container">
-        <table id="adminTable" class="" style="width:100%">
+        <table id="adminTable" class="dashboardTable" style="width:100%">
           <thead>
             <tr>
               <th>Name</th>
@@ -170,6 +168,11 @@ require './backend/connection.php';
   </div>
 </div>
 <script>
+  initializeDataTable('#userTable', '#txtSearchAccounts');
+  initializeDataTable('#driverTable', '#txtSearchAccounts');
+  initializeDataTable('#adminTable', '#txtSearchAccounts');
+
+  //display add button only when admin tab is selected
   $(document).ready(function() {
     $('#pills-user-tab').click(function() {
       document.getElementById('circle').style.display = 'none';

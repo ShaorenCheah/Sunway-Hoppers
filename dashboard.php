@@ -1,9 +1,10 @@
 <?php
-
+require './backend/dashboard.php';
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
 }
 
+// redirect user if not admin
 if ((($_SESSION['user']['type'] != 'Admin'))) {
 ?>
   <script>
@@ -28,7 +29,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
-  <!-- <script src="scripts/dashboard.js"></script> -->
+  <script src="scripts/dataTable.js"></script>
 
   <style>
     @import url('https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css');
@@ -83,9 +84,8 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
   </div>
   <div class="col-10">
     <div class="dashboard-container shadow p-4" style="background-color: #fff;">
-      <?php
-      getView($navPage);
-      ?>
+      <!-- fetch dashboard view based on navPage -->
+    <?php getDashboardView($navPage); ?>
     </div>
   </div>
   </div>
@@ -96,20 +96,8 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
     redirectLi();
   });
 
-  // Usage for the reward table
-  initializeDataTable('#rewardTable', '#txtSearchRewards');
-  initializeDataTable('#claimTable', '#txtSearchRewards');
-  // Usage for the user table
-  initializeDataTable('#userTable', '#txtSearchAccounts');
-  initializeDataTable('#driverTable', '#txtSearchAccounts');
-  initializeDataTable('#adminTable', '#txtSearchAccounts');
-  initializeDataTable('#newAppTable', '#txtSearchApplications');
-  initializeDataTable('#approvedAppTable', '#txtSearchApplications');
-  initializeDataTable('#rejectedAppTable', '#txtSearchApplications');
-
-
+  // redirect to page based on li id
   function redirectLi() {
-    // Array of li elements, id and url
     const li = [
       ["dashboard", "./dashboard.php?navPage=dashboard"],
       ["account", "./dashboard.php?navPage=account"],
@@ -129,93 +117,6 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
       window.location.href = url;
     });
   }
-
-  function initializeDataTable(tableSelector, searchInputSelector) {
-    let dataTable = new DataTable(tableSelector);
-
-    $(document).ready(function() {
-      // Initialize DataTable
-      $(tableSelector).DataTable();
-      $(`${tableSelector}_filter`).hide(); // Hide default search datatables where example is the ID of the table
-      $(`${tableSelector}_length`).hide();
-
-      // Handle search input
-      $(searchInputSelector).on('keyup', function() {
-        dataTable
-          .search($(searchInputSelector).val(), false, true)
-          .draw();
-      });
-
-      // Function to initialize tooltips
-      function initializeTooltips() {
-        if (tableSelector === '#rewardTable') {
-          $('#rewardTable tbody tr').each(function() {
-            var nTds = $('td', this);
-            var img = "<img src='" + $(nTds[3]).text() + "' class='tooltip-image' />";
-
-            $(this).tooltip({
-              "title": img,
-              "html": true, // Enable HTML content
-              "delay": 0,
-              "track": true,
-              "fade": 250
-            });
-          });
-        }
-      }
-
-      // Initialize tooltips on page load
-      initializeTooltips();
-
-      // Event delegation for tooltips on draw event
-      $(tableSelector).on('draw.dt', function() {
-        initializeTooltips();
-      });
-
-      // Handle row click for certain tables
-      if (tableSelector === '#newAppTable' || tableSelector === '#approvedAppTable' || tableSelector === '#rejectedAppTable') {
-        dataTable.on('click', 'td.dt-control', function(e) {
-          let tr = e.target.closest('tr');
-          let row = dataTable.row(tr);
-
-          if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-          } else {
-            // Open this row
-            row.child(format($(tr).data('child-name'), $(tr).data('child-email'), $(tr).data('child-phone'), $(tr).data('child-vehicle'))).show();
-          }
-        });
-      }
-    });
-  }
-
-
-  function format(name, email, phoneNo, vehicleNo) {
-    return '<div><b>Name</b>: ' + name + ' <br /><b>Email</b>: ' + email + ' <br /><b>Phone Number</b>: ' + phoneNo + ' <br /><b>Car Plate</b>: ' + vehicleNo + '</div>';
-  }
 </script>
 
 </html>
-<?php
-function getView($navPage)
-{
-  switch ($navPage) {
-    case 'account':
-      include_once './includes/admin/account.inc.php';
-      break;
-    case 'driver':
-      include_once './includes/admin/driver.inc.php';
-      break;
-    case 'carpool':
-      include_once './includes/admin/carpool.inc.php';
-      break;
-    case 'reward':
-      include_once './includes/admin/reward.inc.php';
-      break;
-    default:
-      include_once './includes/admin/dashboard.inc.php';
-      break;
-  }
-}
-?>
