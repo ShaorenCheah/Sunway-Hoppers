@@ -1,58 +1,71 @@
-.rewardTabs{
-    z-index: 0;
+.rewardTabs {
+  z-index: 0;
 }
 
-.carrots{
-    z-index: -1;
-    font-size: 1.5rem;
+.carrots {
+  z-index: -1;
+  font-size: 1.5rem;
 }
 
-.nav-link{
-    color: var(--grey);    
+.nav-link {
+  color: var(--grey);
 }
 
-.tab-content{
-    border-radius: 0px 0px 4px 4px;
-    border: 1px solid #D2D3D4;
-    border-top: none;
+.tab-content {
+  border-radius: 0px 0px 4px 4px;
+  border: 1px solid #D2D3D4;
+  border-top: none;
 }
 
-.fa-carrot{
-    padding: 0rem 0.5rem; 
-    color:var(--secondary);
+.fa-carrot {
+  padding: 0rem 0.5rem;
+  color: var(--secondary);
 }
 
 /* Custom styles for carousel control buttons */
 .carousel-control-prev,
 .carousel-control-next {
-  width: auto; /* Allow the button to shrink to fit content */
-  padding: 0; /* Remove any default padding */
-  margin: 0; /* Remove any default margin */
-  background-color: transparent; /* Set a transparent background */
-  border: none; /* Remove any borders */
+  width: auto;
+  /* Allow the button to shrink to fit content */
+  padding: 0;
+  /* Remove any default padding */
+  margin: 0;
+  /* Remove any default margin */
+  background-color: transparent;
+  /* Set a transparent background */
+  border: none;
+  /* Remove any borders */
 }
 
 /* Custom styles for the arrow icons */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  width: 30px; /* Set the desired width of the arrow */
-  height: 30px; /* Set the desired height of the arrow */
-  background-color: #000; /* Set the desired background color of the arrow */
-  border-radius: 50%; /* Make the arrow circular if desired */
+  width: 30px;
+  /* Set the desired width of the arrow */
+  height: 30px;
+  /* Set the desired height of the arrow */
+  background-color: #000;
+  /* Set the desired background color of the arrow */
+  border-radius: 50%;
+  /* Make the arrow circular if desired */
 }
 
 /* Optional: Adjust the position of the arrow icons */
 .carousel-control-prev-icon {
-  margin-left: 0; /* Adjust as needed */
+  margin-left: 0;
+  /* Adjust as needed */
 }
 
 .carousel-control-next-icon {
-  margin-right: 0; /* Adjust as needed */
+  margin-right: 0;
+  /* Adjust as needed */
 }
 
 .card-img-top {
   width: auto;
   height: 16rem;
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-  object-position: center; /* Center the image within the container */
+  object-fit: cover;
+  /* Maintain aspect ratio and cover the container */
+  object-position: center;
+  /* Center the image within the container */
 }
