@@ -18,15 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     const email = document.getElementById("accEmail");
     const emailHelp = document.getElementById("accEmailHelp");
-    const emailPattern = /^[a-zA-Z0-9._-]+@imail.sunway.edu.my$/;
 
     if (email.value == "") {
       emailHelp.textContent = "Please enter your email";
-      emailHelp.style.color = "red";
-      email.style.borderColor = "red";
-      flag[0] = 0;
-    } else if (!emailPattern.test(email.value)) {
-      emailHelp.textContent = "Please enter a valid student email";
       emailHelp.style.color = "red";
       email.style.borderColor = "red";
       flag[0] = 0;
