@@ -47,6 +47,12 @@ body:not(.hero):not(.dashboard){
   color: var(--primary);
 }
 
+/* disbaled button */
+.btn-primary:disabled {
+  background-color: var(--sub);
+  border: none;
+}
+
 /* Secondary Button*/
 
 .btn-secondary {

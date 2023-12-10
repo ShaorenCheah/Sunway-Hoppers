@@ -1,25 +1,61 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var activeModal = null;
-  var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
-  var registerModal = new bootstrap.Modal(
-    document.getElementById("registerModal")
-  );
+  var flag = [0, 0]; //flag to check whether form inputs are valid
+  var loginStatus = document.getElementById("loginStatus"); //display login status
 
-  window.showLoginModal = function () {
-    if (activeModal == "registerModal") {
-      registerModal.hide();
+  //enable login button if all inputs are valid
+  function updateLoginButton() {
+    loginStatus.textContent = "";
+    if (flag.every(value => value === 1)) {
+      document.getElementById("loginBtn").disabled = false;
+    } else {
+      document.getElementById("loginBtn").disabled = true;
     }
-    activeModal = "loginModal";
-    loginModal.show();
-  };
+  }
 
-  window.showRegisterModal = function () {
-    if (activeModal == "loginModal") {
-      loginModal.hide();
+  //check email input
+  document.getElementById("accEmail").addEventListener("input", checkEmail);
+  function checkEmail(event) {
+    event.preventDefault();
+    const email = document.getElementById("accEmail");
+    const emailHelp = document.getElementById("accEmailHelp");
+    const emailPattern = /^[a-zA-Z0-9._-]+@imail.sunway.edu.my$/;
+
+    if (email.value == "") {
+      emailHelp.textContent = "Please enter your email";
+      emailHelp.style.color = "red";
+      email.style.borderColor = "red";
+      flag[0] = 0;
+    } else if (!emailPattern.test(email.value)) {
+      emailHelp.textContent = "Please enter a valid student email";
+      emailHelp.style.color = "red";
+      email.style.borderColor = "red";
+      flag[0] = 0;
+    } else {
+      emailHelp.textContent = "";
+      email.style.borderColor = "green";
+      flag[0] = 1;
     }
-    activeModal = "registerModal";
-    registerModal.show();
-  };
+    updateLoginButton();
+  }
+
+  //check password input
+  document.getElementById("accPwd").addEventListener("input", checkPassword);
+  function checkPassword(event) {
+    event.preventDefault();
+    const password = document.getElementById("accPwd");
+    const passwordHelp = document.getElementById("accPwdHelp");
+    if (password.value == "") {
+      passwordHelp.textContent = "Please enter your password";
+      passwordHelp.style.color = "red";
+      password.style.borderColor = "red";
+      flag[1] = 0;
+    } else {
+      passwordHelp.textContent = "";
+      password.style.borderColor = "green";
+      flag[1] = 1;
+    }
+    updateLoginButton();
+  }
 
   //Login Script
   document.getElementById("loginBtn").addEventListener("click", getLoginData);
@@ -68,8 +104,8 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
           location.reload();
         } else {
-          alert(data.message);
+          loginStatus.textContent = data.message; // display error message in login status
         }
       })
-  }
+    }
 });

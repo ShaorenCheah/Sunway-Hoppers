@@ -70,11 +70,11 @@ if ($action == 'login') {
       $success = true;
     } else {
       $success = false;
-      $message = "Invalid username/password combination";
+      $message = "Wrong username/password. Please try again.";
     }
   } else {
     $success = false;
-    $message = "Invalid email. Please register first.";
+    $message = "Account does not exist. Please register.";
   }
 }
 
