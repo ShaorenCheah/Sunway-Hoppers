@@ -101,7 +101,7 @@ HTML;
 HTML;
       $requiredPoints = $rewardObjects[$j]->points;
       $rewardID = $rewardObjects[$j]->rewardID;
-      $loggedIn = checkUser();
+      global $loggedIn;
 
       // if user is not logged in, points = 0
       $userPoints = !$loggedIn ? 0 : getUserPoints();

@@ -48,44 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Register Script
-  document.getElementById("registerForm").addEventListener("submit", getRegisterData);
-
-  function getRegisterData(event) {
-    event.preventDefault();
-
-    var register = document.getElementById("registerForm");
-    var userPwd = register.elements["userPwd"].value;
-    var repeatPwd = register.elements["repeatPwd"].value;
-
-    if (userPwd !== repeatPwd) {
-      alert("Passwords do not match. Please try again.");
-    } else if (register.checkValidity()) {
-      var username = register.elements["username"].value;
-      var email = register.elements["email"].value;
-      var phoneNo = register.elements["phoneNo"].value;
-      var dob = register.elements["dob"].value;
-      var gender = register.elements["gender"].value;
-      var userPwd = register.elements["userPwd"].value;
-      var repeatPwd = register.elements["repeatPwd"].value;
-
-      var registerData = {
-        action: "register",
-        username,
-        email,
-        phoneNo,
-        dob,
-        gender,
-        userPwd,
-        repeatPwd,
-      };
-      sendCredentials(registerData);
-    } else {
-      register.reportValidity();
-    }
-  }
-
-  // Send to PHP
   function sendCredentials(credentialsData) {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(credentialsData));
@@ -104,15 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          if (data.action == 'register') {
-            window.showLoginModal();
-          } else {
-            location.reload();
-          }
+          location.reload();
         } else {
           alert(data.message);
         }
       })
-
   }
 });
