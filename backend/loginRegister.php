@@ -70,11 +70,11 @@ if ($action == 'login') {
       $success = true;
     } else {
       $success = false;
-      $message = "Invalid username/password combination";
+      $message = "Wrong username/password. Please try again.";
     }
   } else {
     $success = false;
-    $message = "Invalid email. Please register first.";
+    $message = "Account does not exist. Please register.";
   }
 }
 
@@ -117,7 +117,7 @@ else if ($action == 'register') {
     $accountID = $result->accountID;
 
     // Insert new user
-    $query   = "INSERT INTO user (accountID, name, phoneNo, gender, dob, bio, rewardPoints, OTP, isDriver, rating, carRules, profilePic) VALUES (:accountID, :name, :phoneNo, :gender, :dob, null, 0, null, 0, 0, null, './images/person.png')";
+    $query   = "INSERT INTO user (accountID, name, phoneNo, gender, dob, bio, rewardPoints, OTP, rating, carRules, profilePic) VALUES (:accountID, :name, :phoneNo, :gender, :dob, null, 0, null, 0, null, './images/person.png')";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
     $stmt->bindParam(':name', $username, PDO::PARAM_STR);

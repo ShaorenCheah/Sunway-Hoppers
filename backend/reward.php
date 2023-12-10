@@ -101,7 +101,7 @@ HTML;
 HTML;
       $requiredPoints = $rewardObjects[$j]->points;
       $rewardID = $rewardObjects[$j]->rewardID;
-      $loggedIn = checkUser();
+      global $loggedIn;
 
       // if user is not logged in, points = 0
       $userPoints = !$loggedIn ? 0 : getUserPoints();
@@ -112,7 +112,7 @@ HTML;
         data-points='{$requiredPoints}' data-reward='{$rewardID}' data-user-points='{$userPoints}' data-account-id='{$_SESSION['user']['accountID']}'>
         Redeem</button>";
       } else {
-        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2' disabled style='background-color: var(--sub); border: none;'>Redeem</button>";
+        $redeemBtnHtml = "<button type='submit' class='btn btn-primary shadow px-4 my-2' disabled>Redeem</button>";
       }
 
       echo <<<HTML

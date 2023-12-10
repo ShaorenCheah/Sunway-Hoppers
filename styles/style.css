@@ -47,6 +47,12 @@ body:not(.hero):not(.dashboard){
   color: var(--primary);
 }
 
+/* disbaled button */
+.btn-primary:disabled {
+  background-color: var(--sub);
+  border: none;
+}
+
 /* Secondary Button*/
 
 .btn-secondary {
@@ -162,4 +168,11 @@ body:not(.hero):not(.dashboard){
 /* Green text in span */
 .highlight2 {
   color: var(--primary);
+}
+
+.form-small-text {
+  display: flex;
+  margin-top: 0.5rem;
+  justify-content: start;
+  color: var(--bs-secondary-color);
 }

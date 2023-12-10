@@ -5,7 +5,8 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&family=Spectral:wght@300&display=swap');
 </style>
-<script src="scripts/loginRegister.js"></script>
+<script src="scripts/login.js"></script>
+<script src="scripts/register.js"></script>
 <?php
 include './includes/modals/loginModal.inc.php';
 include './includes/modals/registerModal.inc.php';
