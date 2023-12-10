@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //check whether both passwords match
     if (repeatPwd.value !== userPwd.value) {
-      repeatPwdHelp.textContent = "Passwords do not match.";
+      repeatPwdHelp.textContent = "Passwords do not match";
       repeatPwdHelp.style.color = "red";
       repeatPwd.style.borderColor = "red";
       flag[5] = 0;

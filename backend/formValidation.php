@@ -21,7 +21,7 @@ if ($action == 'checkEmail') {
 
   if ($rowCount > 0) {
     $available = false;
-    $message = "Email is already registered.";
+    $message = "Email is already registered";
   } else {
     $available = true;
     $message = "";
@@ -35,7 +35,7 @@ if ($action == 'checkEmail') {
 
   if ($rowCount > 0) {
     $available = false;
-    $message = "Username is already taken.";
+    $message = "Username is already taken";
   } else {
     $available = true;
     $message = "";
@@ -49,7 +49,7 @@ if ($action == 'checkEmail') {
 
   if ($rowCount > 0) {
     $available = false;
-    $message = "Phone number is already registered.";
+    $message = "Phone number is already registered";
   } else {
     $available = true;
     $message = "";

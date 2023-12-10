@@ -35,7 +35,7 @@
             </div>
             <div class="mb-4">
               <label for="desc">Description</label>
-              <textarea class="form-control" id="desc" name="desc" placeholder="Ex: Tealive" required></textarea>
+              <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="Ex: Satisfy every craving and order your meal at GrabFood. Receive RM10 off your bill with no minimum spend required." required></textarea>
             </div>
             <div class="d-flex justify-content-center">
               <button type="submit" name="addRewardBtn" id="addRewardBtn" class="btn btn-primary shadow px-4">Add</button>
