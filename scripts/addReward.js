@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (rewardImage.files.length != 0) {
       rewardImage.style.borderColor = "green";
       flag[3] = 1;
+      updateAddButton();
     }
   }
 
