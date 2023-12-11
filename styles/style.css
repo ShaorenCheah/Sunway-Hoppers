@@ -172,7 +172,6 @@ body:not(.hero):not(.dashboard){
 
 .form-small-text {
   display: flex;
-  margin-top: 0.5rem;
   justify-content: start;
   color: var(--bs-secondary-color);
 }
