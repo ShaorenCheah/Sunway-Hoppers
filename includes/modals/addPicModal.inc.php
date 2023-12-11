@@ -13,7 +13,7 @@
                 <input type="file" class="form-control" id="image" name="image" required onchange="previewImage()" accept=".jpg, .jpeg, .png">
                 <small class="form-small-text">*Only JPG, JPEG and PNG files are allowed.</small>
               </div>
-              <button type="submit" name="updatePicBtn" id="updatePicBtn" class="btn btn-primary shadow px-4">Update</button>
+              <button type="submit" name="updatePicBtn" id="updatePicBtn" class="btn btn-primary shadow px-4" disabled>Update</button>
             </form>
           </div>
           <div class="col"></div>
@@ -38,6 +38,7 @@ function previewImage() {
   };
 
   reader.readAsDataURL(input.files[0]);
+  document.getElementById('updatePicBtn').disabled = false;
 }
 </script>
 
