@@ -10,10 +10,10 @@ $data = json_decode($formJSON, true);
 $action = $data['action'];
 
 if ($action == 'addAdmin') {
-	$username = $data['username'];
-	$email = $data['email'];
-	$pwd = $data['userPwd'];
-	$phoneNo = $data['phoneNo'];
+	$name = $data['adminName'];
+	$email = $data['adminEmail'];
+	$pwd = $data['adminPwd'];
+	$phoneNo = $data['adminPhoneNo'];
 
 	$hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
@@ -36,7 +36,7 @@ if ($action == 'addAdmin') {
 	$query   = "INSERT INTO admin (accountID, name, phoneNo) VALUES (:accountID, :name, :phoneNo)";
 	$stmt = $pdo->prepare($query);
 	$stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
-	$stmt->bindParam(':name', $username, PDO::PARAM_STR);
+	$stmt->bindParam(':name', $name, PDO::PARAM_STR);
 	$stmt->bindParam(':phoneNo', $phoneNo, PDO::PARAM_STR);
 	$stmt->execute();
 
