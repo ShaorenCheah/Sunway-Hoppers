@@ -25,6 +25,18 @@ if (isset($_GET['action'])) {
   }
 } else {
   // POST Requests
+  $formJSON = $_POST['formData'];
+  $data = json_decode($formJSON, true);
+  $action = $data['action'];
+
+  switch ($action) {
+    case 'manageRequest':
+      echo manageRequest($data, $pdo);
+      break;
+    default:
+      echo 'Invalid action';
+      break;
+  }
 }
 
 //Functions
@@ -180,8 +192,8 @@ function createRequestModal($data, $pdo)
           <p class="ms-3 mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['phoneNo']}</p>
         </div>
         <div class="p-0 col-3 d-flex justify-content-end align-items-center">
-          <button class="btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem"></i></button>
-          <button class="ms-2 btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem"></i></button>
+          <button class="btn btn-success shadow accept-request" data-type="Accepted" data-accountID="{$request['accountID']}" data-carpoolID="{$data['carpoolID']}" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem; color:white;"></i></button>
+          <button class="ms-2 btn btn-danger shadow reject-request" data-type="Rejected" data-accountID="{$request['accountID']}" data-carpoolID="{$data['carpoolID']}" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem; color:white;"></i></button>
         </div>
       </div>
       HTML;
@@ -221,13 +233,21 @@ function createRequestModal($data, $pdo)
           <p class="ms-3 mb-0 pt-2" style="color: var(--black);font-size: 1.143rem;">{$user['phoneNo']}</p>
         </div>
         <div class="p-0 col-3 d-flex justify-content-end align-items-center">
-          <button class="btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-check" style="font-size:1.5rem"></i></button>
-          <button class="ms-2 btn btn-primary shadow" style="padding:0px;width:30px;height:30px"><i class="bi bi-x" style="font-size:1.5rem"></i></button>
+      HTML;
+      if ($passenger['code'] != null && $passenger['status'] != 'Redeemed') {
+        $passengerHTML .= <<<HTML
+          <input type="text" class="form-control redeem-code" placeholder="Enter code">
+        HTML;
+      } else {
+        $passengerHTML .= <<<HTML
+          <input type="text" class="form-control" placeholder="Enter code" value="{$passenger['code']}" disabled>
+        HTML;
+      }
+      $passengerHTML .= <<<HTML
         </div>
       </div>
       HTML;
       $count++;
-      
     }
     $passengerHTML .= "<p class='text-muted mt-4' style='font-size: 0.75rem;'>**Ask for arrival code from passenger after reaching the destination</p>";
   } else {
@@ -241,10 +261,57 @@ function createRequestModal($data, $pdo)
 
   include '../includes/modals/viewRequestModal.inc.php';
 
-
   $response = [
     'action' => 'createRequestModal',
-    'modal' => $modal
+    'modal' => $modal,
+  ];
+
+  echo json_encode($response);
+}
+
+function manageRequest($data, $pdo)
+{
+
+  $code = '';
+  for ($i = 0; $i < 5; $i++) {
+    $numOrLetter = rand(0, 1); // Randomly choose between 0 (number) and 1 (letter)
+    if ($numOrLetter == 0) {
+      $code .= rand(0, 9); // Append a random number between 0 and 9
+    } else {
+      $code .= chr(rand(65, 90)); // Append a random uppercase letter
+    }
+  }
+
+  $sql = "UPDATE carpool_passenger SET status = :status ";
+  if($data['type'] == 'Accept'){
+    $sql .= ",code = :code ,isApproved = true ";
+  }
+  $sql .= "WHERE accountID = :accountID AND carpoolID = :carpoolID";
+  
+  $stmt = $pdo->prepare($sql);
+  if($data['type'] == 'Accept'){
+    $stmt->bindParam(':code', $code);
+  }
+  $stmt->bindParam(':status', $data['type']);
+  $stmt->bindParam(':accountID', $data['accountID']);
+  $stmt->bindParam(':carpoolID', $data['carpoolID']);
+  if($stmt->execute()){
+    $status = true;
+    if($data['type'] == 'Accept'){
+      $message = 'Request accepted successfully';
+    }else{
+      $message = 'Request rejected successfully';
+    }
+  }else{
+    $status = false;
+    $message = 'Error processing request';
+  }
+
+  $response = [
+    'action' => 'manageRequest',
+    'carpoolID' => $data['carpoolID'],
+    'status' => $status,
+    'message' => $message
   ];
 
   echo json_encode($response);
