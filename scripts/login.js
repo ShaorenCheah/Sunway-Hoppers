@@ -12,6 +12,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  //set invalid input fields to red and display error message
+  function setInvalidInput(field, helpText, message, flagIndex) {
+    field.style.borderColor = "red";
+    helpText.textContent = message;
+    helpText.style.color = "red";
+    flag[flagIndex] = 0;
+    updateLoginButton();
+  }
+
+  //set valid input fields to green and remove error message
+  function setValidInput(field, helpText, flagIndex) {
+    field.style.borderColor = "green";
+    helpText.textContent = "";
+    flag[flagIndex] = 1;
+    updateLoginButton();
+  }
+
   //check email input
   document.getElementById("accEmail").addEventListener("input", checkEmail);
   function checkEmail(event) {
@@ -20,16 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const emailHelp = document.getElementById("accEmailHelp");
 
     if (email.value == "") {
-      emailHelp.textContent = "Please enter your email";
-      emailHelp.style.color = "red";
-      email.style.borderColor = "red";
-      flag[0] = 0;
+      setInvalidInput(email, emailHelp, "Please enter your email", 0);
     } else {
-      emailHelp.textContent = "";
-      email.style.borderColor = "green";
-      flag[0] = 1;
+      setValidInput(email, emailHelp, 0);
     }
-    updateLoginButton();
   }
 
   //check password input
@@ -39,16 +50,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const password = document.getElementById("accPwd");
     const passwordHelp = document.getElementById("accPwdHelp");
     if (password.value == "") {
-      passwordHelp.textContent = "Please enter your password";
-      passwordHelp.style.color = "red";
-      password.style.borderColor = "red";
-      flag[1] = 0;
+      setInvalidInput(password, passwordHelp, "Please enter your password", 1);
     } else {
-      passwordHelp.textContent = "";
-      password.style.borderColor = "green";
-      flag[1] = 1;
+      setValidInput(password, passwordHelp, 1);
     }
-    updateLoginButton();
   }
 
   //Login Script
@@ -101,5 +106,5 @@ document.addEventListener("DOMContentLoaded", function () {
           loginStatus.textContent = data.message; // display error message in login status
         }
       })
-    }
+  }
 });
