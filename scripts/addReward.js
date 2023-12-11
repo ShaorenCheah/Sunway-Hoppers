@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateAddButton();
   }
 
-
   //check if reward name is entered
   document.getElementById("rewardName").addEventListener("input", checkReward);
   function checkReward(event) {
@@ -38,10 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (rewardName.value.length > 16) {
       rewardName.value = rewardName.value.substring(0, 16);
     }
-    var msg = "";
     if (rewardName.value === "") {
-      msg = "Reward name cannot be empty";
-      setInvalidInput(rewardName, rewardNameHelp, msg, 0);
+      setInvalidInput(rewardName, rewardNameHelp, "Reward name cannot be empty", 0);
     } else {
       setValidInput(rewardName, rewardNameHelp, 0);
     }
@@ -53,13 +50,11 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const rewardPts = document.getElementById("rewardPts");
     const rewardPtsHelp = document.getElementById("rewardPtsHelp");
-    var msg = "";
     //regex to check if input is an integer
     const regex = /^[0-9]+$/;
 
     if (!regex.test(rewardPts.value) || rewardPts.value === "") {
-      msg = "Please enter a valid number";
-      setInvalidInput(rewardPts, rewardPtsHelp, msg, 1);
+      setInvalidInput(rewardPts, rewardPtsHelp, "Please enter a valid number", 1);
     } else {
       setValidInput(rewardPts, rewardPtsHelp, 1);
     }
@@ -71,13 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const rewardQty = document.getElementById("rewardQty");
     const rewardQtyHelp = document.getElementById("rewardQtyHelp");
-    var msg = "";
     //regex to check if input is an integer
     const regex = /^[0-9]+$/;
 
     if (!regex.test(rewardQty.value) || rewardQty.value === "") {
-      msg = "Please enter a valid number";
-      setInvalidInput(rewardQty, rewardQtyHelp, msg, 2);
+      setInvalidInput(rewardQty, rewardQtyHelp, "Please enter a valid number", 2);
     } else {
       setValidInput(rewardQty, rewardQtyHelp, 2);
     }
@@ -100,14 +93,12 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const rewardDesc = document.getElementById("rewardDesc");
     const rewardDescHelp = document.getElementById("rewardDescHelp");
-    var msg = "";
     // limit the input to 160 characters, stop user from typing more
     if (rewardDesc.value.length > 160) {
       rewardDesc.value = rewardDesc.value.substring(0, 160);
     }
     if (rewardDesc.value === "") {
-      msg = "Description cannot be empty";
-      setInvalidInput(rewardDesc, rewardDescHelp, msg, 4);
+      setInvalidInput(rewardDesc, rewardDescHelp, "Description cannot be empty", 4);
     } else {
       setValidInput(rewardDesc, rewardDescHelp, 4);
     }
