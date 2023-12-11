@@ -33,11 +33,44 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const carNo = document.getElementById("carNo");
     const carNoHelp = document.getElementById("carNoHelp");
+
+    //regex to check car number format. format: alphanumeric with no spaces
+    const carNoRegex = /^[a-zA-Z0-9]+$/;
+
     if (carNo.value === "") {
       setInvalidInput(carNo, carNoHelp, "Please fill in this field", 0);
+    } else if (!carNoRegex.test(carNo.value)) {
+      setInvalidInput(carNo, carNoHelp, "Please eliminate the space", 0);
     } else {
-      setValidInput(carNo, carNoHelp, 0);
+      var carData = {
+        action: "checkCarNo",
+        input: carNo.value
+      };
+      checkAvailability(carData);
     }
+  }
+
+  // check whether car number already exists in database
+  function checkAvailability(checkData) {
+    var formData = new FormData();
+    formData.append("formData", JSON.stringify(checkData));
+    // Make an asynchronous request to your server-side script
+    fetch("./backend/formValidation.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        !data.available ?
+          // car number exists in the database
+          setInvalidInput(carNo, carNoHelp, data.message, 0) :
+          // car number is valid and doesn't exist in the database
+          setValidInput(carNo, carNoHelp, 0);
+        })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   //check if car type is entered
@@ -46,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const carType = document.getElementById("carType");
     const carTypeHelp = document.getElementById("carTypeHelp");
-    
+
     if (carType.value === "") {
       setInvalidInput(carType, carTypeHelp, "Please fill in this field", 1);
     } else {
