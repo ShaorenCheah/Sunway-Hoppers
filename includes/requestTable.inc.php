@@ -9,7 +9,7 @@ $html .= <<<HTML
   <td class="text-center">{$destination}</td>
   <td class="text-center">{$carpool['status']}</td>
   <td class="text-center">{$carpool['pointsEarned']} pts</td>
-  <td class="text-center"><button type="button" data-carpoolIndex='{$count}' data-carpoolPickup='{$pickup}' data-carpoolDestination='{$destination}' data-carpoolID="{$carpool['carpoolID']}" class="btn btn-primary view-request">View Details<i class="ms-2 bi bi-person"></i></button><td>
+  <td class="text-center"><button type="button" data-carpoolIndex='{$count}' data-carpoolID="{$carpool['carpoolID']}" class="btn btn-primary view-request">View Details<i class="ms-2 bi bi-person"></i></button><td>
 </tr>
 HTML;
 ?>

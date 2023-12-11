@@ -51,23 +51,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getSelectedData() {
     var data = {
+      action: "newRequestModal",
       index: this.getAttribute("data-carpoolIndex"),
       carpoolID: this.getAttribute("data-carpoolID"),
-      pickup: this.getAttribute("data-carpoolPickup"),
-      destination: this.getAttribute("data-carpoolDestination"),
     };
-    createRequestModal(data);
+    getModalContent(data);
   }
 
   var requestContent = document.getElementById("requestModal");
   var requestModal = null;
 
-  function createRequestModal(data) {
+  function getModalContent(data) {
     console.log(data)
+    var type = data.action;
     var requestData = encodeURIComponent(JSON.stringify(data));
-
     fetch(
-      `./backend/profile.php?action=createRequestModal&requestData=${requestData}`
+      `./backend/profile.php?action=getModalContent&requestData=${requestData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -95,8 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
         for (var i = 0; i < rejectRequestBtns.length; i++) {
           rejectRequestBtns[i].addEventListener("click", manageRequest);
         }
-
-        requestModal.show();
+        if(type != "refresh"){
+          requestModal.show();
+        }
       });
   }
 
@@ -128,10 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
             action: "refresh",
             index: document.getElementById('index').innerHTML,
             carpoolID: data.carpoolID,
-            pickup: document.getElementById('pickup').innerHTML,
-            destination: document.getElementById('destination').innerHTML,
           };
-          createRequestModal(refresh);
+          getModalContent(refresh);
         } else {
           alert(data.message);
         }
