@@ -1,5 +1,6 @@
 <?php
 require './backend/connection.php';
+require './backend/profile.php';
 
 //check if user is logged in and not an admin
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -57,7 +58,7 @@ if (!isset($_SESSION['user'])) {
     <div class="d-flex" style="border-radius:0.714rem">
       <!-- First Column (Driver Profile)-->
       <div class="driver-border d-flex flex-column align-items-center justify-content-center text-center p-3 " style="width:26%">
-        <img id="profilePic" src="" alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
+        <img id="profilePic" src="<?php echo getProfPic()?>" alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
         <h5 class="mt-3"><?php echo $_SESSION['user']['name'] ?></h5>
         <!--Display rating if user is a driver-->
         <?php if ($_SESSION['user']['type'] == 'Driver') { ?>

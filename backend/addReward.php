@@ -4,11 +4,11 @@ require_once 'connection.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     // Check if the file was uploaded without errors
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-      $fileTmpPath = $_FILES['image']['tmp_name'];
-      $fileName = $_FILES['image']['name'];
-      $fileSize = $_FILES['image']['size'];
-      $fileType = $_FILES['image']['type'];
+    if (isset($_FILES['rewardImage']) && $_FILES['rewardImage']['error'] === UPLOAD_ERR_OK) {
+      $fileTmpPath = $_FILES['rewardImage']['tmp_name'];
+      $fileName = $_FILES['rewardImage']['name'];
+      $fileSize = $_FILES['rewardImage']['size'];
+      $fileType = $_FILES['rewardImage']['type'];
       $fileNameCmps = explode(".", $fileName);
       $fileExtension = strtolower(end($fileNameCmps));
 
@@ -24,10 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($fileTmpPath, $dest_path)) {
           // Extract form data
           $rewardName = $_POST['rewardName'];
-          $description = $_POST['desc'];
-          $points = $_POST['points'];
+          $description = $_POST['rewardDesc'];
+          $points = $_POST['rewardPts'];
           $type = $_POST['type'];
-          $quantity = $_POST['qty'];
+          $quantity = $_POST['rewardQty'];
           $img = "./uploads/rewards/" . $newFileName;
 
           // Generate rewardID

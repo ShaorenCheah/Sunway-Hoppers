@@ -11,45 +11,67 @@ $data = json_decode($formJSON, true);
 $action = $data['action'];
 $input = $data['input'];
 
-// check email availability
-if ($action == 'checkEmail') {
-  $stmt = $pdo->prepare('SELECT email FROM account WHERE email = :email');
-  $stmt->bindParam(':email', $input, PDO::PARAM_STR);
+if ($action != 'checkCarNo') {
+  switch ($action) {
+    case 'checkEmail':
+    case 'checkAdminEmail':
+      $table = 'account';
+      $column = 'email';
+      break;
+    case 'checkUsername':
+      $table = 'user';
+      $column = 'name';
+      break;
+    case 'checkAdminName':
+      $table = 'admin';
+      $column = 'name';
+      break;
+    case 'checkPhoneNo':
+      $table = 'user';
+      $column = 'phoneNo';
+      break;
+    case 'checkAdminPhoneNo':
+      $table = 'admin';
+      $column = 'phoneNo';
+      break;
+    default:
+      break;
+  }
+
+  $stmt = $pdo->prepare("SELECT $column FROM $table WHERE $column = :input");
+  $stmt->bindParam(':input', $input, PDO::PARAM_STR);
   $stmt->execute();
 
   $rowCount = $stmt->rowCount();
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
   if ($rowCount > 0) {
     $available = false;
-    $message = "Email is already registered";
+    if ($column == 'phoneNo'){
+      $column = 'Phone number';
+    } else {
+      //capitalise first letter of column name
+      $column = ucfirst($column);
+    }
+    $message = "$column is already registered";
   } else {
     $available = true;
     $message = "";
   }
-} else if ($action == 'checkUsername') {
-  $stmt = $pdo->prepare('SELECT name FROM user WHERE name = :username');
-  $stmt->bindParam(':username', $input, PDO::PARAM_STR);
+} else {
+  $stmt = $pdo->prepare("SELECT $column, status FROM $table WHERE $column = :input");
+  $stmt->bindParam(':input', $input, PDO::PARAM_STR);
   $stmt->execute();
 
   $rowCount = $stmt->rowCount();
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  if ($rowCount > 0) {
+  if ($rowCount > 0 && $result['status'] == 'Approved') {
     $available = false;
-    $message = "Username is already taken";
-  } else {
-    $available = true;
-    $message = "";
-  }
-}  else if ($action == 'checkPhoneNo') {
-  $stmt = $pdo->prepare('SELECT phoneNo FROM user WHERE phoneNo = :phoneNo');
-  $stmt->bindParam(':phoneNo', $input, PDO::PARAM_STR);
-  $stmt->execute();
-
-  $rowCount = $stmt->rowCount();
-
-  if ($rowCount > 0) {
+    $message = "Car is registered";
+  } else if ($rowCount > 0 && $result['status'] == 'New') {
     $available = false;
-    $message = "Phone number is already registered";
+    $message = "Car is unavailable";
   } else {
     $available = true;
     $message = "";

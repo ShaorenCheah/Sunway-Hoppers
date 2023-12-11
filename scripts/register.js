@@ -32,6 +32,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  //set invalid input fields to red and display error message
+  function setInvalidInput(field, helpText, message, flagIndex) {
+    field.style.borderColor = "red";
+    helpText.textContent = message;
+    helpText.style.color = "red";
+    flag[flagIndex] = 0;
+    updateSubmitButton();
+  }
+
+  //set valid input fields to green and remove error message
+  function setValidInput(field, helpText, flagIndex) {
+    field.style.borderColor = "green";
+    helpText.textContent = "";
+    flag[flagIndex] = 1;
+    updateSubmitButton();
+  }
+
   // check whether username is empty
   document.getElementById("username").addEventListener("input", validateUsername);
   function validateUsername(event) {
@@ -40,10 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const usernameHelp = document.getElementById("usernameHelp");
 
     if (username.value == "") {
-      usernameHelp.textContent = "Username cannot be empty";
-      usernameHelp.style.color = "red";
-      username.style.borderColor = "red";
-      flag[0] = 0;
+      setInvalidInput(username, usernameHelp, "Username cannot be empty", 0);
     } else {
       var usernameData = {
         action: "checkUsername",
@@ -63,15 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //check whether email is in valid format
     if (email.value == "") {
-      emailHelp.style.color = "red";
-      email.style.borderColor = "red";
-      emailHelp.textContent = "Email cannot be empty";
-      flag[1] = 0;
+      setInvalidInput(email, emailHelp, "Email cannot be empty", 1);
     } else if (!emailPattern.test(email.value)) {
-      emailHelp.textContent = "Invalid email format";
-      emailHelp.style.color = "red";
-      email.style.borderColor = "red";
-      flag[1] = 0;
+      setInvalidInput(email, emailHelp, "Invalid email format", 1);
     } else {
       var emailData = {
         action: "checkEmail",
@@ -80,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
       checkAvailability(emailData);
     }
   }
- 
+
   // check whether phone number is valid
   document.getElementById("phoneNo").addEventListener("input", validatePhoneNo);
   function validatePhoneNo(event) {
@@ -89,11 +97,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const phoneNoHelp = document.getElementById("phoneNoHelp");
     const phoneNoPattern = /^01\d{8,9}$/;
 
-    if (!phoneNoPattern.test(phoneNo.value)) {
-      phoneNoHelp.textContent = "Invalid phone number format";
-      phoneNoHelp.style.color = "red";
-      phoneNo.style.borderColor = "red";
-      flag[2] = 0;
+    if (phoneNo.value == "") {
+      setInvalidInput(phoneNo, phoneNoHelp, "Phone number cannot be empty", 2);
+    } else if (!phoneNoPattern.test(phoneNo.value)) {
+      setInvalidInput(phoneNo, phoneNoHelp, "Invalid phone number format", 2);
     } else {
       var phoneData = {
         action: "checkPhoneNo",
@@ -104,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // check whether username/email/phone number already exists in database
-  function checkAvailability(checkData){
+  function checkAvailability(checkData) {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(checkData));
     // Make an asynchronous request to your server-side script
@@ -116,54 +123,32 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         switch (data.action) {
           case "checkUsername":
-            if (!data.available) {
+            !data.available ?
               // Username exists in the database
-              document.getElementById("usernameHelp").style.color = "red";
-              document.getElementById("username").style.borderColor = "red";
-              flag[0] = 0;
-            } else {
+              setInvalidInput(username, usernameHelp, data.message, 0) :
               // Username is valid and doesn't exist in the database
-              document.getElementById("username").style.borderColor = "green";
-              flag[0] = 1;
-            }
-            document.getElementById("usernameHelp").textContent = data.message;
+              setValidInput(username, usernameHelp, 0);
             break;
           case "checkEmail":
-            if (!data.available) {
-              // Email exists in the database
-              document.getElementById("emailHelp").style.color = "red";
-              document.getElementById("email").style.borderColor = "red";
-              flag[1] = 0;
-            } else {
-              // Email is valid and doesn't exist in the database
-              document.getElementById("email").style.borderColor = "green";
-              flag[1] = 1;
-            }
-            document.getElementById("emailHelp").textContent = data.message;
+            !data.available ?
+              // email exists in the database
+              setInvalidInput(email, emailHelp, data.message, 1) :
+              // email is valid and doesn't exist in the database
+              setValidInput(email, emailHelp, 1);
             break;
           case "checkPhoneNo":
-            if (!data.available) {
+            !data.available ?
               // Phone number exists in the database
-              document.getElementById("phoneNoHelp").style.color = "red";
-              document.getElementById("phoneNo").style.borderColor = "red";
-              flag[2] = 0;
-            } else {
+              setInvalidInput(phoneNo, phoneNoHelp, data.message, 2) :
               // Phone number is valid and doesn't exist in the database
-              document.getElementById("phoneNo").style.borderColor = "green";
-              flag[2] = 1;
-            }
-            document.getElementById("phoneNoHelp").textContent = data.message;
+              setValidInput(phoneNo, phoneNoHelp, 2);
             break;
         }
-        console.log(data);
-        updateSubmitButton();
       })
       .catch((error) => {
         console.error("Error:", error);
-        console.error(":", response);
       });
   }
-
 
   // check whether date of birth is in valid format
   document.getElementById("dob").addEventListener("input", validateDob);
@@ -177,21 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const dobDate = new Date(dob.value);
 
     if (!dobPattern.test(dob.value)) {
-      dobHelp.textContent = "Invalid date format";
-      dobHelp.style.color = "red";
-      dob.style.borderColor = "red";
-      flag[3] = 0;
+      setInvalidInput(dob, dobHelp, "Invalid date format", 3);
     } else if (dobDate > today) {
-      dobHelp.textContent = "DOB cannot be in the future";
-      dobHelp.style.color = "red";
-      dob.style.borderColor = "red";
-      flag[3] = 0;
+      setInvalidInput(dob, dobHelp, "DOB cannot be in the future", 3);
     } else {
-      dobHelp.textContent = "";
-      dob.style.borderColor = "green";
-      flag[3] = 1;
+      setValidInput(dob, dobHelp, 3);
     }
-    updateSubmitButton();
   }
 
   // check whether password is valid based on strength
@@ -210,8 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
     //regex to check whether password has at least 1 number
     const checkNumbers = /^(?=.*[0-9])/;
-
-    userPwd.style.borderColor = "red";
 
     //increase the progress bar width when each condition is met
     var conditionsMet = 0;
@@ -276,21 +250,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //check whether both passwords match
     if (repeatPwd.value !== userPwd.value) {
-      repeatPwdHelp.textContent = "Passwords do not match";
-      repeatPwdHelp.style.color = "red";
-      repeatPwd.style.borderColor = "red";
-      flag[5] = 0;
+      setInvalidInput(repeatPwd, repeatPwdHelp, "Passwords do not match", 5);
     } else if (repeatPwd.value == "") { // if empty field, reset the border color and help text
-      repeatPwdHelp.textContent = "Password cannot be empty";
-      repeatPwdHelp.style.color = "red";
-      repeatPwd.style.borderColor = "red";
-      flag[5] = 0;
+      setInvalidInput(repeatPwd, repeatPwdHelp, "Password cannot be empty", 5);
     } else { // if passwords match
-      repeatPwdHelp.textContent = "";
-      repeatPwd.style.borderColor = "green";
-      flag[5] = 1;
+      setValidInput(repeatPwd, repeatPwdHelp, 5);
     }
-    updateSubmitButton();
   }
 
   // submit register form
