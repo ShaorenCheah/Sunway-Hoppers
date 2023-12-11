@@ -35,6 +35,8 @@ if (!isset($_SESSION['user'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <script src="scripts/dataTable.js"></script>
   <script src="scripts/dateFormatter.js"></script>
+  <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <?php 
     if($_SESSION['user']['type'] == 'Driver'){
       echo'<script src="scripts/editCar.js"></script>';
@@ -171,7 +173,7 @@ if (!isset($_SESSION['user'])) {
 
     </div>
 
-    <div class="modal fade" tabindex="-1" id="requestModal">
+    <div class="modal fade" tabindex="-1" id="modal">
       <!-- Generated upon user request-->
     </div>
 

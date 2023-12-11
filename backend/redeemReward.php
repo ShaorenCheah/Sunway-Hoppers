@@ -64,14 +64,16 @@ try {
   // Generate code and expiry date
   $code = generateCode($pdo);
   $expDate = date('Y-m-d', strtotime("+1 year"));
+  $today = date('Y-m-d');
 
   // Add record to redemption table
-  $addRedemptionQuery = "INSERT INTO redemption (redemptionID, accountID, rewardID, code, expiryDate, status) VALUES (:redemptionID, :accountID, :rewardID, :code, :expDate, 'Active')";
+  $addRedemptionQuery = "INSERT INTO redemption (redemptionID, accountID, rewardID, code, redemptionDate, expiryDate, status) VALUES (:redemptionID, :accountID, :rewardID, :code, :today, :expDate, 'Active')";
   $addRedemptionStmt = $pdo->prepare($addRedemptionQuery);
   $addRedemptionStmt->bindParam(':redemptionID', $redemptionID, PDO::PARAM_STR);
   $addRedemptionStmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
   $addRedemptionStmt->bindParam(':rewardID', $rewardID, PDO::PARAM_INT);
   $addRedemptionStmt->bindParam(':code', $code, PDO::PARAM_STR);
+  $addRedemptionStmt->bindParam(':today', $today, PDO::PARAM_STR);
   $addRedemptionStmt->bindParam(':expDate', $expDate, PDO::PARAM_STR);
 
   // Check if the update queries were successful
@@ -105,7 +107,7 @@ function generateRedemptionID($pdo) {
 }
 
 function generateCode($pdo) {
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   $charactersLength = strlen($characters);
   $code = '';
   for ($i = 0; $i < 8; $i++) {

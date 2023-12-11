@@ -70,7 +70,6 @@ h5 {
   border-left: 0.1rem #e8e8e8 solid;
 }
 
-
 .desc {
   border-radius: 10px;
   border: 0.5px solid var(--secondary);
@@ -78,14 +77,14 @@ h5 {
   padding: 0.5rem 1rem;
 }
 
-.editBtn, .view-request {
+.editBtn, .view-request, .view-reward {
   font-size: 0.8rem !important;
 }
 
-.editBtn:hover i, .view-request:hover i {
+.editBtn:hover i, .view-request:hover i, .view-reward:hover i {
   color: var(--primary);
 }
-.editBtn i, .view-request i {
+.editBtn i, .view-request i, .view-reward i {
   color: white;
 }
 
@@ -188,3 +187,4 @@ label > .bi {
   background-color: #FFEEEE !important;
   color:#E70B0B !important;
 }
+

@@ -18,9 +18,16 @@ if (isset($_GET['action'])) {
     case 'getHistoryTable':
       echo getHistoryTable($pdo);
       break;
+    case 'getRewardTable':
+      echo getRewardTable($pdo);
+      break;
     case 'getRequestModalContent':
       $data = json_decode($_GET['requestData'], true);
       echo getRequestModalContent($data, $pdo);
+      break;
+    case 'getRewardModalContent':
+      $data = json_decode($_GET['rewardData'], true);
+      echo getRewardModalContent($data, $pdo);
       break;
     default:
       echo 'Invalid action';
@@ -187,7 +194,6 @@ function getHistoryTable($pdo)
   $stmt->execute();
   $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
   $count = 1;
   $html = '';
 
@@ -229,6 +235,51 @@ function getHistoryTable($pdo)
 
   $response = [
     'action' => 'getHistoryTable',
+    'html' => $html
+  ];
+
+  echo json_encode($response);
+}
+
+function getRewardTable($pdo){
+  $sql = "SELECT * FROM `redemption` JOIN `reward` ON `redemption`.`rewardID` = `reward`.`rewardID` WHERE `redemption`.`accountID` = :accountID ORDER BY redemptionDate DESC";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+  $stmt->execute();
+  $redemptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $count = 1;
+  $html = '';
+
+  $html .= <<<HTML
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">No.</th>
+        <th scope="col" class="text-center">Reward Name</th>
+        <th scope="col" class="text-center">Type</th>
+        <th scope="col" class="text-center">Points</th>
+        <th scope="col" class="text-center">Redemption Date</th>
+        <th scope="col" class="text-center">Expiry Date</th>
+        <th scope="col" class="text-center">Status</th>
+        <th scope="col" class="text-center">View Voucher</th>
+      </tr>
+    </thead>
+    <tbody>
+  HTML;
+
+  foreach ($redemptions as $redemption) {
+    include '../includes/rewardTable.inc.php';
+    $count++;
+  }
+
+  $html .= <<<HTML
+    </tbody>
+  </table>
+  HTML;
+
+  $response = [
+    'action' => 'getRewardTable',
     'html' => $html
   ];
 
@@ -344,7 +395,26 @@ function getRequestModalContent($data, $pdo)
   include '../includes/modals/viewRequestModal.inc.php';
 
   $response = [
-    'action' => 'getModalContent',
+    'action' => 'getRequestModalContent',
+    'modal' => $modal,
+  ];
+
+  echo json_encode($response);
+}
+
+function getRewardModalContent($data, $pdo){
+  $sql = "SELECT * FROM `redemption` JOIN `reward` ON `redemption`.`rewardID` = `reward`.`rewardID` WHERE `redemption`.`redemptionID` = :redemptionID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':redemptionID', $data['redemptionID']);
+  $stmt->execute();
+  $redemption = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $modal = "";
+
+  include '../includes/modals/viewRewardModal.inc.php';
+  
+  $response = [
+    'action' => 'getRewardModalContent',
     'modal' => $modal,
   ];
 

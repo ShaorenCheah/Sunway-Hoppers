@@ -46,6 +46,18 @@ document.addEventListener("DOMContentLoaded", function () {
         // Insert History Table HTML
         document.getElementById("nav-history").innerHTML += data.html;
       });
+
+    fetch("./backend/profile.php?action=getRewardTable")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Insert History Table HTML
+        document.getElementById("nav-reward").innerHTML += data.html;
+        var viewRewardBtns = document.getElementsByClassName("view-reward");
+        for (var i = 0; i < viewRewardBtns.length; i++) {
+          viewRewardBtns[i].addEventListener("click", getRewardModalContent);
+        }
+      });
   };
 
   // Edit Bio Feature
@@ -67,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
     getRequestModalContent(data);
   }
 
-  var requestContent = document.getElementById("requestModal");
+  var modalContent = document.getElementById("modal");
   var requestModal = null;
 
   function getRequestModalContent(data) {
@@ -88,9 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // console.log(data);
         // Insert Request Table HTML
-        requestContent.innerHTML = data.modal;
+        modalContent.innerHTML = data.modal;
 
-        requestModal = new bootstrap.Modal(requestContent);
+        requestModal = new bootstrap.Modal(modal);
 
         var acceptRequestBtns =
           document.getElementsByClassName("accept-request");
@@ -106,6 +118,36 @@ document.addEventListener("DOMContentLoaded", function () {
         if (type != "refresh") {
           requestModal.show();
         }
+      });
+  }
+  
+  var rewardModal = null;
+  function getRewardModalContent() {
+    var data = {
+      action: "newRequestModal",
+      index: this.getAttribute("data-redemptionIndex"),
+      redemptionID: this.getAttribute("data-redemptionID"),
+    };
+
+    var rewardData = encodeURIComponent(JSON.stringify(data));
+    fetch(
+      `./backend/profile.php?action=getRewardModalContent&rewardData=${rewardData}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text().then(function (text) {
+          return text ? JSON.parse(text) : {};
+        });
+      })
+      .then((data) => {
+        // console.log(data);
+        // Insert Request Table HTML
+        modalContent.innerHTML = data.modal;
+        rewardModal = new bootstrap.Modal(modalContent);
+
+        rewardModal.show();
       });
   }
 
