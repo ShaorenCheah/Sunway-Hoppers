@@ -26,9 +26,19 @@ if (isset($_GET['action'])) {
     case 'getRequestTable':
       echo getRequestTable($pdo);
       break;
-    case 'createRequestModal':
+    case 'getHistoryTable':
+      echo getHistoryTable($pdo);
+      break;
+    case 'getRewardTable':
+      echo getRewardTable($pdo);
+      break;
+    case 'getRequestModalContent':
       $data = json_decode($_GET['requestData'], true);
-      echo createRequestModal($data, $pdo);
+      echo getRequestModalContent($data, $pdo);
+      break;
+    case 'getRewardModalContent':
+      $data = json_decode($_GET['rewardData'], true);
+      echo getRewardModalContent($data, $pdo);
       break;
     default:
       echo 'Invalid action';
@@ -113,14 +123,87 @@ function getProfile($pdo)
   echo json_encode($response);
 }
 
+function styleLocation($carpool)
+{
+  if ($carpool['toSunway'] == 1) {
+    $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
+    $pickup .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
+    $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
+  } else {
+    $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
+    $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
+    $destination .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
+  }
+  return (array($pickup, $destination));
+}
+
 function getRequestTable($pdo)
 {
-  $sql = "SELECT * FROM carpool WHERE accountID = :accountID ORDER BY carpoolDate DESC";
+  $html = '';
+
+  if ($_SESSION['user']['type'] == 'Driver') {
+    $sql = "SELECT * FROM carpool WHERE accountID = :accountID ORDER BY carpoolDate DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+    $stmt->execute();
+    $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $count = 1;
+
+    $html .= <<<HTML
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">No.</th>
+          <th scope="col" class="text-center">Date</th>
+          <th scope="col" class="text-center">Time</th>
+          <th scope="col" class="text-center">Passengers No.</th>
+          <th scope="col" class="text-center">Pickup Area</th>
+          <th scope="col" class="text-center">Destination</th>
+          <th scope="col" class="text-center">Status</th>
+          <th scope="col" class="text-center">Points Earned</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+    HTML;
+
+    foreach ($carpools as $carpool) {
+
+      list($pickup, $destination) = styleLocation($carpool);
+      include '../includes/requestTable.inc.php';
+      $count++;
+    }
+
+    $html .= <<<HTML
+      </tbody>
+    </table>
+    HTML;
+
+    $response = [
+      'action' => 'getRequestTable',
+      'type' => 'Driver',
+      'html' => $html
+    ];
+  } else {
+    $response = [
+      'action' => 'getRequestTable',
+      'type' => 'Passenger',
+      'html' => $html
+    ];
+  }
+
+
+  echo json_encode($response);
+}
+
+function getHistoryTable($pdo)
+{
+  $sql = "SELECT *, `carpool`.`accountID` AS `driverID` FROM `carpool` JOIN `carpool_passenger` ON `carpool`.`carpoolID` = `carpool_passenger`.`carpoolID` WHERE `carpool_passenger`.`accountID` = :accountID ORDER BY carpoolDate DESC";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
   $stmt->execute();
   $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
   $count = 1;
   $html = '';
@@ -129,33 +212,30 @@ function getRequestTable($pdo)
   <table class="table align-middle">
     <thead>
       <tr>
-        <th scope="col" class="text-center" >No.</th>
+        <th scope="col" class="text-center">No.</th>
         <th scope="col" class="text-center">Date</th>
         <th scope="col" class="text-center">Time</th>
-        <th scope="col" class="text-center">Passengers No.</th>
+        <th scope="col" class="text-center">Driver</th>
+        <th scope="col" class="text-center">Vehicle Details</th>
         <th scope="col" class="text-center">Pickup Area</th>
         <th scope="col" class="text-center">Destination</th>
         <th scope="col" class="text-center">Status</th>
         <th scope="col" class="text-center">Points Earned</th>
-        <th scope="col" class="text-center">Action</th>
+        <th scope="col" class="text-center">Code</th>
       </tr>
     </thead>
     <tbody>
   HTML;
 
   foreach ($carpools as $carpool) {
+    $sql = "SELECT * FROM `user` JOIN `application` ON `user`.`accountID` = `application`.`accountID` WHERE `user`.`accountID` = :accountID";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':accountID', $carpool['driverID']);
+    $stmt->execute();
 
-    if ($carpool['toSunway'] == 1) {
-      $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
-      $pickup .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
-      $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
-    } else {
-      $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['location'] . '</span>';
-      $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
-      $destination .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
-    }
-
-    include '../includes/requestTable.inc.php';
+    $driver = $stmt->fetch(PDO::FETCH_ASSOC);
+    list($pickup, $destination) = styleLocation($carpool);
+    include '../includes/historyTable.inc.php';
     $count++;
   }
 
@@ -165,15 +245,68 @@ function getRequestTable($pdo)
   HTML;
 
   $response = [
-    'action' => 'getRequestTable',
+    'action' => 'getHistoryTable',
     'html' => $html
   ];
 
   echo json_encode($response);
 }
 
-function createRequestModal($data, $pdo)
+function getRewardTable($pdo){
+  $sql = "SELECT * FROM `redemption` JOIN `reward` ON `redemption`.`rewardID` = `reward`.`rewardID` WHERE `redemption`.`accountID` = :accountID ORDER BY redemptionDate DESC";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+  $stmt->execute();
+  $redemptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $count = 1;
+  $html = '';
+
+  $html .= <<<HTML
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">No.</th>
+        <th scope="col" class="text-center">Reward Name</th>
+        <th scope="col" class="text-center">Type</th>
+        <th scope="col" class="text-center">Points</th>
+        <th scope="col" class="text-center">Redemption Date</th>
+        <th scope="col" class="text-center">Expiry Date</th>
+        <th scope="col" class="text-center">Status</th>
+        <th scope="col" class="text-center">View Voucher</th>
+      </tr>
+    </thead>
+    <tbody>
+  HTML;
+
+  foreach ($redemptions as $redemption) {
+    include '../includes/rewardTable.inc.php';
+    $count++;
+  }
+
+  $html .= <<<HTML
+    </tbody>
+  </table>
+  HTML;
+
+  $response = [
+    'action' => 'getRewardTable',
+    'html' => $html
+  ];
+
+  echo json_encode($response);
+}
+
+function getRequestModalContent($data, $pdo)
 {
+
+  // Get location
+  $sql = "SELECT * FROM carpool WHERE carpoolID = :carpoolID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':carpoolID', $data['carpoolID']);
+  $stmt->execute();
+  $carpool = $stmt->fetch(PDO::FETCH_ASSOC);
+  list($pickup, $destination) = styleLocation($carpool);
 
   // Get pending requests data
   $sql = "SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND status = 'Pending'";
@@ -273,7 +406,26 @@ function createRequestModal($data, $pdo)
   include '../includes/modals/viewRequestModal.inc.php';
 
   $response = [
-    'action' => 'createRequestModal',
+    'action' => 'getRequestModalContent',
+    'modal' => $modal,
+  ];
+
+  echo json_encode($response);
+}
+
+function getRewardModalContent($data, $pdo){
+  $sql = "SELECT * FROM `redemption` JOIN `reward` ON `redemption`.`rewardID` = `reward`.`rewardID` WHERE `redemption`.`redemptionID` = :redemptionID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':redemptionID', $data['redemptionID']);
+  $stmt->execute();
+  $redemption = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $modal = "";
+
+  include '../includes/modals/viewRewardModal.inc.php';
+  
+  $response = [
+    'action' => 'getRewardModalContent',
     'modal' => $modal,
   ];
 
@@ -294,26 +446,26 @@ function manageRequest($data, $pdo)
   }
 
   $sql = "UPDATE carpool_passenger SET status = :status ";
-  if($data['type'] == 'Accept'){
+  if ($data['type'] == 'Accepted') {
     $sql .= ",code = :code ,isApproved = true ";
   }
   $sql .= "WHERE accountID = :accountID AND carpoolID = :carpoolID";
-  
+
   $stmt = $pdo->prepare($sql);
-  if($data['type'] == 'Accept'){
+  if ($data['type'] == 'Accepted') {
     $stmt->bindParam(':code', $code);
   }
   $stmt->bindParam(':status', $data['type']);
   $stmt->bindParam(':accountID', $data['accountID']);
   $stmt->bindParam(':carpoolID', $data['carpoolID']);
-  if($stmt->execute()){
+  if ($stmt->execute()) {
     $status = true;
-    if($data['type'] == 'Accept'){
+    if ($data['type'] == 'Accepted') {
       $message = 'Request accepted successfully';
-    }else{
+    } else {
       $message = 'Request rejected successfully';
     }
-  }else{
+  } else {
     $status = false;
     $message = 'Error processing request';
   }

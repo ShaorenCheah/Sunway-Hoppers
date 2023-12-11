@@ -9,7 +9,7 @@ $modal .= <<<HTML
         <div class="col d-flex  flex-column justify-content-center align-items-center">
           <h5 class="mb-3">Pickup Area <i class="ms-2 bi bi-geo"></i></h5>
           <div class="d-flex" id="pickup">
-            {$data['pickup']}
+            {$pickup}
           </div>
         </div>
         <div class="d-flex justify-content-center align-items-center mx-4">
@@ -18,7 +18,7 @@ $modal .= <<<HTML
         <div class="col d-flex  flex-column justify-content-center align-items-center">
           <h5 class="mb-3">Destination <i class="ms-2 bi bi-flag"></i></i></h5>
           <div class="d-flex" id="destination">
-            {$data['destination']}
+            {$destination}
           </div>
         </div>
       </div>

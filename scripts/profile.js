@@ -28,13 +28,34 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
+        if (data.type == "Driver") {
+          // Insert Request Table HTML
+          document.getElementById("nav-request").innerHTML += data.html;
 
-        // Insert Request Table HTML
-        document.getElementById("nav-request").innerHTML += data.html;
+          var viewRequestBtns = document.getElementsByClassName("view-request");
+          for (var i = 0; i < viewRequestBtns.length; i++) {
+            viewRequestBtns[i].addEventListener("click", getSelectedData);
+          }
+        }
+      });
 
-        var viewRequestBtns = document.getElementsByClassName("view-request");
-        for (var i = 0; i < viewRequestBtns.length; i++) {
-          viewRequestBtns[i].addEventListener("click", getSelectedData);
+    fetch("./backend/profile.php?action=getHistoryTable")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Insert History Table HTML
+        document.getElementById("nav-history").innerHTML += data.html;
+      });
+
+    fetch("./backend/profile.php?action=getRewardTable")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Insert History Table HTML
+        document.getElementById("nav-reward").innerHTML += data.html;
+        var viewRewardBtns = document.getElementsByClassName("view-reward");
+        for (var i = 0; i < viewRewardBtns.length; i++) {
+          viewRewardBtns[i].addEventListener("click", getRewardModalContent);
         }
       });
   };
@@ -51,23 +72,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getSelectedData() {
     var data = {
+      action: "newRequestModal",
       index: this.getAttribute("data-carpoolIndex"),
       carpoolID: this.getAttribute("data-carpoolID"),
-      pickup: this.getAttribute("data-carpoolPickup"),
-      destination: this.getAttribute("data-carpoolDestination"),
     };
-    createRequestModal(data);
+    getRequestModalContent(data);
   }
 
-  var requestContent = document.getElementById("requestModal");
+  var modalContent = document.getElementById("modal");
   var requestModal = null;
 
-  function createRequestModal(data) {
-    console.log(data)
+  function getRequestModalContent(data) {
+    console.log(data);
+    var type = data.action;
     var requestData = encodeURIComponent(JSON.stringify(data));
-
     fetch(
-      `./backend/profile.php?action=createRequestModal&requestData=${requestData}`
+      `./backend/profile.php?action=getRequestModalContent&requestData=${requestData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -80,9 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // console.log(data);
         // Insert Request Table HTML
-        requestContent.innerHTML = data.modal;
+        modalContent.innerHTML = data.modal;
 
-        requestModal = new bootstrap.Modal(requestContent);
+        requestModal = new bootstrap.Modal(modal);
 
         var acceptRequestBtns =
           document.getElementsByClassName("accept-request");
@@ -95,8 +115,39 @@ document.addEventListener("DOMContentLoaded", function () {
         for (var i = 0; i < rejectRequestBtns.length; i++) {
           rejectRequestBtns[i].addEventListener("click", manageRequest);
         }
+        if (type != "refresh") {
+          requestModal.show();
+        }
+      });
+  }
+  
+  var rewardModal = null;
+  function getRewardModalContent() {
+    var data = {
+      action: "newRequestModal",
+      index: this.getAttribute("data-redemptionIndex"),
+      redemptionID: this.getAttribute("data-redemptionID"),
+    };
 
-        requestModal.show();
+    var rewardData = encodeURIComponent(JSON.stringify(data));
+    fetch(
+      `./backend/profile.php?action=getRewardModalContent&rewardData=${rewardData}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text().then(function (text) {
+          return text ? JSON.parse(text) : {};
+        });
+      })
+      .then((data) => {
+        // console.log(data);
+        // Insert Request Table HTML
+        modalContent.innerHTML = data.modal;
+        rewardModal = new bootstrap.Modal(modalContent);
+
+        rewardModal.show();
       });
   }
 
@@ -126,12 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
           var refresh = {
             action: "refresh",
-            index: document.getElementById('index').innerHTML,
+            index: document.getElementById("index").innerHTML,
             carpoolID: data.carpoolID,
-            pickup: document.getElementById('pickup').innerHTML,
-            destination: document.getElementById('destination').innerHTML,
           };
-          createRequestModal(refresh);
+          getRequestModalContent(refresh);
         } else {
           alert(data.message);
         }
