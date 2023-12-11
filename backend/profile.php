@@ -5,17 +5,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
 }
 
-function getProfPic()
-{
-  global $pdo;
-  $sql = "SELECT profilePic FROM user WHERE accountID = :accountID";
-  $stmt = $pdo->prepare($sql);
-  $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
-  $stmt->execute();
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
-  return $result['profilePic'];
-}
-
 if (isset($_GET['action'])) {
   $action = $_GET['action'];
 
@@ -45,6 +34,7 @@ if (isset($_GET['action'])) {
       break;
   }
 } else {
+
   // POST Requests
   $formJSON = $_POST['formData'];
   $data = json_decode($formJSON, true);

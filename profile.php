@@ -1,6 +1,4 @@
 <?php
-require './backend/connection.php';
-require './backend/profile.php';
 
 //check if user is logged in and not an admin
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -34,8 +32,6 @@ if (!isset($_SESSION['user'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link href='https://fonts.googleapis.com/css?family=League Spartan' rel='stylesheet'>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <script src="scripts/dataTable.js"></script>
-  <script src="scripts/dateFormatter.js"></script>
   <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <?php 
@@ -64,7 +60,7 @@ if (!isset($_SESSION['user'])) {
     <div class="d-flex" style="border-radius:0.714rem">
       <!-- First Column (Driver Profile)-->
       <div class="driver-border d-flex flex-column align-items-center justify-content-center text-center p-3 " style="width:26%">
-        <img id="profilePic" src="<?php echo getProfPic()?>" alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
+        <img id="profilePic"  alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
         <h5 class="mt-3"><?php echo $_SESSION['user']['name'] ?></h5>
         <!--Display rating if user is a driver-->
         <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
