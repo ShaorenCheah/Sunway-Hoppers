@@ -35,7 +35,11 @@ if (!isset($_SESSION['user'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <script src="scripts/dataTable.js"></script>
   <script src="scripts/dateFormatter.js"></script>
-  <script src="scripts/editCar.js"></script>
+  <?php 
+    if($_SESSION['user']['type'] == 'Driver'){
+      echo'<script src="scripts/editCar.js"></script>';
+    }
+  ?>
   <script src="scripts/profile.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <link rel="stylesheet" type="text/css" href="./styles/profile.css">
@@ -157,7 +161,7 @@ if (!isset($_SESSION['user'])) {
         </div>
       <?php } ?>
 
-      <div class="tab-pane fade table-responsive" id="nav-history" role="tabpanel">
+      <div class="tab-pane fade table-responsive <?php if ($_SESSION['user']['type'] != 'Driver') echo "active show" ?>" id="nav-history" role="tabpanel">
         <!-- Fetch from profile.js -->
       </div>
 

@@ -28,14 +28,23 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
+        if (data.type == "Driver") {
+          // Insert Request Table HTML
+          document.getElementById("nav-request").innerHTML += data.html;
 
-        // Insert Request Table HTML
-        document.getElementById("nav-request").innerHTML += data.html;
-
-        var viewRequestBtns = document.getElementsByClassName("view-request");
-        for (var i = 0; i < viewRequestBtns.length; i++) {
-          viewRequestBtns[i].addEventListener("click", getSelectedData);
+          var viewRequestBtns = document.getElementsByClassName("view-request");
+          for (var i = 0; i < viewRequestBtns.length; i++) {
+            viewRequestBtns[i].addEventListener("click", getSelectedData);
+          }
         }
+      });
+
+    fetch("./backend/profile.php?action=getHistoryTable")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Insert History Table HTML
+        document.getElementById("nav-history").innerHTML += data.html;
       });
   };
 
@@ -55,18 +64,18 @@ document.addEventListener("DOMContentLoaded", function () {
       index: this.getAttribute("data-carpoolIndex"),
       carpoolID: this.getAttribute("data-carpoolID"),
     };
-    getModalContent(data);
+    getRequestModalContent(data);
   }
 
   var requestContent = document.getElementById("requestModal");
   var requestModal = null;
 
-  function getModalContent(data) {
-    console.log(data)
+  function getRequestModalContent(data) {
+    console.log(data);
     var type = data.action;
     var requestData = encodeURIComponent(JSON.stringify(data));
     fetch(
-      `./backend/profile.php?action=getModalContent&requestData=${requestData}`
+      `./backend/profile.php?action=getRequestModalContent&requestData=${requestData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -94,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (var i = 0; i < rejectRequestBtns.length; i++) {
           rejectRequestBtns[i].addEventListener("click", manageRequest);
         }
-        if(type != "refresh"){
+        if (type != "refresh") {
           requestModal.show();
         }
       });
@@ -126,10 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
           var refresh = {
             action: "refresh",
-            index: document.getElementById('index').innerHTML,
+            index: document.getElementById("index").innerHTML,
             carpoolID: data.carpoolID,
           };
-          getModalContent(refresh);
+          getRequestModalContent(refresh);
         } else {
           alert(data.message);
         }

@@ -171,6 +171,12 @@ label > .bi {
   color:#F6931A !important;
 }
 
+.badge.bg-secondary.pending{
+  border: 1px solid #D8CF06 !important;
+  background-color: #FFFDD3 !important;
+  color:#D8CF06!important;
+}
+
 .badge.bg-secondary.completed{
   border: 1px solid #036D19 !important;
   background-color: #EFFFF2 !important;

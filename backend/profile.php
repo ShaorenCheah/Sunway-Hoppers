@@ -15,9 +15,12 @@ if (isset($_GET['action'])) {
     case 'getRequestTable':
       echo getRequestTable($pdo);
       break;
-    case 'getModalContent':
+    case 'getHistoryTable':
+      echo getHistoryTable($pdo);
+      break;
+    case 'getRequestModalContent':
       $data = json_decode($_GET['requestData'], true);
-      echo getModalContent($data, $pdo);
+      echo getRequestModalContent($data, $pdo);
       break;
     default:
       echo 'Invalid action';
@@ -102,7 +105,8 @@ function getProfile($pdo)
   echo json_encode($response);
 }
 
-function styleLocation($carpool){
+function styleLocation($carpool)
+{
   if ($carpool['toSunway'] == 1) {
     $pickup = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
     $pickup .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
@@ -112,12 +116,72 @@ function styleLocation($carpool){
     $destination = '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['district'] . '</span>';
     $destination .= '<span class="badge rounded-pill shadow px-3 mx-2">' . $carpool['neighborhood'] . '</span>';
   }
-  return(array($pickup,$destination));
+  return (array($pickup, $destination));
 }
 
 function getRequestTable($pdo)
 {
-  $sql = "SELECT * FROM carpool WHERE accountID = :accountID ORDER BY carpoolDate DESC";
+  $html = '';
+
+  if ($_SESSION['user']['type'] == 'Driver') {
+    $sql = "SELECT * FROM carpool WHERE accountID = :accountID ORDER BY carpoolDate DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+    $stmt->execute();
+    $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $count = 1;
+
+    $html .= <<<HTML
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">No.</th>
+          <th scope="col" class="text-center">Date</th>
+          <th scope="col" class="text-center">Time</th>
+          <th scope="col" class="text-center">Passengers No.</th>
+          <th scope="col" class="text-center">Pickup Area</th>
+          <th scope="col" class="text-center">Destination</th>
+          <th scope="col" class="text-center">Status</th>
+          <th scope="col" class="text-center">Points Earned</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+    HTML;
+
+    foreach ($carpools as $carpool) {
+
+      list($pickup, $destination) = styleLocation($carpool);
+      include '../includes/requestTable.inc.php';
+      $count++;
+    }
+
+    $html .= <<<HTML
+      </tbody>
+    </table>
+    HTML;
+
+    $response = [
+      'action' => 'getRequestTable',
+      'type' => 'Driver',
+      'html' => $html
+    ];
+  } else {
+    $response = [
+      'action' => 'getRequestTable',
+      'type' => 'Passenger',
+      'html' => $html
+    ];
+  }
+
+
+  echo json_encode($response);
+}
+
+function getHistoryTable($pdo)
+{
+  $sql = "SELECT *, `carpool`.`accountID` AS `driverID` FROM `carpool` JOIN `carpool_passenger` ON `carpool`.`carpoolID` = `carpool_passenger`.`carpoolID` WHERE `carpool_passenger`.`accountID` = :accountID ORDER BY carpoolDate DESC";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
   $stmt->execute();
@@ -131,24 +195,30 @@ function getRequestTable($pdo)
   <table class="table align-middle">
     <thead>
       <tr>
-        <th scope="col" class="text-center" >No.</th>
+        <th scope="col" class="text-center">No.</th>
         <th scope="col" class="text-center">Date</th>
         <th scope="col" class="text-center">Time</th>
-        <th scope="col" class="text-center">Passengers No.</th>
+        <th scope="col" class="text-center">Driver</th>
+        <th scope="col" class="text-center">Vehicle Details</th>
         <th scope="col" class="text-center">Pickup Area</th>
         <th scope="col" class="text-center">Destination</th>
         <th scope="col" class="text-center">Status</th>
         <th scope="col" class="text-center">Points Earned</th>
-        <th scope="col" class="text-center">Action</th>
+        <th scope="col" class="text-center">Code</th>
       </tr>
     </thead>
     <tbody>
   HTML;
 
   foreach ($carpools as $carpool) {
+    $sql = "SELECT * FROM `user` JOIN `application` ON `user`.`accountID` = `application`.`accountID` WHERE `user`.`accountID` = :accountID";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':accountID', $carpool['driverID']);
+    $stmt->execute();
 
+    $driver = $stmt->fetch(PDO::FETCH_ASSOC);
     list($pickup, $destination) = styleLocation($carpool);
-    include '../includes/requestTable.inc.php';
+    include '../includes/historyTable.inc.php';
     $count++;
   }
 
@@ -158,14 +228,14 @@ function getRequestTable($pdo)
   HTML;
 
   $response = [
-    'action' => 'getRequestTable',
+    'action' => 'getHistoryTable',
     'html' => $html
   ];
 
   echo json_encode($response);
 }
 
-function getModalContent($data, $pdo)
+function getRequestModalContent($data, $pdo)
 {
 
   // Get location
@@ -295,26 +365,26 @@ function manageRequest($data, $pdo)
   }
 
   $sql = "UPDATE carpool_passenger SET status = :status ";
-  if($data['type'] == 'Accepted'){
+  if ($data['type'] == 'Accepted') {
     $sql .= ",code = :code ,isApproved = true ";
   }
   $sql .= "WHERE accountID = :accountID AND carpoolID = :carpoolID";
-  
+
   $stmt = $pdo->prepare($sql);
-  if($data['type'] == 'Accepted'){
+  if ($data['type'] == 'Accepted') {
     $stmt->bindParam(':code', $code);
   }
   $stmt->bindParam(':status', $data['type']);
   $stmt->bindParam(':accountID', $data['accountID']);
   $stmt->bindParam(':carpoolID', $data['carpoolID']);
-  if($stmt->execute()){
+  if ($stmt->execute()) {
     $status = true;
-    if($data['type'] == 'Accepted'){
+    if ($data['type'] == 'Accepted') {
       $message = 'Request accepted successfully';
-    }else{
+    } else {
       $message = 'Request rejected successfully';
     }
-  }else{
+  } else {
     $status = false;
     $message = 'Error processing request';
   }
