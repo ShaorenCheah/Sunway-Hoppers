@@ -96,7 +96,7 @@ function getProfile($pdo)
       <img src="images/driverAcc.png" style="height: 7rem; width: auto;">
     HTML;
     $html['statusMsg'] = <<<HTML
-      <h5>You're currently a <span class="badge bg-secondary shadow">Driver</span></h5>
+      <h5>You're currently a <span class="badge bg-secondary shadow" style='background-color:var(--secondary) !important'>Driver</span></h5>
     HTML;
   }
 

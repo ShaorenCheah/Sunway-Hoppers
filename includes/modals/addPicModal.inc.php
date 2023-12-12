@@ -6,7 +6,7 @@
           <div class="row text-center">
             <h4 style="font-weight:700;">Update Your Profile Picture</h4>
             <div class="justify-content-center d-flex">
-              <img id="previewImage" src="<?php echo getProfPic() ?>" alt="Avatar" class="my-4" style="border-radius: 50%; height: 10rem; width: 10rem; border: 0.2rem solid var(--secondary); object-fit: cover;">
+              <img id="previewImage" src="<?php echo $_SESSION['user']['profilePic']; ?>" alt="Avatar" class="my-4" style="border-radius: 50%; height: 10rem; width: 10rem; border: 0.2rem solid var(--secondary); object-fit: cover;">
             </div>
             <form id="profPicForm" method="post" enctype="multipart/form-data" action="./backend/updateProfPic.php">
               <div class="mb-4 px-4">

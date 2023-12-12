@@ -1,28 +1,21 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  require './connection.php';
+session_start();
+require '../connection.php';
+$bio = $_POST['bio'];
+$accountID = $_SESSION['user']['accountID'];
 
-  session_start();
 
-  $accountID = $_SESSION['user']['accountID'];
-
-  $bio = $_POST['descText'];
-
-  // Update the database
-  $stmt = $pdo->prepare('UPDATE user SET bio = :bio WHERE accountID = :accountID');
-  $stmt->bindParam(':bio', $bio);
-  $stmt->bindParam(':accountID', $accountID);
-  $stmt->execute();
-
-  $msg = 'Bio updated successfully';
-  alert($msg);
+// Update the database
+$stmt = $pdo->prepare('UPDATE user SET bio = :bio WHERE accountID = :accountID');
+$stmt->bindParam(':bio', $bio);
+$stmt->bindParam(':accountID', $accountID);
+if ($stmt->execute()) {
+  $response['status'] = 'success';
+  $response['message'] = 'Bio updated successfully';
 } else {
-  $msg = 'Bio was not updated. Please try again.';
-  alert($msg);
+  $response['status'] = 'error';
+  $response['message'] = 'Error updating bio';
 }
 
-function alert($msg)
-{
-  echo "<script>alert('" . $msg . "');</script>";
-  echo "<script>window.location = '../profile.php';</script>";
-}
+echo json_encode($response);
+?>

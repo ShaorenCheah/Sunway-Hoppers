@@ -64,6 +64,7 @@ if ($action == 'login') {
           'name' => $result['name'],
           'email' => $email,
           'type' => $type,
+          'profilePic' => $result['profilePic'],
           'gender' => $result['gender'], //might need it to validate carpool session
         ];
         $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
