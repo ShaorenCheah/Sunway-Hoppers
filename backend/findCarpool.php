@@ -178,11 +178,14 @@ function getCarpoolList($data, $pdo)
       $carpoolID = $carpool['carpoolID'];
       $accountID = $carpool['accountID'];
 
-      // // Skip this carpool if the user has already requested it
-      // if (in_array($carpoolID, $userCarpools)) {
-      //   $request++;
-      //   continue;
-      // }
+      // Check if user has requested to join carpool
+      if (in_array($carpoolID, $userCarpools)) {
+        $stmt = $pdo->prepare("SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND accountID = :accountID");
+        $stmt->bindParam(':carpoolID', $carpoolID);
+        $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+        $stmt->execute();
+        $userCarpool = $stmt->fetch(PDO::FETCH_ASSOC);
+      }
 
       $rating = number_format($carpool['rating'], 1);
 
