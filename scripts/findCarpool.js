@@ -1,52 +1,65 @@
 document.addEventListener("DOMContentLoaded", function () {
-  window.onload = function () {
-    // Load locations in Bandar Sunway
-    var newCarpoolDestination = document.getElementById("location");
-    var filterDestination = document.getElementById("filterLocation");
+  // Load locations in Bandar Sunway
+  var newCarpoolDestination = document.getElementById("location");
+  var filterDestination = document.getElementById("filterLocation");
 
-    var locations = [
-      "Sunway University",
-      "Monash University",
-      "Sunway Pyramid",
-      "Sunway Residence",
-      "Sunway Medical Centre",
-      "Sunway Geo",
-      "Sunway Mentari",
-      "Sunway Pinnacle",
-    ];
+  var locations = [
+    "Sunway University",
+    "Monash University",
+    "Sunway Pyramid",
+    "Sunway Residence",
+    "Sunway Medical Centre",
+    "Sunway Geo",
+    "Sunway Mentari",
+    "Sunway Pinnacle",
+  ];
 
-    locations.forEach(function (location) {
-      var option1 = document.createElement("option");
-      option1.value = location;
-      option1.text = location;
-      newCarpoolDestination.appendChild(option1);
+  locations.forEach(function (location) {
+    var option1 = document.createElement("option");
+    option1.value = location;
+    option1.text = location;
+    newCarpoolDestination.appendChild(option1);
 
-      var option2 = document.createElement("option");
-      option2.value = location;
-      option2.text = location;
-      filterDestination.appendChild(option2);
+    var option2 = document.createElement("option");
+    option2.value = location;
+    option2.text = location;
+    filterDestination.appendChild(option2);
+  });
+
+  var filterData = {
+    action: "getCarpoolList",
+    type: "allList",
+    filterName: null,
+    filterDirection: null,
+    filterWomenOnly: null,
+    filterDate: null,
+    filterStartTime: null,
+    filterEndTime: null,
+    filterDistrict: null,
+    filterNeighborhood: null,
+    filterLocation: null,
+    page:1
+  };
+
+
+  getCarpoolList(filterData); // Get carpool list
+
+  var districtSelect = document.getElementById("district");
+
+  // Get the districts for new carpool form
+  fetch("./backend/findCarpool.php?action=getDistricts")
+    .then((response) => response.text())
+    .then((data) => {
+      districtSelect.innerHTML = data;
     });
 
-    var filterData = { action: "getCarpoolList", type: "allList" };
-    getCarpoolList(filterData); // Get carpool list
-
-    var districtSelect = document.getElementById("district");
-
-    // Get the districts for new carpool form
-    fetch("./backend/findCarpool.php?action=getDistricts")
-      .then((response) => response.text())
-      .then((data) => {
-        districtSelect.innerHTML = data;
-      });
-
-    var filterDistrict = document.getElementById("filterDistrict");
-    // Get the districts for filter
-    fetch("./backend/findCarpool.php?action=getDistricts")
-      .then((response) => response.text())
-      .then((data) => {
-        filterDistrict.innerHTML = data;
-      });
-  };
+  var filterDistrict = document.getElementById("filterDistrict");
+  // Get the districts for filter
+  fetch("./backend/findCarpool.php?action=getDistricts")
+    .then((response) => response.text())
+    .then((data) => {
+      filterDistrict.innerHTML = data;
+    });
 
   // Filter section
   var filter = document.getElementById("filterCarpool");
@@ -59,35 +72,23 @@ document.addEventListener("DOMContentLoaded", function () {
   var filterPickup = document.getElementById("filterPickup");
   var filterDestination = document.getElementById("filterDestination");
 
-  filterData = {
-    action: "getCarpoolList",
-    type: "filteredList",
-    filterName: null,
-    filterDirection: null,
-    filterWomenOnly: null,
-    filterDate: null,
-    filterStartTime: null,
-    filterEndTime: null,
-    filterDistrict: null,
-    filterNeighborhood: null,
-    filterLocation: null,
-  };
+
 
   filterName.addEventListener("input", function (event) {
-    filterData.filterName = filterName.value;
-    getCarpoolList(filterData);
+    applyFilter();
   });
 
   filterWomenOnly.addEventListener("change", function (event) {
-    if (filterWomenOnly.checked) {
-      filterData.filterWomenOnly = true;
-    } else {
-      filterData.filterWomenOnly = null;
-    }
-    getCarpoolList(filterData);
+    applyFilter();
   });
 
   filter.addEventListener("change", function (event) {
+    applyFilter();
+  });
+
+  function applyFilter() {
+    filterData.type = "filteredList";
+    filterData.filterName = filterName.value;
     filterData.filterDirection = filterDirection.value;
     filterData.filterDate = filterDate.value;
     filterData.filterStartTime = filterStartTime.value;
@@ -95,10 +96,20 @@ document.addEventListener("DOMContentLoaded", function () {
     filterData.filterDistrict = filterDistrict.value;
     filterData.filterNeighborhood = filterNeighborhood.value;
     filterData.filterLocation = filterLocation.value;
+
+    if (filterWomenOnly.checked) {
+      filterData.filterWomenOnly = true;
+    } else {
+      filterData.filterWomenOnly = null;
+    }
+
+    filterData.page = "1";
+
     getCarpoolList(filterData);
-  });
+  }
 
   filterDirection.addEventListener("change", function (event) {
+    filterData.type = "filteredList";
     var direction1 = document.getElementById("direction1");
     var direction2 = document.getElementById("direction2");
 
@@ -147,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     filterData = {
       action: "getCarpoolList",
-      type: "filteredList",
+      type: "allList",
       filterName: null,
       filterDirection: null,
       filterWomenOnly: null,
@@ -157,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterDistrict: null,
       filterNeighborhood: null,
       filterLocation: null,
+      page: 1
     };
 
     direction1.outerHTML =
@@ -169,13 +181,14 @@ document.addEventListener("DOMContentLoaded", function () {
     getCarpoolList(filterData);
   });
 
+
   // Get the carpool list
   function getCarpoolList(filterData) {
     console.log(filterData);
+
     var filterDataString = encodeURIComponent(JSON.stringify(filterData));
-    fetch(
-      `./backend/findCarpool.php?action=getCarpoolList&filterData=${filterDataString}`
-    )
+    var url = `./backend/findCarpool.php?action=getCarpoolList&filterData=${filterDataString}`;
+    fetch(url)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -185,18 +198,51 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       })
       .then((data) => {
+        // Display list and modals
+        // console.log(data);
         var carpoolList = document.getElementById("carpoolList");
         carpoolList.innerHTML = data.html;
-
         var carpoolModals = document.getElementById("carpoolModals");
         carpoolModals.innerHTML = data.modal;
-
         var joinCarpoolBtns = document.getElementsByClassName("join-carpool");
         for (var i = 0; i < joinCarpoolBtns.length; i++) {
           joinCarpoolBtns[i].addEventListener("click", joinCarpool);
         }
+
+        // Pagination
+        updatePagination(data.page, data.totalItems);
       });
   }
+
+  function updatePagination(page, totalItems) {
+    var resultsPerPage = 4;
+    var totalPages = Math.ceil(totalItems / resultsPerPage);
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ""; // Clear existing pagination
+
+    // Add page numbers
+    for (var i = 1; i <= totalPages; i++) {
+      var pageItem = document.createElement("li");
+      pageItem.className = "page-item" + (i == page ? " active" : "");
+      var pageLink = document.createElement("a");
+      pageLink.className = "page-link";
+      pageLink.textContent = i;
+      pageLink.href = "?page=" + i;
+      pageItem.appendChild(pageLink);
+      pagination.appendChild(pageItem);
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("page-link")) {
+      e.preventDefault();
+      var page = e.target.textContent; // Get page number from link text
+      console.log(page)
+      filterData.page = page; // Set page in filterData
+      getCarpoolList(filterData);
+    }
+  });
 
   // Get the neighborhoods for filter
   filterDistrict.addEventListener("change", function () {
@@ -267,18 +313,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectedDateTime = new Date(date + "T" + time);
     console.log(selectedDateTime);
     if (selectedDateTime < now) {
-      setInvalidInput(
-        timeInput,
-        timeStatus,
-        "Invalid time selected.",
-        0
-      );
+      setInvalidInput(timeInput, timeStatus, "Invalid time selected.", 0);
       return false;
-    }else{
+    } else {
       return true;
     }
   }
-
 
   // New carpool form submission
   document
@@ -314,13 +354,14 @@ document.addEventListener("DOMContentLoaded", function () {
           details,
           womenOnly,
         };
-        // sendCarpoolData(carpoolData);
+        sendCarpoolData(carpoolData);
       }
     } else {
       // The form is invalid, show an error message or handle it accordingly
       carpool.reportValidity();
     }
   }
+
 
   // New carpool form send to database
   function sendCarpoolData(carpoolData) {
@@ -340,7 +381,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          window.location.href = "./profile.php"; // Redirect to profile.php
         } else {
           alert(data.message);
         }
@@ -349,6 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Fetch error:", error);
       });
   }
+  
 
   // Join carpool
   function joinCarpool(event) {
@@ -374,6 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+
   // Send join carpool data to database
   function sendJoinCarpoolData(joinCarpoolData) {
     var formData = new FormData();
@@ -392,9 +434,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          location.reload();
+          window.location.href = "./profile.php";
         } else {
           alert(data.message);
+          location.reload();
         }
       })
       .catch((error) => {

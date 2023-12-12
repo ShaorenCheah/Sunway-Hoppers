@@ -176,6 +176,26 @@ body:not(.hero):not(.dashboard){
   color: var(--bs-secondary-color);
 }
 
+
+.page-item {
+  border-radius:10px;
+}
+
+.page-link{
+  color: var(--primary);
+}
+
+.page-link:hover{
+  color: var(--primary);
+}
+
+.page-item.active > .page-link {
+  color: #fff !important;
+  background: var(--primary) !important;
+  border : 1px solid var(--primary) !important;
+}
+
+
 .password-icon {
   color: var(--primary);
 }
@@ -204,3 +224,4 @@ body:not(.hero):not(.dashboard){
   background-color: transparent;
   border: none;
 }
+

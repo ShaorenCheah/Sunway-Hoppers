@@ -20,21 +20,24 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("statusMsg").innerHTML += data.html.statusMsg;
     });
 
-  fetch("./backend/profile/profile.php?action=getRequestTable")
-    .then((response) => response.json())
-    .then((data) => {
-      //console.log(data);
-      if (data.type == "Driver") {
-        // Insert Request Table HTML
-        document.getElementById("nav-request").innerHTML += data.html;
+  getRequestTable();
 
-        var viewRequestBtns = document.getElementsByClassName("view-request");
-        for (var i = 0; i < viewRequestBtns.length; i++) {
-          viewRequestBtns[i].addEventListener("click", getSelectedData);
+  function getRequestTable() {
+    fetch("./backend/profile/profile.php?action=getRequestTable")
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        if (data.type == "Driver") {
+          // Insert Request Table HTML
+          document.getElementById("nav-request").innerHTML = data.html;
+
+          var viewRequestBtns = document.getElementsByClassName("view-request");
+          for (var i = 0; i < viewRequestBtns.length; i++) {
+            viewRequestBtns[i].addEventListener("click", getSelectedData);
+          }
         }
-      }
-    });
-
+      });
+  }
   fetch("./backend/profile/profile.php?action=getHistoryTable")
     .then((response) => response.json())
     .then((data) => {
@@ -199,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
             carpoolID: data.carpoolID,
           };
           getRequestModalContent(refresh);
+          getRequestTable();
         } else {
           alert(data.message);
         }

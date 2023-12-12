@@ -75,7 +75,16 @@ function getNeighborhoods($selectedDistrict, $pdo)
 
 function getCarpoolList($data, $pdo)
 {
+  $page = $data['page'];
+
+  $resultsPerPage = 4;
+  $offset = ($page - 1) * $resultsPerPage;
   $sql = "SELECT * FROM `account`
+  JOIN `user` ON `account`.`accountID` = `user`.`accountID`
+  JOIN `carpool` ON `account`.`accountID` = `carpool`.`accountID`
+  ";
+
+  $countSql = "SELECT COUNT(*) as total FROM `account`
   JOIN `user` ON `account`.`accountID` = `user`.`accountID`
   JOIN `carpool` ON `account`.`accountID` = `carpool`.`accountID`
   ";
@@ -137,16 +146,22 @@ function getCarpoolList($data, $pdo)
 
   if (!empty($whereClauses)) {
     $sql .= ' WHERE ' . implode(' AND ', $whereClauses);
+    $countSql .= ' WHERE ' . implode(' AND ', $whereClauses);
   }
 
   $sql .= ' ORDER BY `carpool`.`carpoolDate` ASC, `carpool`.`carpoolTime` ASC';
+  $sql .= " LIMIT $offset, $resultsPerPage";
 
   $stmt = $pdo->prepare($sql);
   $stmt->execute($params);
-
   $carpools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  //$html =  "<h6>" . $sql . "</h6>";
+  // Get total number of results
+  $stmtCount = $pdo->prepare($countSql);
+  $stmtCount->execute($params);
+  $totalItems = $stmtCount->fetchColumn();
+
+  // $html =  "<h6>" . $sql . "</h6>";
   $html = "";
   $modal = "";
 
@@ -163,10 +178,13 @@ function getCarpoolList($data, $pdo)
       $carpoolID = $carpool['carpoolID'];
       $accountID = $carpool['accountID'];
 
-      // Skip this carpool if the user has already requested it
+      // Check if user has requested to join carpool
       if (in_array($carpoolID, $userCarpools)) {
-        $request++;
-        continue;
+        $stmt = $pdo->prepare("SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND accountID = :accountID");
+        $stmt->bindParam(':carpoolID', $carpoolID);
+        $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
+        $stmt->execute();
+        $userCarpool = $stmt->fetch(PDO::FETCH_ASSOC);
       }
 
       $rating = number_format($carpool['rating'], 1);
@@ -244,7 +262,10 @@ function getCarpoolList($data, $pdo)
     'action' => 'getCarpoolList',
     'message' => 'Carpool list fetched successfully!',
     'html' => $html,
-    'modal' => $modal
+    'modal' => $modal,
+    'page' => $page,
+    'totalItems' => $totalItems
+
   ];
 
   echo json_encode($response);
@@ -315,7 +336,7 @@ function joinCarpool($data, $pdo)
 
   if ($stmt->execute($data)) {
     $success = true;
-    $message = "Joined carpool successfully!";
+    $message = "Joined carpool successfully! The arrival code will be generated for you once the driver has accepted your request ";
   } else {
     $success = false;
     $message = "Joined carpool failed. Please try again.";

@@ -41,7 +41,7 @@ if (!isset($_SESSION['user'])) {
   include './includes/header.inc.php';
   require_once './backend/connection.php';
   ?>
-  <div class="m-5">
+  <div class="m-5 mb-4">
 
 
     <div class="d-flex position-relative justify-content-center">
@@ -160,6 +160,15 @@ if (!isset($_SESSION['user'])) {
       <!-- Carpool Section -->
       <div class="col-9 card shadow p-0 d-flex align-self-stretch" id="carpoolList">
         <!-- Carpool List is fetched from  findCarpool.js -->
+      </div>
+
+      <!-- Pagination Section-->
+      <div class="col-12 d-flex justify-content-center mt-4">
+        <nav>
+          <ul class="pagination pagination-lg">
+            
+          </ul>
+        </nav>
       </div>
 
       <div id="carpoolModals">
