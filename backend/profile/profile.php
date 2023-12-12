@@ -160,7 +160,15 @@ function getRequestTable($pdo)
       HTML;
 
       foreach ($carpools as $carpool) {
+        // Get pending requests data
+        $sql = "SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID AND status = 'Pending'";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':carpoolID', $carpool['carpoolID']);
+        $stmt->execute();
+        $requestsCount = $stmt->fetchColumn();
+        
         list($pickup, $destination) = styleLocation($carpool);
+
         include '../../includes/requestTable.inc.php';
         $count++;
       }
