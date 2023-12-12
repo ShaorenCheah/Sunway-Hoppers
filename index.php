@@ -13,6 +13,14 @@
   <!-- Include icon link here -->
   <title>SunwayHoppers</title>
   <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
+  <script>
+    function scrollToHowItWorks() {
+      // Scroll to the "How It Works" section
+      document.getElementById('howItWorksSection').scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  </script>
 </head>
 <style>
   #sponsorCarousel img {
@@ -57,7 +65,7 @@
             ?>
           </div>
           <div class="col-3 mt-2">
-            <p style="font-weight:500">See How It Works <i class="bi bi-chevron-right" style="color: #263238"></i></p>
+            <p style="font-weight:500; cursor: pointer" onclick="scrollToHowItWorks()">See How It Works <i class="bi bi-chevron-right" style="color: #263238"></i></p>
           </div>
           <div class="col-6"></div>
         </div>
@@ -81,7 +89,7 @@
       </p>
     </div>
   </div>
-  <div class="m-5 text-center">
+  <div id="howItWorksSection" class="pt-4 mx-5 text-center min-vh-100 max-vh-100">
     <p class="p-0 m-0" style="font-weight: bold; font-size: 2.5rem;">
       <span class="highlight">How</span> It Works?
     </p>
@@ -99,7 +107,7 @@
         </nav>
       </div>
       <!-- display steps based on tab -->
-      <div class="tab-content mb-5 shadow" id="nav-tabContent">
+      <div class="tab-content mb-5 shadow" id="nav-tabContent" style="border-radius: 0px 0px 10px 10px">
         <div class="tab-pane fade show active" id="nav-passenger" role="tabpanel">
           <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
             <div class='carousel-inner'>
@@ -133,73 +141,75 @@
           </div>
         </div>
       </div>
-      <div class="m-5 text-center">
-        <p class="p-0 m-0" style="font-weight: bold; font-size: 2.5rem;">Our
-          <span class="highlight">Sponsors</span>
-        </p>
-        <p class="m-0" style="color: var(--grey)">
-          Enjoy the rewards earned from carpooling with the community
-        </p>
-        <!-- Carousel for sponsors -->
-        <div id="sponsorCarousel" class="carousel carousel-dark slide mt-4" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="row g-5 mx-5 p-5 align-items-center">
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/boost.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/caltex.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/foodpanda.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/setel.png" class="img-fluid">
-                </div>
-              </div>
+    </div>
+  </div>
+  <div class="m-5 text-center">
+    <p class="p-0 m-0" style="font-weight: bold; font-size: 2.5rem;">Our
+      <span class="highlight">Sponsors</span>
+    </p>
+    <p class="m-0" style="color: var(--grey)">
+      Enjoy the rewards earned from carpooling with the community
+    </p>
+    <!-- Carousel for sponsors -->
+    <div id="sponsorCarousel" class="carousel carousel-dark slide mt-4" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="row g-5 mx-5 p-5 align-items-center">
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/boost.png" class="img-fluid">
             </div>
-            <div class="carousel-item">
-              <div class="row g-5 mx-5 p-5 align-items-center">
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/llaollao.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/originals.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/petron.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/petronas.png" class="img-fluid">
-                </div>
-              </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/caltex.png" class="img-fluid">
             </div>
-            <div class="carousel-item">
-              <div class="row g-5 mx-5 p-5 align-items-center">
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/grab.svg" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/kfc.png" class="img-fluid">
-                </div>
-                <div class="col d-flex justify-content-center">
-                  <img src="./images/sponsors/tealive.jpg" class="img-fluid">
-                </div>
-              </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/foodpanda.png" class="img-fluid">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/setel.png" class="img-fluid">
             </div>
           </div>
-          <button class='carousel-control-prev mx-5' type='button' data-bs-target='#sponsorCarousel' data-bs-slide='prev'>
-            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
-            <span class='visually-hidden'>Previous</span>
-          </button>
-          <button class='carousel-control-next mx-5' type='button' data-bs-target='#sponsorCarousel' data-bs-slide='next'>
-            <span class='carousel-control-next-icon' aria-hidden='true'></span>
-            <span class='visually-hidden'>Next</span>
-          </button>
+        </div>
+        <div class="carousel-item">
+          <div class="row g-5 mx-5 p-5 align-items-center">
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/llaollao.png" class="img-fluid">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/originals.png" class="img-fluid">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/petron.png" class="img-fluid">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/petronas.png" class="img-fluid">
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row g-5 mx-5 p-5 align-items-center">
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/grab.svg" class="img-fluid">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/kfc.png" class="img-fluid">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <img src="./images/sponsors/tealive.jpg" class="img-fluid">
+            </div>
+          </div>
         </div>
       </div>
+      <button class='carousel-control-prev mx-5' type='button' data-bs-target='#sponsorCarousel' data-bs-slide='prev'>
+        <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+        <span class='visually-hidden'>Previous</span>
+      </button>
+      <button class='carousel-control-next mx-5' type='button' data-bs-target='#sponsorCarousel' data-bs-slide='next'>
+        <span class='carousel-control-next-icon' aria-hidden='true'></span>
+        <span class='visually-hidden'>Next</span>
+      </button>
     </div>
+  </div>
+  </div>
   </div>
   <?php include './includes/footer.inc.php'; ?>
   </div>
