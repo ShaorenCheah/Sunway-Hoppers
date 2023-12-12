@@ -125,4 +125,23 @@ document.addEventListener('DOMContentLoaded', function () {
       setValidInput(carRules, carRulesHelp, 4);
     }
   }
+
+  document.getElementById('registerDriverForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('submitted')
+    var formData = new FormData(e.target); // This will get all the form data
+  
+    fetch('./backend/profile/registerDriver.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      location.reload();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
 });

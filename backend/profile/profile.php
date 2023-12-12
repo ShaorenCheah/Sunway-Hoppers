@@ -82,11 +82,11 @@ function getProfile($pdo)
     HTML;
   } else if ($application['status'] == 'New') {
     $html['accStatus'] = <<<HTML
-      <span class="badge bg-secondary shadow">Pending Application</span>
+      <span class="badge bg-secondary shadow" style='background-color:var(--secondary) !important'>Pending Application</span>
     HTML;
   } else if ($application['status'] == 'Rejected') {
     $html['accStatus'] = <<<HTML
-      <span class="badge bg-secondary shadow">Application Rejected</span>
+      <span class="badge bg-secondary shadow" style='background-color:##F65555 !important'>Application Rejected</span>
     HTML;
   } else if ($application['status'] == 'Approved') {
     $html['accStatus'] = <<<HTML

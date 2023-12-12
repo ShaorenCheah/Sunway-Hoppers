@@ -48,8 +48,3 @@ $response = [
 echo json_encode($response);
 
 
-function alert($msg)
-{
-	echo "<script>alert('" . $msg . "');</script>";
-	echo "<script>window.location = '../profile.php';</script>";
-}

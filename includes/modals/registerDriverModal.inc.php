@@ -5,7 +5,7 @@
       <div class="modal-body w-100 p-4">
         <div class="container-fluid">
           <h4 style="font-weight:700;">Be a Driver Today!</h4>
-          <form id="registerDriverForm" class="pt-3" method="post" enctype="multipart/form-data" action="../backend/registerDriver.php">
+          <form id="registerDriverForm" class="pt-3" method="post" enctype="multipart/form-data">
             <div class="row mb-4">
               <div class="col ">
                 <label for="carNo" class="form-label ">Car Plate Number <i class="bi bi-123"></i></label>
@@ -38,7 +38,7 @@
             </div>
             <div class="mb-4">
               <label for="licenseFiles" class="form-label">Driver License & Vehicle License <i class="bi bi-file-earmark-person"></i></label>
-              <input type="file" class="form-control" id="licenseFiles" name="licenseFiles" accept=".zip">
+              <input type="file" class="form-control" id="licenseFiles" name="file" accept=".zip">
               <small id="fileNote" class="form-small-text">*Upload a zipped folder containing both documents [format accepted: .zip]</small>
             </div>
             <div class="mb-4">
