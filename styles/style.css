@@ -175,3 +175,32 @@ body:not(.hero):not(.dashboard){
   justify-content: start;
   color: var(--bs-secondary-color);
 }
+
+.password-icon {
+  color: var(--primary);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 30px;
+  height: 30px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+.carousel-control-prev-icon {
+  margin-left: 0;
+}
+
+.carousel-control-next-icon {
+  margin-right: 0;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: auto;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+}

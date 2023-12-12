@@ -139,11 +139,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const adminPwd = document.getElementById("adminPwd");
     const adminPwdHelp = document.getElementById("adminPwdHelp");
+    const adminPwdIcon = document.getElementById("adminPwdIcon");
     adminPwdHelp.style.color = "red";
-
+    
     if (adminPwd.value.length >= 8) {
       setValidInput(adminPwd, adminPwdHelp, 3);
+      adminPwdIcon.style.borderColor = "green";
     } else {
+      adminPwdIcon.style.borderColor = "red";
       setInvalidInput(adminPwd, adminPwdHelp, "Password must be at least 8 characters", 3);
     }
   }
@@ -153,16 +156,20 @@ document.addEventListener("DOMContentLoaded", function () {
   function checkRepeatPwd(event) {
     event.preventDefault();
     const adminPwd = document.getElementById("adminPwd");
+    const repeatAdminPwdIcon = document.getElementById("repeatAdminPwdIcon");
     const repeatAdminPwd = document.getElementById("repeatAdminPwd");
     const repeatAdminPwdHelp = document.getElementById("repeatAdminPwdHelp");
 
     //check whether both passwords match
     if (repeatAdminPwd.value !== adminPwd.value) {
       setInvalidInput(repeatAdminPwd, repeatAdminPwdHelp, "Passwords do not match", 4);
+      repeatAdminPwdIcon.style.borderColor = "red";
     } else if (repeatAdminPwd.value == "") { // if empty field, reset the border color and help text
       setInvalidInput(repeatAdminPwd, repeatAdminPwdHelp, "Password cannot be empty", 4);
+      repeatAdminPwdIcon.style.borderColor = "red";
     } else { // if passwords match
       setValidInput(repeatAdminPwd, repeatAdminPwdHelp, 4);
+      repeatAdminPwdIcon.style.borderColor = "green";
     }
   }
 

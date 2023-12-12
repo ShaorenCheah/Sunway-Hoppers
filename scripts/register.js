@@ -178,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     checkRepeatPwd(event); //check whether both passwords match
 
     const userPwd = document.getElementById("userPwd");
+    const userPwdIcon = document.getElementById("userPwdIcon");
     const cond1 = document.getElementById("cond1");
     const cond2 = document.getElementById("cond2");
     const cond3 = document.getElementById("cond3");
@@ -187,6 +188,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //regex to check whether password has at least 1 number
     const checkNumbers = /^(?=.*[0-9])/;
     userPwd.style.borderColor = "red";
+    userPwdIcon.style.borderColor = "red";
+
 
     //increase the progress bar width when each condition is met
     var conditionsMet = 0;
@@ -232,6 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("password-strength-meter").style.width = "100%";
         passwordStrengthMeter.style.backgroundColor = "green";
         userPwd.style.borderColor = "green";
+        userPwdIcon.style.borderColor = "green";
         flag[4] = 1;
         break;
       default:
@@ -248,14 +252,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const userPwd = document.getElementById("userPwd");
     const repeatPwd = document.getElementById("repeatPwd");
     const repeatPwdHelp = document.getElementById("repeatPwdHelp");
+    const repeatPwdIcon = document.getElementById("userRepeatPwdIcon");
 
     //check whether both passwords match
     if (repeatPwd.value !== userPwd.value) {
       setInvalidInput(repeatPwd, repeatPwdHelp, "Passwords do not match", 5);
+      repeatPwdIcon.style.borderColor = "red";
     } else if (repeatPwd.value == "") { // if empty field, reset the border color and help text
       setInvalidInput(repeatPwd, repeatPwdHelp, "Password cannot be empty", 5);
+      repeatPwdIcon.style.borderColor = "red";
     } else { // if passwords match
       setValidInput(repeatPwd, repeatPwdHelp, 5);
+      repeatPwdIcon.style.borderColor = "green";
     }
   }
 
