@@ -1,3 +1,22 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+?>
+  <script>
+    alert("Please login first before finding carpool!");
+    window.location.href = "./index.php";
+  </script>
+<?php
+  session_destroy();
+} else if (($_SESSION['user']['type']) == "Admin") {
+?>
+  <script>
+    alert("You are not allowed to access this page!");
+    window.location.href = "./dashboard.php?navPage=dashboard";
+  </script>
+<?php }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +30,7 @@
   <link rel="stylesheet" type="text/css" href="./styles/findCarpool.css">
   <!-- Include icon link here -->
   <title>SunwayHoppers</title>
+  <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
 
   <script src="scripts/findCarpool.js"></script>
 </head>
@@ -18,7 +38,6 @@
 
 <body>
   <?php
-  session_start();
   include './includes/header.inc.php';
   require_once './backend/connection.php';
   ?>

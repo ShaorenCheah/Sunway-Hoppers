@@ -1,10 +1,5 @@
 <?php
-
-//check if user is logged in and not an admin
-if (session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
-
+session_start();
 if (!isset($_SESSION['user'])) {
 ?>
   <script>
@@ -43,6 +38,7 @@ if (!isset($_SESSION['user'])) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <link rel="stylesheet" type="text/css" href="./styles/profile.css">
   <title>SunwayHoppers</title>
+  <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
   <style>
     @import url('https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css');
     @import url("https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css");

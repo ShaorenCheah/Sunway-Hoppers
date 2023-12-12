@@ -20,7 +20,7 @@ $loggedIn = checkUser();
   <link rel="stylesheet" type="text/css" href="./styles/reward.css">
   <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
+  <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
 
   <!-- Include icon link here -->
   <title>SunwayHoppers</title>
