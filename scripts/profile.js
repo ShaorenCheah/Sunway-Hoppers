@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   window.onload = function () {
-    fetch("./backend/profile.php?action=getProfile")
+    fetch("./backend/profile/profile.php?action=getProfile")
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("statusMsg").innerHTML += data.html.statusMsg;
       });
 
-    fetch("./backend/profile.php?action=getRequestTable")
+    fetch("./backend/profile/profile.php?action=getRequestTable")
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-    fetch("./backend/profile.php?action=getHistoryTable")
+    fetch("./backend/profile/profile.php?action=getHistoryTable")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("nav-history").innerHTML += data.html;
       });
 
-    fetch("./backend/profile.php?action=getRewardTable")
+    fetch("./backend/profile/profile.php?action=getRewardTable")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -70,6 +70,37 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("editBtn").style.display = edit ? "" : "none";
   });
 
+  document.getElementById("updateBioBtn").addEventListener("click", function () {
+    var bio = document.getElementById("descText").value;
+    var formData = new FormData();
+    formData.append("bio", bio);
+
+    fetch("./backend/profile/profile.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status) {
+          alert(data.message);
+          var refresh = {
+            action: "refresh",
+            index: document.getElementById("index").innerHTML,
+            carpoolID: data.carpoolID,
+          };
+          getRequestModalContent(refresh);
+        } else {
+          alert(data.message);
+        }
+      });
+
+  });
+
   function getSelectedData() {
     var data = {
       action: "newRequestModal",
@@ -83,11 +114,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var requestModal = null;
 
   function getRequestModalContent(data) {
-    console.log(data);
     var type = data.action;
     var requestData = encodeURIComponent(JSON.stringify(data));
     fetch(
-      `./backend/profile.php?action=getRequestModalContent&requestData=${requestData}`
+      `./backend/profile/profile.php?action=getRequestModalContent&requestData=${requestData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -131,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var rewardData = encodeURIComponent(JSON.stringify(data));
     fetch(
-      `./backend/profile.php?action=getRewardModalContent&rewardData=${rewardData}`
+      `./backend/profile/profile.php?action=getRewardModalContent&rewardData=${rewardData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -162,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(requestData));
 
-    fetch("./backend/profile.php", {
+    fetch("./backend/profile/profile.php", {
       method: "POST",
       body: formData,
     })

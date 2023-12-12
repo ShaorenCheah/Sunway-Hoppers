@@ -1,5 +1,5 @@
 <?php
-require_once 'connection.php';
+require_once '../connection.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
@@ -161,7 +161,7 @@ function getRequestTable($pdo)
     foreach ($carpools as $carpool) {
 
       list($pickup, $destination) = styleLocation($carpool);
-      include '../includes/requestTable.inc.php';
+      include '../../includes/requestTable.inc.php';
       $count++;
     }
 
@@ -225,7 +225,7 @@ function getHistoryTable($pdo)
 
     $driver = $stmt->fetch(PDO::FETCH_ASSOC);
     list($pickup, $destination) = styleLocation($carpool);
-    include '../includes/historyTable.inc.php';
+    include '../../includes/historyTable.inc.php';
     $count++;
   }
 
@@ -270,7 +270,7 @@ function getRewardTable($pdo){
   HTML;
 
   foreach ($redemptions as $redemption) {
-    include '../includes/rewardTable.inc.php';
+    include '../../includes/rewardTable.inc.php';
     $count++;
   }
 
