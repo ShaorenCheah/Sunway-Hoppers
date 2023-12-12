@@ -14,11 +14,19 @@
   <title>SunwayHoppers</title>
   <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
 </head>
+<style>
+  #sponsorCarousel img {
+    height: 200px;
+    width: auto;
+    object-fit: contain;
+  }
+</style>
 
 <body class="hero">
   <?php
   session_start();
   include './includes/header.inc.php';
+  include './backend/indexCards.php';
   ?>
 
   <!-- Hero -->
@@ -34,7 +42,7 @@
           </p>
         </div>
         <div class="row my-2">
-          <p style="font-weight: 300">
+          <p style="font-weight: 300; font-size: 1.2rem; text-align: justify;">
             Introducing a new way to travel around Bandar Sunway. Make the sustainable choice by
             hopping on a carpool with other students while earning rewards along the way.</p>
         </div>
@@ -59,8 +67,141 @@
     <div class="col-6" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
     </div>
   </div>
-  <div>
-    <?php include './includes/footer.inc.php'; ?>
+  <div class="row m-5 p-5" style="border: 2px solid var(--primary); border-radius: 0.5rem">
+    <div class="col">
+      <img src="./images/sdg.png" class="img-fluid">
+    </div>
+    <div class="col m-4">
+      <p style="font-weight: bold; font-size: 2.5rem;">Bring An Impact And
+        <span class="highlight">Contribute</span> To Society.
+      </p>
+      <p style="font-weight: 300; font-size: 1.2rem; text-align: justify;">
+        On our platform, we're driving change for a sustainable future, aligning with Sustainable Development Goal 11, Target 11.2. Reduce your carbon footprint and hop on a carpool.
+        <br><br>Join our community to make a difference.
+      </p>
+    </div>
+  </div>
+  <div class="m-5 text-center">
+    <p class="p-0 m-0" style="font-weight: bold; font-size: 2.5rem;">
+      <span class="highlight">How</span> It Works?
+    </p>
+    <p class="m-0" style="color: var(--grey)">
+      Understand how SunwayHoppers works and its benefits
+    </p>
+    <!--tabs -->
+    <div class="mx-5">
+      <div class="row">
+        <nav class="img-fluid">
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-passenger-tab" data-bs-toggle="tab" data-bs-target="#nav-passenger" role="tab">Passenger</button>
+            <button class="nav-link" id="nav-driver-tab" data-bs-toggle="tab" data-bs-target="#nav-driver" role="tab">Driver</button>
+          </div>
+        </nav>
+      </div>
+      <!-- display steps based on tab -->
+      <div class="tab-content mb-5 shadow" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-passenger" role="tabpanel">
+          <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
+            <div class='carousel-inner'>
+              <div class='carousel-item active'>
+                <div class="m-4">
+                  <h3 style=" font-weight: 700">Just <span style="color: var(--sub)">4</span> Simple Steps</h3>
+                </div>
+                <div class='container mb-5 d-flex justify-content-around'>
+                  <div class='row'>
+                    <?php getSteps("passenger") ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="nav-driver" role="tabpanel">
+          <div id='carouselExampleIndicators' class='carousel carousel-dark slide'>
+            <div class='carousel-inner'>
+              <div class='carousel-item active'>
+                <div class="m-4">
+                  <h3 style=" font-weight: 700">Just <span style="color: var(--sub)">4</span> Simple Steps</h3>
+                </div>
+                <div class='container mb-5 d-flex justify-content-around'>
+                  <div class='row'>
+                    <?php getSteps("driver") ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-5 text-center">
+        <p class="p-0 m-0" style="font-weight: bold; font-size: 2.5rem;">Our
+          <span class="highlight">Sponsors</span>
+        </p>
+        <p class="m-0" style="color: var(--grey)">
+          Enjoy the rewards earned from carpooling with the community
+        </p>
+        <!-- Carousel for sponsors -->
+        <div id="sponsorCarousel" class="carousel carousel-dark slide mt-4" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row g-5 mx-5 p-5 align-items-center">
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/boost.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/caltex.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/foodpanda.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/setel.png" class="img-fluid">
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row g-5 mx-5 p-5 align-items-center">
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/llaollao.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/originals.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/petron.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/petronas.png" class="img-fluid">
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row g-5 mx-5 p-5 align-items-center">
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/grab.svg" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/kfc.png" class="img-fluid">
+                </div>
+                <div class="col d-flex justify-content-center">
+                  <img src="./images/sponsors/tealive.jpg" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class='carousel-control-prev mx-5' type='button' data-bs-target='#sponsorCarousel' data-bs-slide='prev'>
+            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+            <span class='visually-hidden'>Previous</span>
+          </button>
+          <button class='carousel-control-next mx-5' type='button' data-bs-target='#sponsorCarousel' data-bs-slide='next'>
+            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+            <span class='visually-hidden'>Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php include './includes/footer.inc.php'; ?>
   </div>
 </body>
 
