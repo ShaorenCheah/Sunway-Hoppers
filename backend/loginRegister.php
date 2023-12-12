@@ -73,7 +73,7 @@ if ($action == 'login') {
       $success = true;
     } else {
       $success = false;
-      $message = "Wrong username/password. Please try again.";
+      $message = "Wrong email/password. Please try again.";
     }
   } else {
     $success = false;
