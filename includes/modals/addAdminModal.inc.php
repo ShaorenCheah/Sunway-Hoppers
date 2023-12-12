@@ -1,4 +1,5 @@
 <script src="scripts/registerAdmin.js"></script>
+<script src="scripts/passwordVisibility.js"></script>
 <div class="modal fade" tabindex="-1" id="addAdminModal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -13,7 +14,7 @@
             </div>
             <div class="form mb-3">
               <label for="adminEmail">Email Address</label>
-              <input type="email" class="form-control" id="adminEmail" name="adminEmail" >
+              <input type="email" class="form-control" id="adminEmail" name="adminEmail">
               <small id="adminEmailHelp" class="form-small-text" style="color: red"></small>
             </div>
             <div class="form mb-3">
@@ -23,12 +24,18 @@
             </div>
             <div class="form mb-3">
               <label for="adminPwd">Password</label>
-              <input type="password" class="form-control" id="adminPwd" name="adminPwd">
+              <div class="input-group">
+                <input type="password" class="form-control" id="adminPwd" name="adminPwd">
+                <span class="input-group-text adminPwdEye" id="adminPwdIcon"><a><i class="bi bi-eye-slash-fill password-icon"></i></a></span>
+              </div>
               <small id="adminPwdHelp" class="form-small-text">*Password should have at least 8 characters</small>
             </div>
             <div class="form mb-3">
               <label for="repeatAdminPwd">Repeat Password</label>
-              <input type="password" class="form-control" id="repeatAdminPwd" name="repeatAdminPwd">
+              <div class="input-group">
+                <input type="password" class="form-control" id="repeatAdminPwd" name="repeatAdminPwd">
+                <span class="input-group-text adminRepeatPwdEye" id="repeatAdminPwdIcon"><a><i class="bi bi-eye-slash-fill password-icon"></i></a></span>
+              </div>
               <small id="repeatAdminPwdHelp" class="form-small-text" style="color: red"></small>
             </div>
             <div class="d-flex justify-content-center">
