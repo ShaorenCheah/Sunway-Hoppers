@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(credentialsData));
 
-    fetch("./backend/editCar.php", {
+    fetch("./backend/profile/editCar.php", {
       method: "POST",
       body: formData,
     })
