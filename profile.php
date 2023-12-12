@@ -29,10 +29,10 @@ if (!isset($_SESSION['user'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/1870e97f2b.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <?php 
-    if($_SESSION['user']['type'] == 'Driver'){
-      echo'<script src="scripts/editCar.js"></script>';
-    }
+  <?php
+  if ($_SESSION['user']['type'] == 'Driver') {
+    echo '<script src="scripts/editCar.js"></script>';
+  }
   ?>
   <script src="scripts/profile.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
@@ -51,7 +51,7 @@ if (!isset($_SESSION['user'])) {
   include './includes/modals/addPicModal.inc.php';
   if ($_SESSION['user']['type'] == 'Driver') {
     include './includes/modals/editCarDetails.inc.php';
-  }else{
+  } else {
     include './includes/modals/registerDriverModal.inc.php';
   }
   ?>
@@ -157,21 +157,19 @@ if (!isset($_SESSION['user'])) {
     </nav>
     <div class="tab-content mb-5 shadow p-3" id="nav-tabContent">
       <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
-        <div class="tab-pane fade show active table-responsive" id="nav-request" role="tabpanel">
+        <div class="tab-pane fade show active overflow-auto" id="nav-request" role="tabpanel" style="height:23rem;">
           <!-- Fetch from profile.js -->
         </div>
       <?php } ?>
 
-      <div class="tab-pane fade table-responsive <?php if ($_SESSION['user']['type'] != 'Driver') echo "active show" ?>" id="nav-history" role="tabpanel">
+      <div class="tab-pane fade table-responsive overflow-auto <?php if ($_SESSION['user']['type'] != 'Driver') echo "active show" ?>" id="nav-history" role="tabpanel" style="height:23rem;">
         <!-- Fetch from profile.js -->
       </div>
 
-      <div class="tab-pane fade table-responsive" id="nav-reward" role="tabpanel">
+      <div class="tab-pane fade table-responsive overflow-auto" id="nav-reward" role="tabpanel" style="height:23rem;">
         <!-- Fetch from profile.js -->
       </div>
-
     </div>
-
     <div class="modal fade" tabindex="-1" id="modal">
       <!-- Generated upon user request-->
     </div>

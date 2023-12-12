@@ -181,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
     getCarpoolList(filterData);
   });
 
+
   // Get the carpool list
   function getCarpoolList(filterData) {
     console.log(filterData);
@@ -209,12 +210,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Pagination
-        updatePagination("4", data.page, data.totalItems);
+        updatePagination(data.page, data.totalItems);
       });
   }
 
-  function updatePagination(limit, page, totalItems) {
-    var resultsPerPage = limit;
+  function updatePagination(page, totalItems) {
+    var resultsPerPage = 4;
     var totalPages = Math.ceil(totalItems / resultsPerPage);
 
     var pagination = document.querySelector(".pagination");
@@ -361,6 +362,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+
   // New carpool form send to database
   function sendCarpoolData(carpoolData) {
     var formData = new FormData();
@@ -379,7 +381,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          window.location.href = "./profile.php"; // Redirect to profile.php
         } else {
           alert(data.message);
         }
@@ -388,6 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Fetch error:", error);
       });
   }
+  
 
   // Join carpool
   function joinCarpool(event) {
@@ -413,6 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+
   // Send join carpool data to database
   function sendJoinCarpoolData(joinCarpoolData) {
     var formData = new FormData();
@@ -431,9 +434,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          location.reload();
+          window.location.href = "./profile.php";
         } else {
           alert(data.message);
+          location.reload();
         }
       })
       .catch((error) => {

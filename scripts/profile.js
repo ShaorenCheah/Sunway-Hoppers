@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (var i = 0; i < viewRequestBtns.length; i++) {
           viewRequestBtns[i].addEventListener("click", getSelectedData);
         }
+        updatePagination(data.page, data.totalItems, "request");
       }
     });
 

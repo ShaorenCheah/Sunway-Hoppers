@@ -336,7 +336,7 @@ function joinCarpool($data, $pdo)
 
   if ($stmt->execute($data)) {
     $success = true;
-    $message = "Joined carpool successfully!";
+    $message = "Joined carpool successfully! The arrival code will be generated for you once the driver has accepted your request ";
   } else {
     $success = false;
     $message = "Joined carpool failed. Please try again.";
