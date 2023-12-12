@@ -165,7 +165,7 @@ if (!isset($_SESSION['user'])) {
       <!-- Pagination Section-->
       <div class="col-12 d-flex justify-content-center mt-4">
         <nav>
-          <ul class="pagination">
+          <ul class="pagination pagination-lg">
             
           </ul>
         </nav>

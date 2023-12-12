@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterDistrict: null,
       filterNeighborhood: null,
       filterLocation: null,
-      page: "1"
+      page: 1
     };
 
     direction1.outerHTML =
@@ -220,18 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var pagination = document.querySelector(".pagination");
     pagination.innerHTML = ""; // Clear existing pagination
 
-    // Add "Previous" button
-    var prevItem = document.createElement("li");
-    prevItem.className = "page-item" + (page == 1 ? " disabled" : "");
-    var prevLink = document.createElement("a");
-    prevLink.className = "page-link";
-    prevLink.textContent = "Previous";
-    if (page > 1) {
-      prevLink.href = "?page=" + (page - 1);
-    }
-    prevItem.appendChild(prevLink);
-    pagination.appendChild(prevItem);
-
     // Add page numbers
     for (var i = 1; i <= totalPages; i++) {
       var pageItem = document.createElement("li");
@@ -243,18 +231,6 @@ document.addEventListener("DOMContentLoaded", function () {
       pageItem.appendChild(pageLink);
       pagination.appendChild(pageItem);
     }
-
-    // Add "Next" button
-    var nextItem = document.createElement("li");
-    nextItem.className = "page-item" + (page == totalPages ? " disabled" : "");
-    var nextLink = document.createElement("a");
-    nextLink.className = "page-link";
-    nextLink.textContent = "Next";
-    if (page < totalPages) {
-      nextLink.href = "?page=" + (page + 1);
-    }
-    nextItem.appendChild(nextLink);
-    pagination.appendChild(nextItem);
   }
 
   document.addEventListener("click", function (e) {
