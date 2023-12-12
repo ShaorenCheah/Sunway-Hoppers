@@ -9,13 +9,18 @@
               <label for="carpoolDate" class="form-label">Date <i class="ms-2 bi bi-calendar-week"></i></label>
               <input type="date" class="form-control" id="carpoolDate" name="carpoolDate" min="<?php echo date("Y-m-d"); ?>" required>
             </div>
-            <div class="col-6">
-              <label for="carpoolTime" class="form-label">Departure Time <i class="ms-2 bi bi-clock"></i></label>
-              <input type="time" class="form-control" id="carpoolTime" name="carpoolTime" required>
+            <div class="col-6 d-flex flex-column">
+              <div>
+                <label for="carpoolTime" class="form-label">Departure Time <i class="ms-2 bi bi-clock"></i></label>
+                <input type="time" class="form-control" id="carpoolTime" name="carpoolTime" required>
+              </div>
+              <p id="departureTimeStatus" style="color:#F65555; font-weight: 500"></p>
             </div>
-            <div class="col-12">
-              <label for="passengerAmt" class="form-label">Number of Passengers <i class="ms-2 bi bi-people"></i></label>
-              <input type="number" class="form-control" id="passengerAmt" name="passengerAmt" min="1" max="10" placeholder="Select number of passengers" required>
+            <div class="col-12 mt-1 d-flex flex-column">
+              <div>
+                <label for="passengerAmt" class="form-label">Number of Passengers <i class="ms-2 bi bi-people"></i></label>
+                <input type="number" class="form-control" id="passengerAmt" name="passengerAmt" min="1" max="4" placeholder="Select number of passengers" required>
+              </div>
             </div>
             <div class="col-12">
               <div class="border-bottom pt-2"></div>
@@ -81,4 +86,3 @@
     </div>
   </div>
 </div>
-

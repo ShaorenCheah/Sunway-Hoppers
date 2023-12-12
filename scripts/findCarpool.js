@@ -251,6 +251,35 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+  //set invalid input fields to red and display error message
+  function setInvalidInput(field, helpText, message, flagIndex) {
+    field.style.borderColor = "red";
+    helpText.textContent = message;
+    helpText.style.color = "red";
+    flag[flagIndex] = 0;
+  }
+
+  //check carpool departure time input
+  function checkDepartureTime(date, time) {
+    const timeInput = document.getElementById("carpoolTime");
+    const timeStatus = document.getElementById("departureTimeStatus");
+    var now = new Date();
+    var selectedDateTime = new Date(date + "T" + time);
+    console.log(selectedDateTime);
+    if (selectedDateTime < now) {
+      setInvalidInput(
+        timeInput,
+        timeStatus,
+        "Invalid time selected.",
+        0
+      );
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+
   // New carpool form submission
   document
     .getElementById("newCarpoolBtn")
@@ -260,7 +289,6 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault(); // Prevent the default form submission
 
     var carpool = document.getElementById("newCarpoolForm");
-
     // Check the form validity
     if (carpool.checkValidity()) {
       var date = carpool.elements["carpoolDate"].value;
@@ -273,20 +301,21 @@ document.addEventListener("DOMContentLoaded", function () {
       var details = carpool.elements["details"].value;
       var womenOnly = carpool.elements["womenOnly"].checked;
 
-      var carpoolData = {
-        action: "newCarpool",
-        date,
-        time,
-        passengerAmt,
-        direction,
-        district,
-        neighborhood,
-        location,
-        details,
-        womenOnly,
-      };
-
-      sendCarpoolData(carpoolData);
+      if (checkDepartureTime(date, time) == true) {
+        var carpoolData = {
+          action: "newCarpool",
+          date,
+          time,
+          passengerAmt,
+          direction,
+          district,
+          neighborhood,
+          location,
+          details,
+          womenOnly,
+        };
+        // sendCarpoolData(carpoolData);
+      }
     } else {
       // The form is invalid, show an error message or handle it accordingly
       carpool.reportValidity();
@@ -311,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
-          window.location.href = './profile.php'; // Redirect to profile.php
+          window.location.href = "./profile.php"; // Redirect to profile.php
         } else {
           alert(data.message);
         }
@@ -337,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var joinCarpoolData = {
           action: "joinCarpool",
-          carpoolID
+          carpoolID,
         };
 
         sendJoinCarpoolData(joinCarpoolData);
