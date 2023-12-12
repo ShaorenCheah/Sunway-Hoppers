@@ -175,3 +175,7 @@ body:not(.hero):not(.dashboard){
   justify-content: start;
   color: var(--bs-secondary-color);
 }
+
+.password-icon {
+  color: var(--primary);
+}

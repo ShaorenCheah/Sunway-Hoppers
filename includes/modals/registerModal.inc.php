@@ -28,7 +28,7 @@
                     <div class="form-floating mb-3">
                       <input type="text" class="form-control" id="username" name="username" placeholder="">
                       <label for="username">Name</label>
-                      <small id = "usernameHelp" class="form-small-text">*Enter a name that will help drivers recognise you</small>
+                      <small id="usernameHelp" class="form-small-text">*Enter a name that will help drivers recognise you</small>
                     </div>
                     <div class="form-floating mb-3">
                       <input type="email" class="form-control" id="email" name="email" placeholder="">
@@ -40,12 +40,12 @@
                       <label for="phoneNo">Phone Number</label>
                       <small id="phoneNoHelp" class="form-small-text">*Please enter phone number without dash (-)</small>
                     </div>
-                    <div class="row">
-                      <div class="col mb-3">
+                    <div class="row mb-3">
+                      <div class="col">
                         <div class="form-floating">
                           <input type="date" class="form-control" id="dob" name="dob" placeholder="">
                           <label for="dob">Date of Birth</label>
-                          <small id = "dobHelp" class="form-small-text"></small>
+                          <small id="dobHelp" class="form-small-text"></small>
                         </div>
                       </div>
                       <div class="col">
@@ -58,9 +58,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-floating mb-3">
-                      <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="">
-                      <label for="userPwd">Password</label>
+                    <div class="input-group">
+                      <div class="form-floating flex-grow-1">
+                        <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="">
+                        <label for="userPwd">Password</label>
+                      </div>
+                      <span class="input-group-text userPwdEye" id="userPwdIcon"><a><i class="bi bi-eye-slash-fill password-icon"></i></a></span>
+                    </div>
+                    <div class="mb-3">
                       <!--password strength meter-->
                       <div class="progress mt-2" style="height: 5px;">
                         <div class="progress-bar" id="password-strength-meter" role="progressbar" style="width: 0%;"></div>
@@ -71,9 +76,14 @@
                         <small id="cond3" class="form-small-text">Special characters &#x2717</small>
                       </div>
                     </div>
-                    <div class="form-floating mb-3">
-                      <input type="password" class="form-control" id="repeatPwd" name="repeatPwd" placeholder="">
-                      <label for="repeatPwd">Repeat Password</label>
+                    <div class="mb-3">
+                      <div class="input-group">
+                        <div class="form-floating flex-grow-1">
+                          <input type="password" class="form-control" id="repeatPwd" name="repeatPwd" placeholder="">
+                          <label for="repeatPwd">Repeat Password</label>
+                        </div>
+                        <span class="input-group-text userRepeatPwdEye" id="userRepeatPwdIcon"><a ><i class="bi bi-eye-slash-fill password-icon"></i></a></span>
+                      </div>
                       <small id="repeatPwdHelp" class="form-small-text"></small>
                     </div>
                     <button type="submit" class="btn btn-primary shadow px-4" id="registerBtn" name=" registerSubmit" disabled>Register</button>

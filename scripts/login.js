@@ -49,10 +49,13 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     const password = document.getElementById("accPwd");
     const passwordHelp = document.getElementById("accPwdHelp");
+    const passwordIcon = document.getElementById("accPwdIcon");
     if (password.value == "") {
       setInvalidInput(password, passwordHelp, "Please enter your password", 1);
+      passwordIcon.style.borderColor = "red";
     } else {
       setValidInput(password, passwordHelp, 1);
+      passwordIcon.style.borderColor = "green";
     }
   }
 
