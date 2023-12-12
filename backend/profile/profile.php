@@ -393,7 +393,7 @@ function getRequestModalContent($data, $pdo)
 
   $modal = "";
 
-  include '../includes/modals/viewRequestModal.inc.php';
+  include '../../includes/modals/viewRequestModal.inc.php';
 
   $response = [
     'action' => 'getRequestModalContent',
@@ -412,7 +412,7 @@ function getRewardModalContent($data, $pdo){
 
   $modal = "";
 
-  include '../includes/modals/viewRewardModal.inc.php';
+  include '../../includes/modals/viewRewardModal.inc.php';
   
   $response = [
     'action' => 'getRewardModalContent',

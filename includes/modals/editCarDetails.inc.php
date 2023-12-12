@@ -1,5 +1,5 @@
 <?php
-include '../../backend/connection.php';
+require_once './backend/connection.php';
 
 $sql = "SELECT * FROM application WHERE accountID = :accountID";
 $stmt = $pdo->prepare($sql);
