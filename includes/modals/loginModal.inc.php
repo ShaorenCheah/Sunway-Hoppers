@@ -10,7 +10,6 @@
                 <img src="./images/logo/modal.png" width="100" style="margin: 2rem;">
                 <h2 style="font-weight:700;">LOGIN</h2>
                 <p style="font-size: 1rem;">Please enter your student email and password<br></p>
-                <p id="loginStatus" style="color:red; font-weight: 500"></p>
                 <div class="form-floating mb-3">
                   <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="">
                   <label for="accEmail">Email Address</label>
@@ -21,9 +20,9 @@
                   <label for="accPwd">Password</label>
                   <small id="accPwdHelp" class="form-small-text"></small>
                 </div>
-                <a href="#" style="text-decoration: none; color: #F6931A;">Forgot Password?</a>
+                <p id="loginStatus" style="color:#F65555; font-weight: 500"></p>
                 <div>
-                  <button name="loginSubmit" id="loginBtn" class="btn btn-primary shadow px-4 m-4" disabled>Login</button>
+                  <button name="loginSubmit" id="loginBtn" class="btn btn-primary shadow px-4 m-2 mb-4" disabled>Login</button>
                 </div>
                 <p>Don't have an account? <a href="#" style="text-decoration: none; color: #F6931A;" onclick="showRegisterModal()">Sign Up</a></p>
               </form>

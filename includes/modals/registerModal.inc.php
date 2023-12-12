@@ -62,10 +62,10 @@
                       <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="">
                       <label for="userPwd">Password</label>
                       <!--password strength meter-->
-                      <div class="progress" style="height: 5px;">
+                      <div class="progress mt-2" style="height: 5px;">
                         <div class="progress-bar" id="password-strength-meter" role="progressbar" style="width: 0%;"></div>
                       </div>
-                      <div class="d-flex flex-row justify-content-between">
+                      <div class="d-flex flex-row justify-content-between mt-1">
                         <small id="cond1" class="form-small-text">8 characters &#x2717</small>
                         <small id="cond2" class="form-small-text">Numbers &#x2717</small>
                         <small id="cond3" class="form-small-text">Special characters &#x2717</small>

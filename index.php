@@ -12,7 +12,7 @@
 
   <!-- Include icon link here -->
   <title>SunwayHoppers</title>
-  <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
+  <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
 </head>
 
 <body class="hero">
@@ -40,7 +40,13 @@
         </div>
         <div class="row">
           <div class="col-3">
-            <button type="button" class="btn btn-primary shadow px-4" style="border-radius:25px; width: 9rem">Hop On</button>
+            <?php
+            if (!isset($_SESSION['user'])) {
+              echo '<button type="button" class="btn btn-primary shadow px-4" style="border-radius:25px; width: 9rem" data-bs-toggle="modal" data-bs-target="#loginModal">Hop On</button>';
+            } else {
+              echo '<button type="button" class="btn btn-primary shadow px-4" style="border-radius:25px; width: 9rem" onclick="window.location.href=\'findCarpool.php\'">Hop On</button>';
+            }
+            ?>
           </div>
           <div class="col-3 mt-2">
             <p style="font-weight:500">See How It Works <i class="bi bi-chevron-right" style="color: #263238"></i></p>

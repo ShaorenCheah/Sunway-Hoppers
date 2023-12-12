@@ -34,7 +34,9 @@ if ($action == 'login') {
       $accountID = $result['accountID'];
       $type = $result['type'];
 
+      // Set session duration to 30 minutes
       if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_set_cookie_params(1800);
         session_start();
       }
 

@@ -28,6 +28,7 @@ include './includes/modals/registerModal.inc.php';
                           if (isset($_SESSION['user'])) {
                             echo 'href="findCarpool.php"';
                           } else {
+                            echo 'href="" onclick="alert(\'Please log in first to view available carpool.\');"';
                             echo 'href="" data-bs-toggle="modal" data-bs-target="#loginModal"';
                           }
                           ?>>
@@ -41,7 +42,7 @@ include './includes/modals/registerModal.inc.php';
     if (isset($_SESSION['user'])) {
     ?>
       <li class="nav-item">
-        <a class="nav-link" href="./includes/logout.inc.php">Logout</a>
+        <a class="nav-link" href="profile.php">Profile</a>
       </li>
     <?php } ?>
   </ul>
@@ -49,7 +50,11 @@ include './includes/modals/registerModal.inc.php';
   <div class="col d-flex justify-content-end">
     <?php
     if (!isset($_SESSION['user'])) {
-      echo '<button type="button" class="btn btn-primary shadow login px-4" onclick="showLoginModal()">Login</button>';
+      $html = <<<HTML
+      <button type="button" class="btn btn-green-outline shadow login px-4" onclick="showLoginModal()">Login</button>
+      <button type="button" class="btn btn-primary shadow login px-4 ms-2" onclick="showRegisterModal()">Sign Up</button>
+      HTML;
+      echo $html;
     } else if (($_SESSION['user']['type'] == 'Admin')) {
     ?>
       <script>
@@ -57,7 +62,7 @@ include './includes/modals/registerModal.inc.php';
       </script>
     <?php
     } else { ?>
-      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = 'profile.php'"><i class="bi bi-person" style="height:60%"></i></button>
+      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = './includes/logout.inc.php'"><i class="bi bi-box-arrow-in-right" style="height:60%"></i></button>
     <?php
     }
     ?>
