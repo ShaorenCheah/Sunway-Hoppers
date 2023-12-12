@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
     //regex to check whether password has at least 1 number
     const checkNumbers = /^(?=.*[0-9])/;
+    userPwd.style.borderColor = "red";
 
     //increase the progress bar width when each condition is met
     var conditionsMet = 0;
