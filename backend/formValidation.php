@@ -59,7 +59,7 @@ if ($action != 'checkCarNo') {
     $message = "";
   }
 } else {
-  $stmt = $pdo->prepare("SELECT $column, status FROM $table WHERE $column = :input");
+  $stmt = $pdo->prepare("SELECT vehicleNo, status FROM application WHERE vehicleNo = :input");
   $stmt->bindParam(':input', $input, PDO::PARAM_STR);
   $stmt->execute();
 
