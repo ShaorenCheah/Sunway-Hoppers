@@ -140,35 +140,43 @@ function getRequestTable($pdo)
 
     $count = 1;
 
-    $html .= <<<HTML
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          <th scope="col" class="text-center">No.</th>
-          <th scope="col" class="text-center">Date</th>
-          <th scope="col" class="text-center">Time</th>
-          <th scope="col" class="text-center">Passengers No.</th>
-          <th scope="col" class="text-center">Pickup Area</th>
-          <th scope="col" class="text-center">Destination</th>
-          <th scope="col" class="text-center">Status</th>
-          <th scope="col" class="text-center">Points Earned</th>
-          <th scope="col" class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-    HTML;
+    if (count($carpools) > 0) {
+      $html .= <<<HTML
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">No.</th>
+            <th scope="col" class="text-center">Date</th>
+            <th scope="col" class="text-center">Time</th>
+            <th scope="col" class="text-center">Passengers No.</th>
+            <th scope="col" class="text-center">Pickup Area</th>
+            <th scope="col" class="text-center">Destination</th>
+            <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-center">Points Earned</th>
+            <th scope="col" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+      HTML;
 
-    foreach ($carpools as $carpool) {
+      foreach ($carpools as $carpool) {
+        list($pickup, $destination) = styleLocation($carpool);
+        include '../../includes/requestTable.inc.php';
+        $count++;
+      }
 
-      list($pickup, $destination) = styleLocation($carpool);
-      include '../../includes/requestTable.inc.php';
-      $count++;
+      $html .= <<<HTML
+        </tbody>
+      </table>
+      HTML;
+    } else {
+      $html .= <<<HTML
+      <div class="d-flex flex-column align-items-center justify-content-center h-100">
+        <h1 class="text-center" style="font-size: 3rem; color: var(--primary);">No Active Carpool Session Found</h1>
+        <p class="text-center text-muted" style="font-size: 1.5rem;">Start a carpool request first to receive requests</p>
+      </div>
+      HTML;
     }
-
-    $html .= <<<HTML
-      </tbody>
-    </table>
-    HTML;
 
     $response = [
       'action' => 'getRequestTable',
@@ -198,41 +206,50 @@ function getHistoryTable($pdo)
   $count = 1;
   $html = '';
 
-  $html .= <<<HTML
-  <table class="table align-middle">
-    <thead>
-      <tr>
-        <th scope="col" class="text-center">No.</th>
-        <th scope="col" class="text-center">Date</th>
-        <th scope="col" class="text-center">Time</th>
-        <th scope="col" class="text-center">Driver</th>
-        <th scope="col" class="text-center">Vehicle Details</th>
-        <th scope="col" class="text-center">Pickup Area</th>
-        <th scope="col" class="text-center">Destination</th>
-        <th scope="col" class="text-center">Status</th>
-        <th scope="col" class="text-center">Points Earned</th>
-        <th scope="col" class="text-center">Code</th>
-      </tr>
-    </thead>
-    <tbody>
-  HTML;
+  if (count($carpools) > 0) {
+    $html .= <<<HTML
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">No.</th>
+          <th scope="col" class="text-center">Date</th>
+          <th scope="col" class="text-center">Time</th>
+          <th scope="col" class="text-center">Driver</th>
+          <th scope="col" class="text-center">Vehicle Details</th>
+          <th scope="col" class="text-center">Pickup Area</th>
+          <th scope="col" class="text-center">Destination</th>
+          <th scope="col" class="text-center">Status</th>
+          <th scope="col" class="text-center">Points Earned</th>
+          <th scope="col" class="text-center">Code</th>
+        </tr>
+      </thead>
+      <tbody>
+    HTML;
 
-  foreach ($carpools as $carpool) {
-    $sql = "SELECT * FROM `user` JOIN `application` ON `user`.`accountID` = `application`.`accountID` WHERE `user`.`accountID` = :accountID";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':accountID', $carpool['driverID']);
-    $stmt->execute();
+    foreach ($carpools as $carpool) {
+      $sql = "SELECT * FROM `user` JOIN `application` ON `user`.`accountID` = `application`.`accountID` WHERE `user`.`accountID` = :accountID";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':accountID', $carpool['driverID']);
+      $stmt->execute();
 
-    $driver = $stmt->fetch(PDO::FETCH_ASSOC);
-    list($pickup, $destination) = styleLocation($carpool);
-    include '../../includes/historyTable.inc.php';
-    $count++;
+      $driver = $stmt->fetch(PDO::FETCH_ASSOC);
+      list($pickup, $destination) = styleLocation($carpool);
+      include '../../includes/historyTable.inc.php';
+      $count++;
+    }
+    $html .= <<<HTML
+      </tbody>
+    </table>
+    HTML;
+  } else {
+    $html .= <<<HTML
+    <div class="d-flex flex-column align-items-center justify-content-center h-100">
+      <h1 class="text-center" style="font-size: 3rem; color: var(--primary);">No Carpool Records Found</h1>
+      <p class="text-center text-muted" style="font-size: 1.5rem;">Join others on a carpool session to view your history </p>
+    </div>
+    HTML;
   }
 
-  $html .= <<<HTML
-    </tbody>
-  </table>
-  HTML;
 
   $response = [
     'action' => 'getHistoryTable',
@@ -242,7 +259,8 @@ function getHistoryTable($pdo)
   echo json_encode($response);
 }
 
-function getRewardTable($pdo){
+function getRewardTable($pdo)
+{
   $sql = "SELECT * FROM `redemption` JOIN `reward` ON `redemption`.`rewardID` = `reward`.`rewardID` WHERE `redemption`.`accountID` = :accountID ORDER BY redemptionDate DESC";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':accountID', $_SESSION['user']['accountID']);
@@ -252,32 +270,41 @@ function getRewardTable($pdo){
   $count = 1;
   $html = '';
 
-  $html .= <<<HTML
-  <table class="table align-middle">
-    <thead>
-      <tr>
-        <th scope="col" class="text-center">No.</th>
-        <th scope="col" class="text-center">Reward Name</th>
-        <th scope="col" class="text-center">Type</th>
-        <th scope="col" class="text-center">Points</th>
-        <th scope="col" class="text-center">Redemption Date</th>
-        <th scope="col" class="text-center">Expiry Date</th>
-        <th scope="col" class="text-center">Status</th>
-        <th scope="col" class="text-center">View Voucher</th>
-      </tr>
-    </thead>
-    <tbody>
-  HTML;
+  if (count($redemptions) > 0) {
+    $html .= <<<HTML
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">No.</th>
+          <th scope="col" class="text-center">Reward Name</th>
+          <th scope="col" class="text-center">Type</th>
+          <th scope="col" class="text-center">Points</th>
+          <th scope="col" class="text-center">Redemption Date</th>
+          <th scope="col" class="text-center">Expiry Date</th>
+          <th scope="col" class="text-center">Status</th>
+          <th scope="col" class="text-center">View Voucher</th>
+        </tr>
+      </thead>
+      <tbody>
+    HTML;
 
-  foreach ($redemptions as $redemption) {
-    include '../../includes/rewardTable.inc.php';
-    $count++;
+    foreach ($redemptions as $redemption) {
+      include '../../includes/rewardTable.inc.php';
+      $count++;
+    }
+
+    $html .= <<<HTML
+      </tbody>
+    </table>
+    HTML;
+  } else {
+    $html .= <<<HTML
+    <div class="d-flex flex-column align-items-center justify-content-center h-100">
+      <h1 class="text-center" style="font-size: 3rem; color: var(--primary);">No Redemption Records Found</h1>
+      <p class="text-center text-muted" style="font-size: 1.5rem;">Redeem rewards using your points at the "Rewards" section</p>
+    </div>
+    HTML;
   }
-
-  $html .= <<<HTML
-    </tbody>
-  </table>
-  HTML;
 
   $response = [
     'action' => 'getRewardTable',
@@ -403,7 +430,8 @@ function getRequestModalContent($data, $pdo)
   echo json_encode($response);
 }
 
-function getRewardModalContent($data, $pdo){
+function getRewardModalContent($data, $pdo)
+{
   $sql = "SELECT * FROM `redemption` JOIN `reward` ON `redemption`.`rewardID` = `reward`.`rewardID` WHERE `redemption`.`redemptionID` = :redemptionID";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':redemptionID', $data['redemptionID']);
@@ -413,7 +441,7 @@ function getRewardModalContent($data, $pdo){
   $modal = "";
 
   include '../../includes/modals/viewRewardModal.inc.php';
-  
+
   $response = [
     'action' => 'getRewardModalContent',
     'modal' => $modal,
