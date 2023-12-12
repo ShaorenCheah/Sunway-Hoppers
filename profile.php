@@ -48,6 +48,12 @@ if (!isset($_SESSION['user'])) {
 <body>
   <?php
   include './includes/header.inc.php';
+  include './includes/modals/addPicModal.inc.php';
+  if ($_SESSION['user']['type'] == 'Driver') {
+    include './includes/modals/editCarDetails.inc.php';
+  }else{
+    include './includes/modals/registerDriverModal.inc.php';
+  }
   ?>
   <div class="m-5">
     <h2 class="text-center pt-5 pb-3"><b>My<span style="color:var(--secondary)"> Profile</span></b></h2>
@@ -56,7 +62,7 @@ if (!isset($_SESSION['user'])) {
     <div class="d-flex" style="border-radius:0.714rem">
       <!-- First Column (Driver Profile)-->
       <div class="driver-border d-flex flex-column align-items-center justify-content-center text-center p-3 " style="width:26%">
-        <img id="profilePic"  alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
+        <img id="profilePic" src="<?php echo $_SESSION['user']['profilePic']; ?>" alt="Avatar" class="shadow" style="border-radius: 50%; height: 5rem; width: 5rem; cursor: pointer; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#profilePicModal">
         <h5 class="mt-3"><?php echo $_SESSION['user']['name'] ?></h5>
         <!--Display rating if user is a driver-->
         <?php if ($_SESSION['user']['type'] == 'Driver') { ?>
@@ -100,14 +106,14 @@ if (!isset($_SESSION['user'])) {
         </div>
 
         <!-- Fifth Column (About Me)-->
-        <form id="bioForm" method="post" action="./backend/updateBio.php" class="aboutMe-border col-6  p-3 d-flex flex-column justify-content-center">
+        <form id="bioForm" class="aboutMe-border col-6  p-3 d-flex flex-column justify-content-center">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5>About Me <i class="bi bi-person-square"></i></h5>
             <button type="button" class="btn btn-primary editBtn py-1 shadow" value="true" id="editBtn">
               Edit<i class="bi bi-pencil-square" style="padding-left: 0.2rem;"></i>
             </button>
 
-            <button type="submit" name="updateBioBtn" id="updateBioBtn" class="btn btn-secondary saveBtn shadow py-1" style="display: none;">
+            <button type="button" name="updateBioBtn" id="updateBioBtn" class="btn btn-secondary saveBtn shadow py-1" style="display: none;">
               Save <i class=" bi bi-save" style="padding-left: 0.2rem;"></i>
             </button>
           </div>
@@ -169,14 +175,6 @@ if (!isset($_SESSION['user'])) {
     <div class="modal fade" tabindex="-1" id="modal">
       <!-- Generated upon user request-->
     </div>
-
-    <?php
-    include './includes/modals/addPicModal.inc.php';
-    include './includes/modals/registerDriverModal.inc.php';
-    if ($_SESSION['user']['type'] == 'Driver') {
-      include './includes/modals/editCarDetails.inc.php';
-    }
-    ?>
 </body>
 
 

@@ -1,5 +1,5 @@
 <?php
-require_once 'connection.php';
+require_once '../connection.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
@@ -82,11 +82,11 @@ function getProfile($pdo)
     HTML;
   } else if ($application['status'] == 'New') {
     $html['accStatus'] = <<<HTML
-      <span class="badge bg-secondary shadow">Pending Application</span>
+      <span class="badge bg-secondary shadow" style='background-color:var(--secondary) !important'>Pending Application</span>
     HTML;
   } else if ($application['status'] == 'Rejected') {
     $html['accStatus'] = <<<HTML
-      <span class="badge bg-secondary shadow">Application Rejected</span>
+      <span class="badge bg-secondary shadow" style='background-color:##F65555 !important'>Application Rejected</span>
     HTML;
   } else if ($application['status'] == 'Approved') {
     $html['accStatus'] = <<<HTML
@@ -96,7 +96,7 @@ function getProfile($pdo)
       <img src="images/driverAcc.png" style="height: 7rem; width: auto;">
     HTML;
     $html['statusMsg'] = <<<HTML
-      <h5>You're currently a <span class="badge bg-secondary shadow">Driver</span></h5>
+      <h5>You're currently a <span class="badge bg-secondary shadow" style='background-color:var(--secondary) !important'>Driver</span></h5>
     HTML;
   }
 
@@ -161,7 +161,7 @@ function getRequestTable($pdo)
     foreach ($carpools as $carpool) {
 
       list($pickup, $destination) = styleLocation($carpool);
-      include '../includes/requestTable.inc.php';
+      include '../../includes/requestTable.inc.php';
       $count++;
     }
 
@@ -225,7 +225,7 @@ function getHistoryTable($pdo)
 
     $driver = $stmt->fetch(PDO::FETCH_ASSOC);
     list($pickup, $destination) = styleLocation($carpool);
-    include '../includes/historyTable.inc.php';
+    include '../../includes/historyTable.inc.php';
     $count++;
   }
 
@@ -270,7 +270,7 @@ function getRewardTable($pdo){
   HTML;
 
   foreach ($redemptions as $redemption) {
-    include '../includes/rewardTable.inc.php';
+    include '../../includes/rewardTable.inc.php';
     $count++;
   }
 
@@ -393,7 +393,7 @@ function getRequestModalContent($data, $pdo)
 
   $modal = "";
 
-  include '../includes/modals/viewRequestModal.inc.php';
+  include '../../includes/modals/viewRequestModal.inc.php';
 
   $response = [
     'action' => 'getRequestModalContent',
@@ -412,7 +412,7 @@ function getRewardModalContent($data, $pdo){
 
   $modal = "";
 
-  include '../includes/modals/viewRewardModal.inc.php';
+  include '../../includes/modals/viewRewardModal.inc.php';
   
   $response = [
     'action' => 'getRewardModalContent',

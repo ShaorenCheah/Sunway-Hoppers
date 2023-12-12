@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     userPwd.style.borderColor = "red";
     userPwdIcon.style.borderColor = "red";
 
+
     //increase the progress bar width when each condition is met
     var conditionsMet = 0;
     if (userPwd.value.length >= 8) {

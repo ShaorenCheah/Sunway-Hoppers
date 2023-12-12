@@ -64,6 +64,7 @@ if ($action == 'login') {
           'name' => $result['name'],
           'email' => $email,
           'type' => $type,
+          'profilePic' => $result['profilePic'],
           'gender' => $result['gender'], //might need it to validate carpool session
         ];
         $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
@@ -72,7 +73,7 @@ if ($action == 'login') {
       $success = true;
     } else {
       $success = false;
-      $message = "Wrong username/password. Please try again.";
+      $message = "Wrong email/password. Please try again.";
     }
   } else {
     $success = false;

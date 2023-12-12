@@ -1,64 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
-  window.onload = function () {
-    fetch("./backend/profile.php?action=getProfile")
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        document
-          .getElementById("profilePic")
-          .setAttribute("src", data.user.profilePic);
+  fetch("./backend/profile/profile.php?action=getProfile")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
 
-        // Insert Profile Section HTML
-        if (data.type == "Driver") {
-          document.getElementById("userRating").innerHTML +=
-            data.user.rating + '<i class="ms-1 bi bi-star-fill"></i>';
-          document.getElementById("ratingsAmt").innerHTML +=
-            "(" + data.user.ratingsAmt + " Ratings)";
+      // Insert Profile Section HTML
+      if (data.type == "Driver") {
+        document.getElementById("userRating").innerHTML +=
+          data.user.rating + '<i class="ms-1 bi bi-star-fill"></i>';
+        document.getElementById("ratingsAmt").innerHTML +=
+          "(" + data.user.ratingsAmt + " Ratings)";
+      }
+      document.getElementById("userPhoneNo").textContent = data.user.phoneNo;
+      document.getElementById("userDOB").textContent = data.user.dob;
+      document.getElementById("descText").textContent = data.user.bio;
+      // Insert Account Status Section HTML
+      document.getElementById("accStatus").innerHTML += data.html.accStatus;
+      document.getElementById("statusImg").innerHTML += data.html.statusImg;
+      document.getElementById("statusMsg").innerHTML += data.html.statusMsg;
+    });
+
+  fetch("./backend/profile/profile.php?action=getRequestTable")
+    .then((response) => response.json())
+    .then((data) => {
+      //console.log(data);
+      if (data.type == "Driver") {
+        // Insert Request Table HTML
+        document.getElementById("nav-request").innerHTML += data.html;
+
+        var viewRequestBtns = document.getElementsByClassName("view-request");
+        for (var i = 0; i < viewRequestBtns.length; i++) {
+          viewRequestBtns[i].addEventListener("click", getSelectedData);
         }
-        document.getElementById("userPhoneNo").textContent = data.user.phoneNo;
-        document.getElementById("userDOB").textContent = data.user.dob;
-        document.getElementById("descText").textContent = data.user.bio;
-        // Insert Account Status Section HTML
-        document.getElementById("accStatus").innerHTML += data.html.accStatus;
-        document.getElementById("statusImg").innerHTML += data.html.statusImg;
-        document.getElementById("statusMsg").innerHTML += data.html.statusMsg;
-      });
+      }
+    });
 
-    fetch("./backend/profile.php?action=getRequestTable")
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        if (data.type == "Driver") {
-          // Insert Request Table HTML
-          document.getElementById("nav-request").innerHTML += data.html;
+  fetch("./backend/profile/profile.php?action=getHistoryTable")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      // Insert History Table HTML
+      document.getElementById("nav-history").innerHTML += data.html;
+    });
 
-          var viewRequestBtns = document.getElementsByClassName("view-request");
-          for (var i = 0; i < viewRequestBtns.length; i++) {
-            viewRequestBtns[i].addEventListener("click", getSelectedData);
-          }
-        }
-      });
-
-    fetch("./backend/profile.php?action=getHistoryTable")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Insert History Table HTML
-        document.getElementById("nav-history").innerHTML += data.html;
-      });
-
-    fetch("./backend/profile.php?action=getRewardTable")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Insert History Table HTML
-        document.getElementById("nav-reward").innerHTML += data.html;
-        var viewRewardBtns = document.getElementsByClassName("view-reward");
-        for (var i = 0; i < viewRewardBtns.length; i++) {
-          viewRewardBtns[i].addEventListener("click", getRewardModalContent);
-        }
-      });
-  };
+  fetch("./backend/profile/profile.php?action=getRewardTable")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      // Insert History Table HTML
+      document.getElementById("nav-reward").innerHTML += data.html;
+      var viewRewardBtns = document.getElementsByClassName("view-reward");
+      for (var i = 0; i < viewRewardBtns.length; i++) {
+        viewRewardBtns[i].addEventListener("click", getRewardModalContent);
+      }
+    });
 
   // Edit Bio Feature
   var edit = document.getElementById("editBtn").value;
@@ -69,6 +64,30 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("updateBioBtn").style.display = edit ? "none" : "";
     document.getElementById("editBtn").style.display = edit ? "" : "none";
   });
+
+  document
+    .getElementById("updateBioBtn")
+    .addEventListener("click", function () {
+      var bio = document.getElementById("descText").value;
+      var formData = new FormData();
+      formData.append("bio", bio);
+
+      fetch("./backend/profile/updateBio.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          alert(data.message);
+          window.location.reload();
+        });
+    });
 
   function getSelectedData() {
     var data = {
@@ -83,11 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var requestModal = null;
 
   function getRequestModalContent(data) {
-    console.log(data);
     var type = data.action;
     var requestData = encodeURIComponent(JSON.stringify(data));
     fetch(
-      `./backend/profile.php?action=getRequestModalContent&requestData=${requestData}`
+      `./backend/profile/profile.php?action=getRequestModalContent&requestData=${requestData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -120,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
   }
-  
+
   var rewardModal = null;
   function getRewardModalContent() {
     var data = {
@@ -131,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var rewardData = encodeURIComponent(JSON.stringify(data));
     fetch(
-      `./backend/profile.php?action=getRewardModalContent&rewardData=${rewardData}`
+      `./backend/profile/profile.php?action=getRewardModalContent&rewardData=${rewardData}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -158,11 +176,11 @@ document.addEventListener("DOMContentLoaded", function () {
       carpoolID: this.getAttribute("data-carpoolID"),
       accountID: this.getAttribute("data-accountID"),
     };
-    console.log(requestData);
+    //console.log(requestData);
     var formData = new FormData();
     formData.append("formData", JSON.stringify(requestData));
 
-    fetch("./backend/profile.php", {
+    fetch("./backend/profile/profile.php", {
       method: "POST",
       body: formData,
     })
