@@ -27,7 +27,6 @@
                 </div>
                 <small id="accPwdHelp" class="form-small-text"></small>
                 <p class="mt-3" id="loginStatus" style="color:#F65555; font-weight: 500"></p>
-                <a href="#" style="text-decoration: none; color: #F6931A;">Forgot Password?</a>
                 <div>
                   <button name="loginSubmit" id="loginBtn" class="btn btn-primary shadow px-4 m-2 mb-4" disabled>Login</button>
                 </div>
