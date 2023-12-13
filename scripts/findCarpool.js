@@ -38,9 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
     filterDistrict: null,
     filterNeighborhood: null,
     filterLocation: null,
-    page:1
+    page: 1,
   };
-
 
   getCarpoolList(filterData); // Get carpool list
 
@@ -71,8 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var filterDirection = document.getElementById("filterDirection");
   var filterPickup = document.getElementById("filterPickup");
   var filterDestination = document.getElementById("filterDestination");
-
-
 
   filterName.addEventListener("input", function (event) {
     applyFilter();
@@ -168,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterDistrict: null,
       filterNeighborhood: null,
       filterLocation: null,
-      page: 1
+      page: 1,
     };
 
     direction1.outerHTML =
@@ -180,7 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     getCarpoolList(filterData);
   });
-
 
   // Get the carpool list
   function getCarpoolList(filterData) {
@@ -238,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target.classList.contains("page-link")) {
       e.preventDefault();
       var page = e.target.textContent; // Get page number from link text
-      console.log(page)
+      console.log(page);
       filterData.page = page; // Set page in filterData
       getCarpoolList(filterData);
     }
@@ -362,7 +358,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
   // New carpool form send to database
   function sendCarpoolData(carpoolData) {
     var formData = new FormData();
@@ -390,7 +385,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Fetch error:", error);
       });
   }
-  
 
   // Join carpool
   function joinCarpool(event) {
@@ -415,7 +409,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
 
   // Send join carpool data to database
   function sendJoinCarpoolData(joinCarpoolData) {
@@ -453,12 +446,11 @@ document.addEventListener("DOMContentLoaded", function () {
     notificationData.append("notificationData", JSON.stringify(data));
     fetch("./backend/notification.php", {
       method: "POST",
-      body: notificationData ,
+      body: notificationData,
     })
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
-      })
-   
+      });
   }
 });

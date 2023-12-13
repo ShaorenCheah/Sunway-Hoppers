@@ -33,13 +33,26 @@ function createNotification($data, $pdo)
       $stmt->bindParam(':carpoolID', $data['carpoolID'], PDO::PARAM_STR);
       $stmt->execute();
       $recipientID = $stmt->fetch(PDO::FETCH_ASSOC);
+      $recipientID = $recipientID['accountID'];
+      break;
+    case 'manageRequest':
+      $status = $data['status'];
+      if($status == 'Accepted'){
+        $title = "Carpool Request Accepted";
+        $condition = 'accepted';
+      }else{
+        $title = "Carpool Request Rejected";
+        $condition = 'rejected';
+      }
+      $message = $data['senderName'] . " has " . $condition . " your carpool request";
+      $recipientID = $data['recipientID'];
       break;
   }
   $sql = "INSERT INTO notification (notificationID, senderID, recipientID, type, title, message, dateTime, seen) VALUES (NULL, :senderID, :recipientID, :type, :title, :message, NOW(), '0')";
 
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':senderID', $data['senderID'], PDO::PARAM_STR);
-  $stmt->bindParam(':recipientID', $recipientID['accountID'], PDO::PARAM_STR);
+  $stmt->bindParam(':recipientID', $recipientID, PDO::PARAM_STR);
   $stmt->bindParam(':type', $type, PDO::PARAM_STR);
   $stmt->bindParam(':title', $title, PDO::PARAM_STR);
   $stmt->bindParam(':message', $message, PDO::PARAM_STR);
@@ -47,7 +60,7 @@ function createNotification($data, $pdo)
 
   $response = [
     'action' => 'createNotification',
-    'type' => 'joinCarpool'
+    'type' => $type
   ];
 
   echo json_encode($response);

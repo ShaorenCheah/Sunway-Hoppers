@@ -239,9 +239,24 @@ document.addEventListener("DOMContentLoaded", function () {
           };
           getRequestModalContent(refresh);
           getRequestTable();
+          createNotification(data.notification);
         } else {
           alert(data.message);
         }
+      });
+  }
+
+  function createNotification(data) {
+    console.log(data);
+    var notificationData = new FormData();
+    notificationData.append("notificationData", JSON.stringify(data));
+    fetch("./backend/notification.php", {
+      method: "POST",
+      body: notificationData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
       });
   }
 });

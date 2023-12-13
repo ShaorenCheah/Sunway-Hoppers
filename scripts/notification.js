@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   function getNotifications() {
     var data = { action: "getNotifications" };
-    console.log(data);
     var notificationData = new FormData();
     notificationData.append("notificationData", JSON.stringify(data));
     fetch("./backend/notification.php", {
