@@ -69,7 +69,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
               <i class="bi bi-geo-alt-fill"></i><span class="navs">Driver Applications</span>
             </li>
             <li class="<?= $navPage === 'carpool' ? 'active' : '' ?>" id="carpool">
-              <i class="bi bi-geo-alt-fill"></i><span class="navs">Carpool Requests</span>
+              <i class="bi bi-geo-alt-fill"></i><span class="navs">Carpool Sessions</span>
             </li>
             <li class="<?= $navPage === 'reward' ? 'active' : '' ?>" id="reward">
               <i class="bi bi-geo-alt-fill"></i><span class="navs">Rewards</span>
