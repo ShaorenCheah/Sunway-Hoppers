@@ -76,6 +76,7 @@ $loggedIn = checkUser();
     </div>
     <script src="./scripts/redeemReward.js"></script>
   </header>
+  <?php include './includes/footer.inc.php'; ?>
 </body>
 
 </html>

@@ -173,6 +173,8 @@ if (!isset($_SESSION['user'])) {
     <div class="modal fade" tabindex="-1" id="modal">
       <!-- Generated upon user request-->
     </div>
+  </div>
+  <?php include './includes/footer.inc.php'; ?>
 </body>
 
 
