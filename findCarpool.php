@@ -48,7 +48,7 @@ if (!isset($_SESSION['user'])) {
       <h2 class="text-center pt-5 pb-3 w-100 z-0"><b>List of Available <span style="color:var(--secondary)">Carpool</span> Requests</b></h2>
       <?php
       if ($_SESSION['user']['type'] == 'Driver') {
-        echo '<button type="button" class="btn btn-primary shadow px-3 mt-2 new-carpool z-1" style="padding-top: 0.1rem;padding-bottom: 0.1rem; " data-bs-toggle="modal" data-bs-target="#newCarpoolModal" ><span class="d-flex align-items-center">New Carpool <i class="ms-2 bi bi-plus" style="font-size: 1.5em;"></i></span></button>';
+        echo '<button type="button" class="btn btn-primary shadow px-3 mt-2 new-carpool z-1" style="padding-top: 0.1rem;padding-bottom: 0.1rem; " data-bs-toggle="modal" data-bs-target="#newCarpoolModal" ><span class="d-flex align-items-center">New Carpool <i class="ms-2 mt-1 bi bi-plus create-carpool" style="font-size: 1.5em;"></i></span></button>';
       }
 
       include './includes/modals/newCarpoolModal.inc.php';
