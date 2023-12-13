@@ -1,9 +1,10 @@
 <?php 
+$carpoolTime = date("g:i A", strtotime($carpool['carpoolTime']));
 $html .= <<<HTML
 <tr>
   <td class="text-center">{$count}</td>
   <td class="text-center">{$carpool['carpoolDate']}</td>
-  <td class="text-center">{$carpool['carpoolTime']}</td>
+  <td class="text-center">{$carpoolTime}</td>
   <td class="text-center">{$driver['name']}</td>
   <td class="text-center">{$driver['vehicleType']}, {$driver['vehicleColour']} <span class="badge bg-primary">{$driver['vehicleNo']}</span></td>
   <td class="text-center">{$pickup}</td>
