@@ -381,6 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success) {
           alert(data.message);
+          window.location.href = "./profile.php";
         } else {
           alert(data.message);
         }
@@ -433,6 +434,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((data) => {
         if (data.success) {
+          createNotification(data.notification);
           alert(data.message);
           window.location.href = "./profile.php";
         } else {
@@ -443,5 +445,20 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => {
         console.error("Fetch error:", error);
       });
+  }
+
+  function createNotification(data) {
+    console.log(data);
+    var notificationData = new FormData();
+    notificationData.append("notificationData", JSON.stringify(data));
+    fetch("./backend/notification.php", {
+      method: "POST",
+      body: notificationData ,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+      })
+   
   }
 });

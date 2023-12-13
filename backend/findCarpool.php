@@ -326,6 +326,7 @@ function joinCarpool($data, $pdo)
 {
   $carpoolID = $data['carpoolID'];
   $accountID = $_SESSION['user']['accountID'];
+  $user = $_SESSION['user']['name'];
 
   $stmt = $pdo->prepare("INSERT INTO carpool_passenger (carpoolID, accountID, isApproved, code, status, rating) VALUES (:carpoolID, :accountID, 0, NULL, 'Pending', NULL)");
 
@@ -342,10 +343,20 @@ function joinCarpool($data, $pdo)
     $message = "Joined carpool failed. Please try again.";
   }
 
+  $notification = [
+    'action'=> 'createNotification',
+    'type' => 'joinCarpool',
+    'carpoolID' => $carpoolID,
+    'senderID' => $accountID,
+    'senderName'=> $user
+  ];
+
+
   $response = [
     'success' => $success,
     'action' => 'joinCarpool',
-    'message' => $message
+    'message' => $message,
+    'notification' => $notification
   ];
 
   echo json_encode($response);
