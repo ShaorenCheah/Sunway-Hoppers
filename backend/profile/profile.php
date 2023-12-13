@@ -499,7 +499,7 @@ function manageRequest($data, $pdo)
   $notification = [
     'action'=> 'createNotification',
     'type' => 'manageRequest',
-    'status' => $status,
+    'status' => $data['type'],
     'senderID' => $_SESSION['user']['accountID'],
     'senderName' => $_SESSION['user']['name'],
     'recipientID' => $data['accountID']

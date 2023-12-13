@@ -68,14 +68,29 @@ if ($rowCount > 0) {
     $stmt->bindParam(":carpoolID", $carpoolID, PDO::PARAM_STR);
     $stmt->execute();
   }
+  $status = "Success";
+
+  $notification = [
+    'action' => 'createNotification',
+    'type' => 'redeemCode',
+    'senderID' => $_SESSION['user']['accountID'],
+    'senderName' => $_SESSION['user']['name'],
+    'recipientID' => $passengerID,
+
+  ];
 
 } else {
   $message = "Invalid Code.";
+  $status = "Invalid";
+  $notification ="";
 }
+
 
 $response = [
   'carpoolID' => $carpoolID,
-  'message' => $message
+  'status' => $status,
+  'message' => $message,
+  'notification' => $notification
 ];
 
 echo json_encode($response);

@@ -47,6 +47,11 @@ function createNotification($data, $pdo)
       $message = $data['senderName'] . " has " . $condition . " your carpool request";
       $recipientID = $data['recipientID'];
       break;
+    case 'redeemCode':
+      $title = "Code Redeemed";
+      $message = $data['senderName'] . " has redeemed your carpool code. You've received 20 points.";
+      $recipientID = $data['recipientID'];
+      break;
   }
   $sql = "INSERT INTO notification (notificationID, senderID, recipientID, type, title, message, dateTime, seen) VALUES (NULL, :senderID, :recipientID, :type, :title, :message, NOW(), '0')";
 

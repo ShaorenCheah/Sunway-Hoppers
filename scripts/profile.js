@@ -173,6 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
             data['action'] = 'refresh';
             data['index'] = document.getElementById("index").innerHTML;
             getRequestModalContent(data);
+            if(data.status == "Success"){
+              createNotification(data.notification);
+            }
           });
       }
     }
