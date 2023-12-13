@@ -148,6 +148,14 @@ body:not(.hero):not(.dashboard){
   color: white;
 }
 
+.btn-green-outline .bi {
+  color: var(--primary);
+}
+
+.btn-green-outline .bi {
+  color: var(--primary);
+}
+
 .btn-secondary .bi {
   color: white;
 }

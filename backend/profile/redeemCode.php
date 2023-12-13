@@ -46,7 +46,7 @@ if ($rowCount > 0) {
   $stmt->bindParam(":carpoolID", $carpoolID, PDO::PARAM_STR);
   $stmt->execute();
 
-  $message = "Code Redeemed Successfully. Points has been awared to both passenger and driver.";
+  $message = "Code Redeemed Successfully. Points has been awarded to both passenger and driver.";
 
   // Check if all passengers have redeemed code
   $sql = "SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND status = 'Accepted'";
