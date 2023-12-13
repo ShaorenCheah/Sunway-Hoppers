@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("./backend/profile/profile.php?action=getProfile")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
 
       // Insert Profile Section HTML
       if (data.type == "Driver") {
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("./backend/profile/profile.php?action=getHistoryTable")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       // Insert History Table HTML
       document.getElementById("nav-history").innerHTML += data.html;
     });
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("./backend/profile/profile.php?action=getRewardTable")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       // Insert History Table HTML
       document.getElementById("nav-reward").innerHTML += data.html;
       var viewRewardBtns = document.getElementsByClassName("view-reward");
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           alert(data.message);
           window.location.reload();
         });
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
           })
           .then((data) => {
-            console.log(data);
+            // console.log(data);
             alert(data.message);
             getRequestTable();
             data['action'] = 'refresh';
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createNotification(data) {
-    console.log(data);
+    // console.log(data);
     var notificationData = new FormData();
     notificationData.append("notificationData", JSON.stringify(data));
     fetch("./backend/notification.php", {

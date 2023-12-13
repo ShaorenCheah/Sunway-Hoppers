@@ -28,7 +28,11 @@ $loggedIn = checkUser();
 
 <body>
   <header class="w-100 d-flex justify-content-center">
-    <?php include './includes/header.inc.php'; ?>
+    <?php 
+    include './includes/header.inc.php'; 
+    include './includes/notification.inc.php';
+    include './includes/rating.inc.php';
+    ?>
     <div class="container">
       <div>
         <h2 class="text-center my-5"><b>List of <span style="color:var(--secondary)">Reward</span> Vouchers</b></h2>

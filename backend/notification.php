@@ -52,6 +52,11 @@ function createNotification($data, $pdo)
       $message = $data['senderName'] . " has redeemed your carpool code. You've received 20 points.";
       $recipientID = $data['recipientID'];
       break;
+    case 'submitRating':
+      $title = "New Rating";
+      $message = $data['senderName'] . " has rated you " . $data['rating'] . " stars.";
+      $recipientID = $data['recipientID'];
+      break;
   }
   $sql = "INSERT INTO notification (notificationID, senderID, recipientID, type, title, message, dateTime, seen) VALUES (NULL, :senderID, :recipientID, :type, :title, :message, NOW(), '0')";
 
@@ -90,6 +95,7 @@ function getNotifications($pdo)
     'action' => 'getNotifications',
     'notifications' => $notifications
   ];
+  
 
   echo json_encode($response);
 }

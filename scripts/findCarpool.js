@@ -335,7 +335,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var neighborhood = carpool.elements["neighborhood"].value;
       var location = carpool.elements["location"].value;
       var details = carpool.elements["details"].value;
-      var womenOnly = carpool.elements["womenOnly"].checked;
+
+      var womenOnly = false; // Default value
+      var womenOnlyElement = carpool.elements["womenOnly"];
+
+      if (womenOnlyElement) {
+        womenOnly = womenOnlyElement.checked;
+      }
 
       if (checkDepartureTime(date, time) == true) {
         var carpoolData = {

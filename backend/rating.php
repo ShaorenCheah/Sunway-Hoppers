@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   if($action == 'getRating'){
     getRating($pdo);
+  }else if($action == 'submitRating'){
+    submitRating($data, $pdo);
   }
 }
 
@@ -51,6 +53,7 @@ function getRating($pdo){
       'carpoolID' => $carpoolID,
       'carpoolDate' => $carpoolDate,
       'carpoolTime' => $carpoolTime,
+      'driverID' => $driverID,
       'driverName' => $driverName
     ];
 
@@ -66,6 +69,63 @@ function getRating($pdo){
     'rating' => $rating,
     'modal' => $modal
   ];
+  echo json_encode($response);
+}
+
+function submitRating($data,$pdo){
+  // Record user rating
+  $sql = "UPDATE carpool_passenger SET rating = :rating WHERE carpoolID = :carpoolID AND accountID = :accountID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':rating', $data['rating'], PDO::PARAM_STR);
+  $stmt->bindParam(':carpoolID', $data['ratingData']['carpoolID'], PDO::PARAM_STR);
+  $stmt->bindParam(':accountID', $_SESSION['user']['accountID'], PDO::PARAM_STR);
+  $stmt->execute();
+
+  // Get new driver rating
+  $sql = "SELECT AVG(carpool_passenger.rating) FROM carpool_passenger JOIN carpool ON carpool_passenger.carpoolID = carpool.carpoolID WHERE carpool.accountID= :driverID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':driverID', $data['ratingData']['driverID'], PDO::PARAM_STR);
+  $stmt->execute();
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $rating = $result[0]['AVG(carpool_passenger.rating)'];
+
+  // Update driver rating
+  $sql = "UPDATE user SET rating = :rating WHERE accountID = :driverID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':rating', $rating, PDO::PARAM_STR);
+  $stmt->bindParam(':driverID', $data['ratingData']['driverID'], PDO::PARAM_STR);
+  $stmt->execute();
+
+  // Get total rating amount
+  $sql = "SELECT COUNT(*) FROM carpool_passenger JOIN carpool ON carpool_passenger.carpoolID = carpool.carpoolID WHERE carpool.accountID = :driverID AND carpool_passenger.rating IS NOT NULL";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':driverID', $data['ratingData']['driverID'], PDO::PARAM_STR);
+  $stmt->execute();
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $ratingAmt = $result[0]['COUNT(*)'];
+
+  // Update driver rating amount
+  $sql = "UPDATE user SET ratingsAmt = :ratingsAmt WHERE accountID = :driverID";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindParam(':ratingsAmt', $ratingAmt, PDO::PARAM_STR);
+  $stmt->bindParam(':driverID', $data['ratingData']['driverID'], PDO::PARAM_STR);
+  $stmt->execute();
+
+  $notification = [
+    'action'=> 'createNotification',
+    'type' => 'submitRating',
+    'senderID' => $_SESSION['user']['accountID'],
+    'senderName' => $_SESSION['user']['name'],
+    'recipientID' => $data['ratingData']['driverID'],
+    'rating' => $data['rating'],
+  ];
+
+  $response = [
+    'action' => 'submitRating',
+    'message' => "Thanks for rating!",
+    'notification' => $notification
+  ];
+
   echo json_encode($response);
 }
 ?>
