@@ -61,13 +61,13 @@ $loggedIn = checkUser();
       <!-- display rewards based on tab -->
       <div class="tab-content mb-5 shadow" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-fnb" role="tabpanel">
-          <?php getCards("fnb") ?>
+          <?php getCards("Food & Beverage") ?>
         </div>
         <div class="tab-pane fade" id="nav-petrol" role="tabpanel">
-          <?php getCards("petrol") ?>
+          <?php getCards("Petrol") ?>
         </div>
         <div class="tab-pane fade" id="nav-originals" role="tabpanel">
-          <?php getCards("originals") ?>
+          <?php getCards("Originals") ?>
         </div>
         <div class="mb-4">
           <p class="text-muted text-center">The digital voucher code can be viewed under "Profile" section upon redemption </p>

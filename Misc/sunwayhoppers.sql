@@ -429,8 +429,8 @@ CREATE TABLE `redemption` (
 --
 
 INSERT INTO `redemption` (`redemptionID`, `accountID`, `rewardID`, `code`, `redemptionDate`, `expiryDate`, `status`) VALUES
-('RD0001', 'A0004', 'R0004', 'pMItyeLF', '0000-00-00', '2024-12-11', 'Active'),
-('RD0002', 'A0004', 'R0004', 'Hkqii2yI', '2023-12-11', '2024-12-11', 'Active'),
+('RD0001', 'A0004', 'R0004', 'PMITYELF', '2023-12-10', '2024-12-10', 'Active'),
+('RD0002', 'A0004', 'R0004', 'HKQII2YI', '2023-12-11', '2024-12-11', 'Active'),
 ('RD0003', 'A0004', 'R0006', '43NVMTM3', '2023-12-11', '2024-12-11', 'Active');
 
 -- --------------------------------------------------------
@@ -454,20 +454,20 @@ CREATE TABLE `reward` (
 --
 
 INSERT INTO `reward` (`rewardID`, `rewardName`, `description`, `img`, `points`, `type`, `quantity`) VALUES
-('R0001', 'Tealive', 'Kill the summer heat by enjoying a nice, cold beverage. Get RM10 off your favourite Tealive! ', './uploads/rewards/7d76bce2c89dd130435e2463abdcfeba.png', 1000, 'fnb', '20'),
-('R0002', 'GrabFood', 'Satisfy every craving and order your meal at GrabFood. Receive RM10 off your bill with no minimum spend required.', './uploads/rewards/19f1ea4c53a1875d0c0050248e14fbaf.png', 1000, 'fnb', '30'),
-('R0003', 'foodpanda', 'Get RM50 off food delivered to your doorstep by foodpanda. No minimum spend required.', './uploads/rewards/9e4ab4dc960788f6811dd034fad5d526.png', 5000, 'fnb', '34'),
-('R0004', 'KFC', 'Enjoy finger lickin good chicken with KFC today and get RM5 off your bill.', './uploads/rewards/c90e84ffec251addb90deddfcbed6039.png', 500, 'fnb', '38'),
-('R0005', 'Boost Juice', '\r\nUnlock a world of flavor with our exclusive Boost Juice RM5 E-Voucher! Redeem it today and savor the goodness of refreshing smoothies, bursting with fresh fruits and invigorating boosts. ðŸ“ðŸ¥¤ðŸ’¥', './uploads/rewards/39ab190f03ab17377f17e3ec21fa08c3.png', 500, 'fnb', '32'),
-('R0006', 'llaollao', 'Dive into the delectable world of llao llao! Grab any medium tub for just RM11 with our exclusive voucher. Treat yourself to swirls of frozen yogurt perfection! ', './uploads/rewards/24036c192fc28322b3fd424e1f207aba.png', 600, 'fnb', '42'),
-('R0007', 'Petronas', '\r\nFuel your journey with Petronas! Enjoy savings with our RM50 voucher on fuel purchases. Drive further, pay less. Grab your voucher and hit the road today! ', './uploads/rewards/54b7b46b223dc269a8f17cf6b24f64b3.png', 5000, 'petrol', '23'),
-('R0008', 'Setel', 'Elevate your Setel experience with a RM50 voucher! Enjoy seamless fuel payments, rewards, and more. Top up now and embark on a journey of convenience and savings! ', './uploads/rewards/acb2c5b6b9e9f78a90a7b1f6b2c1b01f.png', 5000, 'petrol', '12'),
-('R0009', 'Caltex', 'Rev up your savings! Unlock a RM20 voucher for Caltex fuel. Terms and conditions apply. Fuel up and hit the road with extra savings today! â›½ðŸ’³ðŸš—', './uploads/rewards/ec084b9991735753c40cb5c45fefb00e.png', 2000, 'petrol', '34'),
-('R0010', 'Petron', 'Power up your ride and more with a Petron RM50 voucher! Use it for fuel or snag cool merchandise. Versatility at its best. T&Cs apply. â›½ðŸ›ï¸ðŸ’³', './uploads/rewards/eebf563503a7d8e47e2c38439b51c518.png', 5000, 'petrol', '46'),
-('R0011', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM5 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/76bce98b005310d9c515741624d0dbae.png', 500, 'originals', '34'),
-('R0012', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM10 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/6d833a6caac10ff156c5d4963a9345a9.png', 1000, 'originals', '55'),
-('R0013', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM20 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/ebcea574d66439118509a4b795f02030.png', 2000, 'originals', '34'),
-('R0014', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM50 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/0e2febc87ab321e60e611c08191665f5.png', 5000, 'originals', '10');
+('R0001', 'Tealive', 'Kill the summer heat by enjoying a nice, cold beverage. Get RM10 off your favourite Tealive! ', './uploads/rewards/7d76bce2c89dd130435e2463abdcfeba.png', 1000, 'Food & Beverage', '20'),
+('R0002', 'GrabFood', 'Satisfy every craving and order your meal at GrabFood. Receive RM10 off your bill with no minimum spend required.', './uploads/rewards/19f1ea4c53a1875d0c0050248e14fbaf.png', 1000, 'Food & Beverage', '30'),
+('R0003', 'foodpanda', 'Get RM50 off food delivered to your doorstep by foodpanda. No minimum spend required.', './uploads/rewards/9e4ab4dc960788f6811dd034fad5d526.png', 5000, 'Food & Beverage', '34'),
+('R0004', 'KFC', 'Enjoy finger lickin good chicken with KFC today and get RM5 off your bill.', './uploads/rewards/c90e84ffec251addb90deddfcbed6039.png', 500, 'Food & Beverage', '38'),
+('R0005', 'Boost Juice', '\r\nUnlock a world of flavor with our exclusive Boost Juice RM5 E-Voucher! Redeem it today and savor the goodness of refreshing smoothies, bursting with fresh fruits and invigorating boosts. ðŸ“ðŸ¥¤ðŸ’¥', './uploads/rewards/39ab190f03ab17377f17e3ec21fa08c3.png', 500, 'Food & Beverage', '32'),
+('R0006', 'llaollao', 'Dive into the delectable world of llao llao! Grab any medium tub for just RM11 with our exclusive voucher. Treat yourself to swirls of frozen yogurt perfection! ', './uploads/rewards/24036c192fc28322b3fd424e1f207aba.png', 600, 'Food & Beverage', '42'),
+('R0007', 'Petronas', '\r\nFuel your journey with Petronas! Enjoy savings with our RM50 voucher on fuel purchases. Drive further, pay less. Grab your voucher and hit the road today! ', './uploads/rewards/54b7b46b223dc269a8f17cf6b24f64b3.png', 5000, 'Petrol', '23'),
+('R0008', 'Setel', 'Elevate your Setel experience with a RM50 voucher! Enjoy seamless fuel payments, rewards, and more. Top up now and embark on a journey of convenience and savings! ', './uploads/rewards/acb2c5b6b9e9f78a90a7b1f6b2c1b01f.png', 5000, 'Petrol', '12'),
+('R0009', 'Caltex', 'Rev up your savings! Unlock a RM20 voucher for Caltex fuel. Terms and conditions apply. Fuel up and hit the road with extra savings today! â›½ðŸ’³ðŸš—', './uploads/rewards/ec084b9991735753c40cb5c45fefb00e.png', 2000, 'Petrol', '34'),
+('R0010', 'Petron', 'Power up your ride and more with a Petron RM50 voucher! Use it for fuel or snag cool merchandise. Versatility at its best. T&Cs apply. â›½ðŸ›ï¸ðŸ’³', './uploads/rewards/eebf563503a7d8e47e2c38439b51c518.png', 5000, 'Petrol', '46'),
+('R0011', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM5 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/76bce98b005310d9c515741624d0dbae.png', 500, 'Sunway Originals', '34'),
+('R0012', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM10 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/6d833a6caac10ff156c5d4963a9345a9.png', 1000, 'Sunway Originals', '55'),
+('R0013', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM20 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/ebcea574d66439118509a4b795f02030.png', 2000, 'Sunway Originals', '34'),
+('R0014', 'Sunway Originals', 'Unlock creativity at Sunway Originals! Enjoy RM50 off at our campus store. Explore stationery, Sunway merch, and unique gifts. Let your campus style shine! ðŸ“šðŸ‘•ðŸŽ', './uploads/rewards/0e2febc87ab321e60e611c08191665f5.png', 5000, 'Sunway Originals', '10');
 
 -- --------------------------------------------------------
 

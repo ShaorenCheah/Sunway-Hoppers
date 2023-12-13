@@ -15,9 +15,9 @@
               <div class="col">
                 <label for="type">Reward Type</label>
                 <select class="form-select" id="type" name="type" style="border-color: green">
-                  <option value="fnb">Food & Beverage</option>
-                  <option value="petrol">Petrol</option>
-                  <option value="originals">Sunway Originals</option>
+                  <option value="Food & Beverage">Food & Beverage</option>
+                  <option value="Petrol">Petrol</option>
+                  <option value="Sunway Originals">Sunway Originals</option>
                 </select>
               </div>
             </div>
