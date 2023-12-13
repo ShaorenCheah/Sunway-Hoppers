@@ -142,6 +142,42 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
+  document.addEventListener('input', function(e) {
+    if (e.target.classList.contains('redeem-code')) {
+      if (e.target.value.length === 5) {
+        var passengerID = e.target.getAttribute('data-passengerID');
+        var carpoolID = e.target.getAttribute('data-carpoolID');
+        var index = e.target.getAttribute('data-index');
+        var code = e.target.value;
+        var codeData = {
+          passengerID: passengerID,
+          carpoolID: carpoolID,
+          code: code
+        };
+        var formData = new FormData();
+        formData.append("codeData", JSON.stringify(codeData));
+        fetch("./backend/profile/redeemCode.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            alert(data.message);
+            getRequestTable();
+            data['action'] = 'refresh';
+            data['index'] = document.getElementById("index").innerHTML;
+            getRequestModalContent(data);
+          });
+      }
+    }
+  });
+
   var rewardModal = null;
   function getRewardModalContent() {
     var data = {
