@@ -403,9 +403,9 @@ function getRequestModalContent($data, $pdo)
         </div>
         <div class="p-0 col-3 d-flex justify-content-end align-items-center">
       HTML;
-      if ($passenger['code'] != null && $passenger['status'] != 'Redeemed') {
+      if ($passenger['code'] != null && $passenger['status'] != 'Completed') {
         $passengerHTML .= <<<HTML
-          <input type="text" class="form-control redeem-code" placeholder="Enter code">
+          <input type="text" class="form-control redeem-code" data-passengerID="{$passenger['accountID']}" data-carpoolID="{$data['carpoolID']}" maxlength="5" placeholder="Enter code">
         HTML;
       } else {
         $passengerHTML .= <<<HTML

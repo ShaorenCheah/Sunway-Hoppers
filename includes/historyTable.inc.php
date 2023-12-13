@@ -20,12 +20,15 @@ if($carpool['status'] == 'Pending'){
   $html .= "<td class='text-center'><span class='badge bg-secondary cancelled  mb-0'>{$carpool['status']}</span></td>";
 }
 
-if($carpool['status'] != 'Accepted'){
+if($carpool['status'] == 'Accepted'){
+  $html .= "<td class='text-center'>0 pts</td>";
+  $html .= "<td class='text-center'>{$carpool['code']}</td> </tr>";
+}else if($carpool['status'] == 'Completed'){
+  $html .= "<td class='text-center'>20 pts</td>";
+  $html .= "<td class='text-center'>{$carpool['code']}</td> </tr>";
+}else{
   $html .= "<td class='text-center text-muted'>—</td>";
   $html .= "<td class='text-center text-muted'>—</td> </tr>";
-}else{
-  $html .= "<td class='text-center'>{$carpool['pointsEarned']} pts</td>";
-  $html .= "<td class='text-center'>{$carpool['code']}</td> </tr>";
 }
 
 ?>
