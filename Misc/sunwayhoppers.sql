@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2023 at 09:34 PM
+-- Generation Time: Dec 13, 2023 at 10:10 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -122,8 +122,11 @@ INSERT INTO `carpool` (`carpoolID`, `accountID`, `carpoolDate`, `carpoolTime`, `
 ('C0002', 'A0002', '2023-11-29', '16:34:00', 10, 0, 'Gombak', 'Pekan Batu 20', 'Sunway Medical Centre', 'Hop on yeahh', 1, 0, 'Active'),
 ('C0003', 'A0002', '2023-11-08', '16:42:00', 1, 1, 'Ulu Selangor', 'Mukim Serendah', 'Sunway Pyramid', 'Heya', 0, 0, 'Active'),
 ('C0004', 'A0002', '2023-11-28', '17:51:00', 7, 0, 'Kuala Langat', 'Mukim Tanjong Duabelas', 'Sunway Residence', 'Yoo', 1, 0, 'Active'),
-('C0005', 'A0005', '2023-12-22', '17:35:00', 2, 1, 'Petaling', 'Pekan Merbau Sempak', 'Sunway Mentari', '12', 0, 0, 'Active'),
-('C0006', 'A0005', '2023-12-20', '18:23:00', 2, 0, 'Ulu Selangor', 'Mukim Ulu Yam', 'Monash University', 'hi', 1, 0, 'Active');
+('C0005', 'A0005', '2023-12-22', '17:35:00', 2, 1, 'Petaling', 'Pekan Merbau Sempak', 'Sunway Mentari', '12', 0, 300, 'Completed'),
+('C0006', 'A0005', '2023-12-20', '18:23:00', 2, 0, 'Ulu Selangor', 'Mukim Ulu Yam', 'Monash University', 'hi', 1, 50, 'Active'),
+('C0007', 'A0005', '2023-12-28', '14:00:00', 3, 1, 'Gombak', 'Bandar Kuang', 'Sunway Pyramid', 'a', 0, 50, 'Completed'),
+('C0008', 'A0005', '2023-12-13', '15:02:00', 3, 1, 'Petaling', 'Bandar Damansara', 'Monash University', 'a', 0, 0, 'Active'),
+('C0009', 'A0005', '2023-12-28', '15:02:00', 1, 1, 'Petaling', 'Bandar Petaling Jaya', 'Monash University', 'a', 0, 0, 'Active');
 
 -- --------------------------------------------------------
 
@@ -145,8 +148,10 @@ CREATE TABLE `carpool_passenger` (
 --
 
 INSERT INTO `carpool_passenger` (`carpoolID`, `accountID`, `isApproved`, `code`, `status`, `rating`) VALUES
-('C0005', 'A0004', 1, 'KXKQT', 'Accepted', NULL),
-('C0006', 'A0004', 1, '28R90', 'Accepted', NULL);
+('C0005', 'A0004', 1, 'XR96T', 'Completed', NULL),
+('C0006', 'A0004', 1, '28R90', 'Completed', NULL),
+('C0007', 'A0004', 1, '283V3', 'Completed', NULL),
+('C0009', 'A0004', 1, 'A2JF7', 'Accepted', NULL);
 
 -- --------------------------------------------------------
 
@@ -411,6 +416,23 @@ INSERT INTO `district_neighborhood` (`district_name`, `neighborhood_name`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notification`
+--
+
+CREATE TABLE `notification` (
+  `notificationID` int(10) NOT NULL,
+  `senderID` varchar(255) NOT NULL,
+  `recipientID` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `dateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6),
+  `seen` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `redemption`
 --
 
@@ -497,8 +519,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `OTP`, `rating`, `ratingsAmt`, `carRules`, `profilePic`) VALUES
 ('A0002', 'Mak', '0163381806', 'Male', '2023-11-20', '', 0, NULL, 0, 0, NULL, './uploads/profile_pics/4a67cb0d0ec7840e615fa92099a414e9.jpg'),
 ('A0003', 'Dionne', '0163381806', 'Female', '2023-11-20', NULL, 0, NULL, 0, 0, NULL, './images/person.png'),
-('A0004', 'Cheah Shaoren', '0163381806', 'Male', '2003-06-18', NULL, 999998400, NULL, 0, 0, NULL, './images/person.png'),
-('A0005', 'Jason', '0162882026', 'Male', '2023-12-03', 'Body-building maniac. Loves to drive. We can talk about driving or body-building! ', 0, NULL, 0, 0, 'You can have food and drinks in my car but be sure not to spill any.\nDon\'t be shy to ask for charges. \n', './uploads/profile_pics/87514912ec234abf55b68829a5849dfa.jpg');
+('A0004', 'Cheah Shaoren', '0163381806', 'Male', '2003-06-18', NULL, 999998560, NULL, 0, 0, NULL, './images/person.png'),
+('A0005', 'Jason', '0162882026', 'Male', '2023-12-03', 'Body-building maniac. Loves to drive. We can talk about driving or body-building! ', 400, NULL, 0, 0, 'You can have food and drinks in my car but be sure not to spill any.\nDon\'t be shy to ask for charges. \n', './uploads/profile_pics/87514912ec234abf55b68829a5849dfa.jpg');
 
 --
 -- Indexes for dumped tables
@@ -540,6 +562,14 @@ ALTER TABLE `carpool_passenger`
   ADD KEY `accountID` (`accountID`);
 
 --
+-- Indexes for table `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`notificationID`),
+  ADD KEY `senderID` (`senderID`),
+  ADD KEY `recipientID` (`recipientID`);
+
+--
 -- Indexes for table `redemption`
 --
 ALTER TABLE `redemption`
@@ -559,6 +589,16 @@ ALTER TABLE `reward`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`accountID`),
   ADD KEY `account_user_fk` (`accountID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -588,6 +628,13 @@ ALTER TABLE `carpool`
 ALTER TABLE `carpool_passenger`
   ADD CONSTRAINT `carpool_passenger_ibfk_1` FOREIGN KEY (`carpoolID`) REFERENCES `carpool` (`carpoolID`),
   ADD CONSTRAINT `carpool_passenger_ibfk_2` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`);
+
+--
+-- Constraints for table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`senderID`) REFERENCES `account` (`accountID`),
+  ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`recipientID`) REFERENCES `account` (`accountID`);
 
 --
 -- Constraints for table `redemption`
