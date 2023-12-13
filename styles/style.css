@@ -148,6 +148,10 @@ body:not(.hero):not(.dashboard){
   color: white;
 }
 
+.btn-secondary .bi {
+  color: white;
+}
+
 /* Header section */
 .header {
   position: absolute;

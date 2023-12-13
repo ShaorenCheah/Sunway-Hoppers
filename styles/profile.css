@@ -120,22 +120,10 @@ textarea {
   border-radius: 4px !important;
 }
 
-.beDriverBtn:hover i {
-  color: white !important;
-}
-.beDriverBtn i {
-  color: var(--primary);
-}
 .saveBtn {
   font-size: 0.8rem !important;
   border-radius: 4px !important;
   margin-left: 0.8rem;
-}
-.saveBtn:hover i {
-  color: var(--secondary);
-}
-.saveBtn i {
-  color: white;
 }
 
 label {
