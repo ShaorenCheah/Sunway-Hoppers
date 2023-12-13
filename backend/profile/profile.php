@@ -86,7 +86,7 @@ function getProfile($pdo)
     HTML;
   } else if ($application['status'] == 'Rejected') {
     $html['accStatus'] = <<<HTML
-      <span class="badge bg-secondary shadow" style='background-color:##F65555 !important'>Application Rejected</span>
+      <span class="badge bg-secondary shadow" style='background-color:#F65555 !important'>Application Rejected</span>
     HTML;
   } else if ($application['status'] == 'Approved') {
     $html['accStatus'] = <<<HTML

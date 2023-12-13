@@ -49,6 +49,7 @@ if (!isset($_SESSION['user'])) {
   <?php
   include './includes/header.inc.php';
   include './includes/modals/addPicModal.inc.php';
+  include './includes/notification.inc.php';
   if ($_SESSION['user']['type'] == 'Driver') {
     include './includes/modals/editCarDetails.inc.php';
   } else {

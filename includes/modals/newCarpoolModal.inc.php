@@ -64,12 +64,14 @@
             <div class="col-12">
               <div class="d-flex justify-content-between">
                 <label for="details" class="form-label">Carpool Details <i class="ms-2 bi bi-chat-dots"></i></label>
+                <?php if($_SESSION['user']['gender'] == 'Female'){?>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="" id="womenOnly">
                   <label class="form-check-label" for="womenOnly">
                     Women-Only
                   </label>
                 </div>
+                <?php } ?>
               </div>
               <textarea class="form-control" id="details" name="details" placeholder="Hop on my carpool if you're around this area!" rows="4" required></textarea>
             </div>
