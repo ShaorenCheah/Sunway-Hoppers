@@ -24,7 +24,8 @@ function getDashboardView($navPage)
 
 // dashboard.inc.php
 // Get total number of users
-function totalUser(){
+function totalUser()
+{
   global $pdo;
   $stmt = $pdo->prepare('SELECT COUNT(*) FROM user');
   $stmt->execute();
@@ -33,7 +34,8 @@ function totalUser(){
 }
 
 // Get total number of drivers
-function totalDriver(){
+function totalDriver()
+{
   global $pdo;
   $stmt = $pdo->prepare('SELECT COUNT(*) FROM account WHERE type = "Driver"');
   $stmt->execute();
@@ -42,7 +44,8 @@ function totalDriver(){
 }
 
 // Get total number of new applications
-function totalApplication(){
+function totalApplication()
+{
   global $pdo;
   $stmt = $pdo->prepare('SELECT COUNT(*) FROM application WHERE status = "New"');
   $stmt->execute();
@@ -51,7 +54,8 @@ function totalApplication(){
 }
 
 // Get total quantity of rewards
-function totalReward(){
+function totalReward()
+{
   global $pdo;
   $stmt = $pdo->prepare('SELECT SUM(quantity) FROM reward');
   $stmt->execute();
@@ -60,7 +64,8 @@ function totalReward(){
 }
 
 // Get total number of carpools
-function totalCarpool(){
+function totalCarpool()
+{
   global $pdo;
   $stmt = $pdo->prepare('SELECT COUNT(*) FROM carpool');
   $stmt->execute();
@@ -175,4 +180,117 @@ function getActions($status, $applicationID)
         HTML;
   }
 }
-?>
+
+// carpool.inc.php
+// Generate carpool tables based on status
+function generateCarpoolTable($tableID)
+{
+  global $pdo;
+  $tableHTML = <<<HTML
+    <div class="table-container">
+      <table id="$tableID" class="dashboardTable" style="width:100%">
+          <thead>
+            <tr>
+              <th>Driver Details</th>
+              <th>Car Number</th>
+              <th>Carpool Date</th>
+              <th>Carpool Time</th>
+              <th>Destination</th>
+              <th>Pick-Up Location</th>
+              <th>No. of Passengers</th>
+          </thead>
+          <tbody>
+HTML;
+  echo $tableHTML;
+
+  $statusQuery = 'SELECT 
+  application.*, 
+  account.email, 
+  user.name, user.phoneNo, 
+  carpool.*,
+    (
+      SELECT COUNT(*)
+      FROM carpool_passenger
+      WHERE carpool_passenger.carpoolID = carpool.carpoolID
+      AND carpool_passenger.isApproved = 1
+    ) as "numOfPassengers"
+      FROM carpool
+      JOIN user ON carpool.accountID = user.accountID
+      JOIN account ON carpool.accountID = account.accountID
+      JOIN application ON user.accountID = application.accountID
+      WHERE carpool.status = :status;';
+
+  $isWomenQuery = 'SELECT 
+   application.*, 
+   account.email, 
+   user.name, user.phoneNo, 
+   carpool.*,
+     (
+       SELECT COUNT(*)
+       FROM carpool_passenger
+       WHERE carpool_passenger.carpoolID = carpool.carpoolID
+       AND carpool_passenger.isApproved = 1
+     ) as "numOfPassengers"
+       FROM carpool
+       JOIN user ON carpool.accountID = user.accountID
+       JOIN account ON carpool.accountID = account.accountID
+       JOIN application ON user.accountID = application.accountID
+       WHERE carpool.status = "Active"
+       AND carpool.isWomenOnly = "1";';
+
+  switch ($tableID) {
+    case "activeCarpoolTable":
+      $status = "Active";
+      $stmt = $pdo->prepare($statusQuery);
+      $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+      break;
+    case "completedCarpoolTable":
+      $status = "Completed";
+      $stmt = $pdo->prepare($statusQuery);
+      $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+      break;
+    case "womenCarpoolTable":
+      $stmt = $pdo->prepare($isWomenQuery);
+      break;
+    default:
+      break;
+  }
+
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach ($result as $carpool) {
+    $vehicleNo = $carpool['vehicleNo'];
+    $vehicleColour = $carpool['vehicleColour'];
+    $vehicleType = $carpool['vehicleType'];
+    $email = $carpool['email'];
+    $name = $carpool['name'];
+    $phoneNo = $carpool['phoneNo'];
+    $date = $carpool['carpoolDate'];
+    $time = $carpool['carpoolTime'];
+    $passenger = $carpool['numOfPassengers'];
+    $destination = $carpool['location'];
+    $district = $carpool['district'];
+    $neighborhood = $carpool['neighborhood'];
+
+    echo <<<HTML
+        <tr data-child-name='{$name}' data-child-phone='{$phoneNo}' data-child-email='{$email}' 
+        data-child-vehicle='{$vehicleColour} {$vehicleType}'>
+        <td class='dt-control'></td>
+        <td>{$vehicleNo}</td>
+        <td>{$date}</td>
+        <td>{$time}</td>
+        <td>{$destination}</td>
+        <td>{$district}, {$neighborhood}</td>
+        <td>{$passenger}</td>
+    </tr>
+    HTML;
+  }
+
+  echo <<<HTML
+        </tbody>
+    </table>
+  </div>
+HTML;
+}

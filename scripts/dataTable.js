@@ -41,7 +41,8 @@ function initializeDataTable(tableSelector, searchInputSelector) {
     });
 
     // Handle row click for certain tables
-    if (tableSelector === '#newAppTable' || tableSelector === '#approvedAppTable' || tableSelector === '#rejectedAppTable') {
+    if (tableSelector === '#newAppTable' || tableSelector === '#approvedAppTable' || tableSelector === '#rejectedAppTable'
+    || tableSelector === '#activeCarpoolTable' || tableSelector === '#womenCarpoolTable' || tableSelector === '#completedCarpoolTable' || tableSelector === '#todayCarpoolTable') {
       dataTable.on('click', 'td.dt-control', function (e) {
         let tr = e.target.closest('tr');
         let row = dataTable.row(tr);
@@ -60,5 +61,5 @@ function initializeDataTable(tableSelector, searchInputSelector) {
 
 
 function format(name, email, phoneNo, vehicleNo) {
-  return '<div><b>Name</b>: ' + name + ' <br /><b>Email</b>: ' + email + ' <br /><b>Phone Number</b>: ' + phoneNo + ' <br /><b>Car Plate</b>: ' + vehicleNo + '</div>';
+  return '<div><b>Name</b>: ' + name + ' <br /><b>Email</b>: ' + email + ' <br /><b>Phone Number</b>: ' + phoneNo + ' <br /><b>Car</b>: ' + vehicleNo + '</div>';
 }
