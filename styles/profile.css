@@ -120,6 +120,10 @@ textarea {
   border-radius: 4px !important;
 }
 
+.beDriverBtn:hover i {
+  color: white !important; 
+}
+
 .saveBtn {
   font-size: 0.8rem !important;
   border-radius: 4px !important;
