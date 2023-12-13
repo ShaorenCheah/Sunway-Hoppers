@@ -496,11 +496,21 @@ function manageRequest($data, $pdo)
     $message = 'Error processing request';
   }
 
+  $notification = [
+    'action'=> 'createNotification',
+    'type' => 'manageRequest',
+    'status' => $data['type'],
+    'senderID' => $_SESSION['user']['accountID'],
+    'senderName' => $_SESSION['user']['name'],
+    'recipientID' => $data['accountID']
+  ];
+
   $response = [
     'action' => 'manageRequest',
     'carpoolID' => $data['carpoolID'],
     'status' => $status,
-    'message' => $message
+    'message' => $message,
+    'notification' => $notification
   ];
 
   echo json_encode($response);

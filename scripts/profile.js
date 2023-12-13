@@ -173,6 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
             data['action'] = 'refresh';
             data['index'] = document.getElementById("index").innerHTML;
             getRequestModalContent(data);
+            if(data.status == "Success"){
+              createNotification(data.notification);
+            }
           });
       }
     }
@@ -239,9 +242,24 @@ document.addEventListener("DOMContentLoaded", function () {
           };
           getRequestModalContent(refresh);
           getRequestTable();
+          createNotification(data.notification);
         } else {
           alert(data.message);
         }
+      });
+  }
+
+  function createNotification(data) {
+    console.log(data);
+    var notificationData = new FormData();
+    notificationData.append("notificationData", JSON.stringify(data));
+    fetch("./backend/notification.php", {
+      method: "POST",
+      body: notificationData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
       });
   }
 });

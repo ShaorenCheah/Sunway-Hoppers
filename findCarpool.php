@@ -38,8 +38,10 @@ if (!isset($_SESSION['user'])) {
 
 <body>
   <?php
+  include './includes/notification.inc.php';
   include './includes/header.inc.php';
   require_once './backend/connection.php';
+  include './includes/modals/newCarpoolModal.inc.php';
   ?>
   <div class="m-5 mb-4">
 
@@ -50,8 +52,6 @@ if (!isset($_SESSION['user'])) {
       if ($_SESSION['user']['type'] == 'Driver') {
         echo '<button type="button" class="btn btn-primary shadow px-3 mt-2 new-carpool z-1" style="padding-top: 0.1rem;padding-bottom: 0.1rem; " data-bs-toggle="modal" data-bs-target="#newCarpoolModal" ><span class="d-flex align-items-center">New Carpool <i class="ms-2 mt-1 bi bi-plus create-carpool" style="font-size: 1.5em;"></i></span></button>';
       }
-
-      include './includes/modals/newCarpoolModal.inc.php';
       ?>
 
     </div>
