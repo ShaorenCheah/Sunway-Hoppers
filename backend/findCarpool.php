@@ -177,7 +177,7 @@ function getCarpoolList($data, $pdo)
     foreach ($carpools as $carpool) {
       $carpoolID = $carpool['carpoolID'];
       $accountID = $carpool['accountID'];
-
+      $ratingsAmt = $carpool['ratingsAmt'];
       // Check if user has requested to join carpool
       if (in_array($carpoolID, $userCarpools)) {
         $stmt = $pdo->prepare("SELECT * FROM carpool_passenger WHERE carpoolID = :carpoolID AND accountID = :accountID");
@@ -200,12 +200,6 @@ function getCarpoolList($data, $pdo)
       $stmt->bindParam(':carpoolID', $carpoolID);
       $stmt->execute();
       $passengerAmt = $stmt->fetchColumn();
-
-      // Get Ratings Amount
-      $stmt = $pdo->prepare("SELECT COUNT(*) FROM carpool_passenger WHERE carpoolID = :carpoolID AND rating != NULL");
-      $stmt->bindParam(':carpoolID', $carpoolID);
-      $stmt->execute();
-      $ratingsAmt = $stmt->fetchColumn();
 
       $carpoolDay = date('l', strtotime($carpool['carpoolDate']));
       $carpoolTime = date('g:i A', strtotime($carpool['carpoolTime']));
@@ -337,7 +331,7 @@ function joinCarpool($data, $pdo)
 
   if ($stmt->execute($data)) {
     $success = true;
-    $message = "Joined carpool successfully! The arrival code will be generated for you once the driver has accepted your request ";
+    $message = "Request sent successfully! The arrival code will be generated for you once the driver has accepted your request ";
   } else {
     $success = false;
     $message = "Joined carpool failed. Please try again.";

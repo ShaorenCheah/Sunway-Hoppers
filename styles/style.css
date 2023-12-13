@@ -241,3 +241,23 @@ body:not(.hero):not(.dashboard){
   border: none;
 }
 
+.ratings-wrapper{
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.ratings{
+  display: flex;
+  flex-direction: row-reverse;
+}
+.ratings span {
+  cursor: pointer;
+  transition: color .2s;
+  font-size: 50px;
+  color: var(--grey); /* Uncolored by default */
+}
+
+.ratings span[data-clicked="true"],
+.ratings span[data-clicked="true"] ~ span {
+  color: var(--secondary); /* Colored when clicked or before a clicked star */
+}
+
