@@ -93,12 +93,19 @@ else if ($action == 'register') {
 
   $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
-  // Get new accountID
-  $query = "SELECT COUNT(*) FROM Account";
+  // Generate new accountID
+  // Get the last accountID from database
+  $query = "SELECT accountID FROM Account ORDER BY accountID DESC LIMIT 1;";
+
   $stmt = $pdo->prepare($query);
   $stmt->execute();
-  $count = $stmt->fetchColumn();
-  $accountID = "A" . str_pad($count + 1, 4, "0", STR_PAD_LEFT);
+  $lastId = $stmt->fetchColumn();
+  // Extract the numerical part and increment it
+  $lastIdDigit = intval(substr($lastId, 1));
+  $newIdDigit = $lastIdDigit + 1;
+
+  // Format the new code with leading zeros
+  $accountID = "A" . str_pad($newIdDigit, strlen($lastId) - 1, '0', STR_PAD_LEFT);
 
   // Insert new account
   $query   = "INSERT INTO account (accountID, email, password, type) VALUES (:accountID, :email, :password, 'Passenger')";
