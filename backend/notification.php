@@ -1,11 +1,11 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user'])) {
   $notificationData = json_decode($_POST['notificationData'], true);
   require_once 'connection.php';
 
-  if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-  }
+
+  session_start();
+
 
   $formJSON = $_POST['notificationData'];
   $data = json_decode($formJSON, true);
@@ -37,10 +37,10 @@ function createNotification($data, $pdo)
       break;
     case 'manageRequest':
       $status = $data['status'];
-      if($status == 'Accepted'){
+      if ($status == 'Accepted') {
         $title = "Carpool Request Accepted";
         $condition = 'accepted';
-      }else{
+      } else {
         $title = "Carpool Request Rejected";
         $condition = 'rejected';
       }
@@ -84,7 +84,7 @@ function getNotifications($pdo)
   $stmt->execute();
   $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  foreach($notifications as $notification){
+  foreach ($notifications as $notification) {
     $sql = "UPDATE notification SET seen = '1' WHERE notificationID = :notificationID";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':notificationID', $notification['notificationID'], PDO::PARAM_STR);
@@ -95,7 +95,7 @@ function getNotifications($pdo)
     'action' => 'getNotifications',
     'notifications' => $notifications
   ];
-  
+
 
   echo json_encode($response);
 }
