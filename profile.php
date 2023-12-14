@@ -47,6 +47,7 @@ if (!isset($_SESSION['user'])) {
 
 <body>
   <?php
+  include './includes/sessionTimeOut.inc.php';
   include './includes/header.inc.php';
   include './includes/modals/addPicModal.inc.php';
   include './includes/notification.inc.php';

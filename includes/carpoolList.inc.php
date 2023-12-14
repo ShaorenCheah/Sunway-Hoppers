@@ -85,6 +85,8 @@ if (in_array($carpoolID, $userCarpools)) {
   } else if ($userCarpool['status'] == 'Rejected') {
     $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Rejected</button>";
   }
+} else if ($carpool['passengerAmt'] == 0) {
+  $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Full</button>";
 }
 
 if ($carpool['isWomenOnly'] == 1) {

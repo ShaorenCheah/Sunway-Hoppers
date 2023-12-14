@@ -34,11 +34,6 @@ if ($action == 'login') {
       $accountID = $result['accountID'];
       $type = $result['type'];
 
-      // Set session duration to 30 minutes
-      if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_set_cookie_params(1800);
-        session_start();
-      }
 
       if ($type == 'Admin') {
         $stmt = $pdo->prepare('SELECT * FROM admin WHERE accountID = :accountID');
@@ -58,7 +53,7 @@ if ($action == 'login') {
         $stmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        // Need to add timeout 
+
         $_SESSION['user'] = [
           'accountID' => $accountID,
           'name' => $result['name'],
@@ -70,6 +65,7 @@ if ($action == 'login') {
         $message = "Welcome, " . $_SESSION['user']['name'] . ". Hop on a carpool now!";
       }
 
+      $_SESSION['login_time'] = time(); // Store login time
       $success = true;
     } else {
       $success = false;

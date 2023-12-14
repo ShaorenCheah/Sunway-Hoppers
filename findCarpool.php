@@ -38,6 +38,7 @@ if (!isset($_SESSION['user'])) {
 
 <body>
   <?php
+  include './includes/sessionTimeOut.inc.php';
   include './includes/notification.inc.php';
   include './includes/header.inc.php';
   require_once './backend/connection.php';
@@ -167,7 +168,7 @@ if (!isset($_SESSION['user'])) {
       <div class="col-12 d-flex justify-content-center mt-4">
         <nav>
           <ul class="pagination pagination-lg">
-            
+
           </ul>
         </nav>
       </div>

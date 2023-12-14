@@ -175,6 +175,7 @@ function getCarpoolList($data, $pdo)
 
   if (count($carpools) > 0) {
     foreach ($carpools as $carpool) {
+
       $carpoolID = $carpool['carpoolID'];
       $accountID = $carpool['accountID'];
       $ratingsAmt = $carpool['ratingsAmt'];

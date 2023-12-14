@@ -28,8 +28,9 @@ $loggedIn = checkUser();
 
 <body>
   <header class="w-100 d-flex justify-content-center">
-    <?php 
-    include './includes/header.inc.php'; 
+    <?php
+    include './includes/sessionTimeOut.inc.php';
+    include './includes/header.inc.php';
     include './includes/notification.inc.php';
     include './includes/rating.inc.php';
     ?>
