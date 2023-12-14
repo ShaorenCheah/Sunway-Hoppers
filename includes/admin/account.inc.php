@@ -3,6 +3,7 @@ include './includes/modals/addAdminModal.inc.php';
 require './backend/connection.php';
 ?>
 <link rel="stylesheet" href="./styles/dashView.css">
+<script src="./scripts/manageUser.js"></script>
 <div class="row">
   <div class="w-75">
     <h2>Accounts</h2>
@@ -43,6 +44,7 @@ require './backend/connection.php';
               <th>Gender</th>
               <th>Date of Birth</th>
               <th>Points Collected</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -69,7 +71,11 @@ require './backend/connection.php';
                       <td>{$gender}</td>
                       <td>{$dob}</td>
                       <td>{$rewardPoints}</td>
-                      </tr>";
+                      <td>
+                        <button class='btn btn-secondary' onclick='deleteUser({$user['accountID']})'>Edit<i class='bi bi-pencil-square' style='padding-left: 0.2rem;'></i></button>
+                        <button class='btn btn-danger' onclick='deleteUser(\"{$user['accountID']}\")'>Delete<i class='bi bi-trash' style='padding-left: 0.2rem;'></i></button>
+                      </td>
+                    </tr>";
             }
             ?>
           </tbody>

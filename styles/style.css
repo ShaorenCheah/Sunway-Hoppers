@@ -161,6 +161,20 @@ body:not(.hero):not(.dashboard){
   color: white;
 }
 
+/* delete button */
+.btn-danger .bi {
+  color: white
+}
+
+.btn-danger:hover .bi {
+  color: red;
+}
+
+.btn-danger:hover {
+  color: red;
+  background-color: white;
+}
+
 /* Header section */
 .header {
   position: absolute;
