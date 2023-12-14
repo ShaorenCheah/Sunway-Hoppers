@@ -15,6 +15,7 @@ body{
   font-family: 'League Spartan', 'Lato', sans-serif !important;
   color: var(--black);
   font-size: 1rem;
+  overflow-x: hidden;
 }
 
 body:not(.hero):not(.dashboard){

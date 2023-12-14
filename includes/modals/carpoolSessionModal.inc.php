@@ -11,7 +11,7 @@ $modal .= <<<HTML
             <div class="col-12 d-flex mb-3">
               <!-- Driver Profile -->
               <div class="col-6 d-flex flex-column p-3 align-items-center justify-content-center">
-                  <img src="images/person.png" alt="Avatar" class="shadow mb-3" style="border-radius: 50%;height: 6rem; width: 6rem;">
+                  <img src="{$carpool['profilePic']}" alt="Avatar" class="shadow mb-3 img-fluid" style="border-radius: 50%;height: 7rem; width: 7rem; object-fit: cover;">
                   <h5 style="font-weight:600; color:var(--primary)">{$carpool['name']}</h5>
                   <div class="d-flex justify-content-center mb-2">
                     <p class="m-0" style="font-weight:600">{$rating}</p>

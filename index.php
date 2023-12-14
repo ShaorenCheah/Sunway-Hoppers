@@ -32,7 +32,9 @@
 
 <body class="hero">
   <?php
-  session_start();
+  if(isset($_SESSION)){
+    session_start();
+  }
   include './includes/header.inc.php';
   include './backend/indexCards.php';
   include './includes/notification.inc.php';
@@ -74,7 +76,7 @@
       </div>
     </div>
     <div class="col-1"></div>
-    <div class="col-6" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
+    <div class="col-5" style="background-image: url('./images/road.jpg'); background-size: cover; background-position: center;">
     </div>
   </div>
   <div class="row m-5 p-5" style="border: 2px solid var(--primary); border-radius: 0.5rem">

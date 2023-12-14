@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        //console.log(data);
+        // console.log(data);
         if (data.status == "newRating") {
           var ratingModalElement = document.getElementById("ratingModal");
           ratingModalElement.innerHTML = data.modal;
