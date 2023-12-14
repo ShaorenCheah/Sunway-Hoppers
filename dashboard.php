@@ -78,7 +78,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
         </div>
       </nav>
       <div class="d-flex justify-content-center">
-        <button class="btn btn-primary shadow px-4 mt-4 logout " onclick="window.location.href= './includes/logout.inc.php';">Sign Out</button>
+        <button class="btn btn-primary shadow px-4 mt-5 logout " onclick="window.location.href= './includes/logout.inc.php';">Sign Out</button>
       </div>
     </div>
   </div>

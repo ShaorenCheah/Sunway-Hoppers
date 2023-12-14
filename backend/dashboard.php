@@ -161,22 +161,30 @@ function getActions($status, $applicationID)
 {
   if ($status === "New") {
     return <<<HTML
-        <div class="row m-0">
-            <div class="col">
-                <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
+        <div class="row m-0 ">
+          <div class="col" onclick="approveApplication('$applicationID')">
+              <label for="approveApplication" class="m-0 p-0" style="color: green; cursor: pointer; font-size: 0.8rem">Approve</label>
+                <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;"></i>
             </div>
-            <div class="col">
-                <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
+            <div class="col" onclick="rejectApplication('$applicationID')">
+                <label for="rejectApplication" class="m-0 p-0" style="color: red; cursor: pointer;font-size: 0.8rem">Reject</label>
+                <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;"></i>
+              </div>
             </div>
-        </div>
-        HTML;
+HTML;
   } else if ($status === "Approved") {
     return <<<HTML
-        <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" onclick="rejectApplication('$applicationID')"></i>
+        <div onclick="rejectApplication('$applicationID')">
+          <label for="rejectApplication" class="m-0 p-0" style="color: red; cursor: pointer;font-size: 0.8rem">Reject</label>
+          <i class="bi bi-x-square-fill" style="color: red; cursor: pointer;" ></i>
+        </div> 
         HTML;
   } else if ($status === "Rejected") {
     return <<<HTML
-        <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;" onclick="approveApplication('$applicationID')"></i>
+        <div onclick="approveApplication('$applicationID')">
+          <label for="approveApplication" class="m-0 p-0" style="color: green; cursor: pointer; font-size: 0.8rem">Approve</label>
+          <i class="bi bi-check-square-fill m-0 p-0" style="color: var(--sub); cursor: pointer;"></i> 
+        </div>
         HTML;
   }
 }
