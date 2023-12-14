@@ -1,43 +1,75 @@
 //load dom
 document.addEventListener("DOMContentLoaded", function () {
-  var editModal = new bootstrap.Modal(document.getElementById("editUserModal"));
-  var editUserBtn = document.getElementById("editUserBtn");
+  var modal = null;
+  var username = "";
+  var usernameHelp = ""
+  var email = "";
+  var emailHelp = "";
+  var phoneNo = "";
+  var phoneNoHelp = "";
 
-  editUserBtn.addEventListener("click", function () {
-    var accountID = this.getAttribute("data-account-id");
+  //save original values of input fields 
+  var originalUsername = "";
+  var originalEmail = "";
+  var originalPhoneNo = "";
 
-    var formData = new FormData();
-    formData.append("formData", JSON.stringify({ accountID: accountID, action: 'showModal' }));
+  var editModal = document.getElementById("editUserModal");
+  document.querySelectorAll('.editUserBtn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var accountID = this.getAttribute("data-account-id");
 
-    fetch('./backend/manageUserAcc.php', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => {
-        console.log(response);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+      var formData = new FormData();
+      formData.append("formData", JSON.stringify({ accountID: accountID, action: 'showModal' }));
+
+      fetch('./backend/manageUserAcc.php', {
+        method: 'POST',
+        body: formData,
       })
-      .then((data) => {
-        if (data.success) {
-          editModal.innerHTML = data.modal;
-          editModal.show();
-        } else {
-          alert("Error showing modal");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.success) {
+            editModal.innerHTML = data.modal;
+            modal = new bootstrap.Modal(editModal);
+            modal.show();
+
+            //after modal instance is created, add event listeners
+            document.getElementById("editName").addEventListener("input", validateUsername);
+            document.getElementById("editPhone").addEventListener("input", validatePhoneNo);
+            document.getElementById("editEmail").addEventListener("input", validateEmail);
+            document.getElementById("saveEditBtn").addEventListener("click", submitEditUserForm);
+
+            username = document.getElementById("editName");
+            usernameHelp = document.getElementById("editNameHelp");
+            email = document.getElementById("editEmail");
+            emailHelp = document.getElementById("editEmailHelp");
+            phoneNo = document.getElementById("editPhone");
+            phoneNoHelp = document.getElementById("editPhoneHelp");
+
+            //store original values of input fields
+            originalUsername = username.value;
+            originalEmail = email.value;
+            originalPhoneNo = phoneNo.value;
+          } else {
+            alert("Error showing modal");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
   });
 
-  var flag = [0, 0, 0];
+  var flag = [1, 1, 1]; //flag to check whether input fields are valid
 
-  //if either input field is edited, enable the submit button
+  //if all input fields are valid, enable the submit button
   function updateSaveButton() {
-    if (flag[0] === 1 || flag[1] === 1) {
+    if (flag.every(value => value === 1)) {
       document.getElementById("saveEditBtn").disabled = false;
     } else {
       document.getElementById("saveEditBtn").disabled = true;
@@ -61,15 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSaveButton();
   }
 
-  // check whether username is empty
-  document.getElementById("editName").addEventListener("input", validateUsername);
+  // check whether username is empty and whether it exists in the database
   function validateUsername(event) {
     event.preventDefault();
-    const username = document.getElementById("editName");
-    const usernameHelp = document.getElementById("editNameHelp");
-
     if (username.value == "") {
       setInvalidInput(username, usernameHelp, "Username cannot be empty", 0);
+    } else if (username.value == originalUsername) { //if username is unchanged
+      setValidInput(username, usernameHelp, 0);
     } else {
       var usernameData = {
         action: "checkUsername",
@@ -79,12 +109,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // check whether email is valid
-  document.getElementById("editEmail").addEventListener("input", validateEmail);
+  // check whether email is valid and whether it exists in the database
   function validateEmail(event) {
     event.preventDefault();
-    const email = document.getElementById("editEmail");
-    const emailHelp = document.getElementById("editEmailHelp");
     const emailPattern = /^[a-zA-Z0-9._-]+@imail.sunway.edu.my$/;
 
     //check whether email is in valid format
@@ -92,6 +119,8 @@ document.addEventListener("DOMContentLoaded", function () {
       setInvalidInput(email, emailHelp, "Email cannot be empty", 1);
     } else if (!emailPattern.test(email.value)) {
       setInvalidInput(email, emailHelp, "Invalid email format", 1);
+    } else if (email.value == originalEmail) { //if email is unchanged
+      setValidInput(email, emailHelp, 1);
     } else {
       var emailData = {
         action: "checkEmail",
@@ -101,18 +130,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // check whether phone number is valid
-  document.getElementById("editPhone").addEventListener("input", validatePhoneNo);
+  // check whether phone number is valid and whether it exists in the database
   function validatePhoneNo(event) {
     event.preventDefault();
-    const phoneNo = document.getElementById("editPhone");
-    const phoneNoHelp = document.getElementById("editPhoneHelp");
     const phoneNoPattern = /^01\d{8,9}$/;
 
     if (phoneNo.value == "") {
       setInvalidInput(phoneNo, phoneNoHelp, "Phone number cannot be empty", 2);
     } else if (!phoneNoPattern.test(phoneNo.value)) {
       setInvalidInput(phoneNo, phoneNoHelp, "Invalid phone number format", 2);
+    } else if (phoneNo.value == originalPhoneNo) { //if phone number is unchanged
+      setValidInput(phoneNo, phoneNoHelp, 2);
     } else {
       var phoneData = {
         action: "checkPhoneNo",
@@ -122,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  //check whether input exists in the database
   function checkAvailability(checkData) {
     var formData = new FormData();
     formData.append("formData", JSON.stringify(checkData));
@@ -157,14 +186,49 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        // console.error("Error:", error);
+      });
+  }
+
+  function submitEditUserForm(event) {
+    event.preventDefault();
+
+    var editedInfo = {
+      action: "editUser",
+      accountID: this.getAttribute("data-account-id"),
+      username: username.value,
+      email: email.value,
+      phoneNo: phoneNo.value,
+    };
+
+    var formData = new FormData();
+    formData.append("formData", JSON.stringify(editedInfo));
+    fetch("./backend/manageUserAcc.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        console.log(response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          alert(data.message);
+          window.location.reload();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        // console.error("Error:", error);
       });
   }
 });
 
 function deleteUser(accountID) {
-  console.log('Deleting user with accountID:', accountID);
-
   var formData = new FormData();
   formData.append("formData", JSON.stringify({ accountID: accountID, action: 'deleteUser' }));
 
@@ -173,7 +237,7 @@ function deleteUser(accountID) {
     body: formData,
   })
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -188,7 +252,6 @@ function deleteUser(accountID) {
       }
     })
     .catch((error) => {
-      console.error("Error during deletion:", error);
       alert("Error deleting user");
     });
 }

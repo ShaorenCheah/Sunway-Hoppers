@@ -4,6 +4,8 @@ require './backend/connection.php';
 ?>
 <link rel="stylesheet" href="./styles/dashView.css">
 <script src="./scripts/manageUser.js"></script>
+<!-- <script src = "./scripts/editUser.js"></script> -->
+
 <div class="row">
   <div class="w-75">
     <h2>Accounts</h2>
@@ -72,7 +74,7 @@ require './backend/connection.php';
                       <td>{$dob}</td>
                       <td>{$rewardPoints}</td>
                       <td>
-                        <button class='btn btn-secondary' id='editUserBtn' data-account-id='{$user['accountID']}'>Edit<i class='bi bi-pencil-square' style='padding-left: 0.2rem;'></i></button>
+                        <button class='btn btn-secondary editUserBtn' data-account-id='{$user['accountID']}'>Edit<i class='bi bi-pencil-square' style='padding-left: 0.2rem;'></i></button>
                         <button class='btn btn-danger' onclick='deleteUser(\"{$user['accountID']}\")'>Delete<i class='bi bi-trash' style='padding-left: 0.2rem;'></i></button>
                       </td>
                     </tr>";
@@ -130,7 +132,7 @@ require './backend/connection.php';
                       <td>{$rating}</td>
                       <td>{$vehicleNo}</td>
                       <td>
-                        <button class='btn btn-secondary' id='editUserBtn' data-account-id='{$user['accountID']}'>Edit<i class='bi bi-pencil-square' style='padding-left: 0.2rem;'></i></button>
+                        <button class='btn btn-secondary editUserBtn' data-account-id='{$user['accountID']}'>Edit<i class='bi bi-pencil-square' style='padding-left: 0.2rem;'></i></button>
                         <button class='btn btn-danger' onclick='deleteUser(\"{$driver['accountID']}\")'>Delete<i class='bi bi-trash' style='padding-left: 0.2rem;'></i></button>
                       </td>
                     </tr>";
@@ -177,9 +179,9 @@ require './backend/connection.php';
       </div>
     </div>
   </div>
-  <div class="modal fade" tabindex="-1" id="editUserModal">
-    <!-- Generated upon user request-->
-  </div>
+</div>
+<div class="modal fade" tabindex="-1" id="editUserModal">
+  <!-- Generated upon user request-->
 </div>
 <script>
   initializeDataTable('#userTable', '#txtSearchAccounts');

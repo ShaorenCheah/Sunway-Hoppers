@@ -24,7 +24,7 @@ $modal .= <<<HTML
                 </div>
               </div>
               <div class="d-flex justify-content-center">
-                <button type="submit" name="saveEditBtn" id="saveEditBtn" class="btn btn-primary shadow px-4" disabled>Save</button>
+                <button type="submit" name="saveEditBtn" id="saveEditBtn" class="btn btn-primary shadow px-4" data-account-id="{$user['accountID']}" disabled>Save</button>
               </div>
             </div>
           </form>
