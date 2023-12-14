@@ -32,9 +32,9 @@
 
 <body class="hero">
   <?php
-  if(isset($_SESSION)){
+  // if(isset($_SESSION)){
     session_start();
-  }
+  // }
   include './includes/header.inc.php';
   include './backend/indexCards.php';
   include './includes/notification.inc.php';
