@@ -13,7 +13,7 @@ if (isset($_SESSION['login_time']) && time() - $_SESSION['login_time'] > 1800) {
   session_unset();
   session_destroy();
 
-} else {
+} else if(isset($_SESSION['user'])){
   // Session has not expired, update the login time
   $_SESSION['login_time'] = time();
 }
