@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const emailHelp = document.getElementById("accEmailHelp");
 
     if (email.value == "") {
-      setInvalidInput(email, emailHelp, "Please enter your email", 0);
+      setddInput(email, emailHelp, "Please enter your email", 0);
     } else {
       setValidInput(email, emailHelp, 0);
     }

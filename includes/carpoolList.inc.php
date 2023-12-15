@@ -85,35 +85,33 @@ if (in_array($carpoolID, $userCarpools)) {
   } else if ($userCarpool['status'] == 'Rejected') {
     $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Rejected</button>";
   }
-} else if ($carpool['passengerAmt'] == 0) {
+} else {
+  if ($carpool['isWomenOnly'] == 1) {
+    if ($_SESSION['user']['gender'] == 'Female') {
+      $button = <<<HTML
+        <button type="button" class="btn btn-primary shadow px-4 mt-2" id="{$carpool['carpoolID']}" data-bs-toggle="modal" data-bs-target="#carpoolModal{$carpool['carpoolID']}">Hop On</button>
+       HTML;
+    }
+  } else if ($carpool['isWomenOnly'] == 0) {
+    $button = <<<HTML
+      <button type="button" class="btn btn-primary shadow px-4 mt-2" id="{$carpool['carpoolID']}" data-bs-toggle="modal" data-bs-target="#carpoolModal{$carpool['carpoolID']}">Hop On</button>
+    HTML;
+  }
+
+  if ($remainingSeats == 0) {
+    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Full</button>";
+  }
+}
+
+
+if ($remainingSeats == 0) {
   $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Full</button>";
 }
 
-if ($carpool['isWomenOnly'] == 1) {
-  if ($_SESSION['user']['gender'] == 'Female') {
-    $button = <<<HTML
-      <button type="button" class="btn btn-primary shadow px-4 mt-2" id="{$carpool['carpoolID']}" data-bs-toggle="modal" data-bs-target="#carpoolModal{$carpool['carpoolID']}">Hop On</button>
-     HTML;
-  }
-} else if ($carpool['isWomenOnly'] == 0) {
-  $button = <<<HTML
-    <button type="button" class="btn btn-primary shadow px-4 mt-2" id="{$carpool['carpoolID']}" data-bs-toggle="modal" data-bs-target="#carpoolModal{$carpool['carpoolID']}">Hop On</button>
-  HTML;
-}
 
-if (in_array($carpoolID, $userCarpools)) {
-  if ($userCarpool['status'] == 'Pending') {
-    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' style='background-color:#F6931A !important' disabled>Pending Request</button>";
-  } else if ($userCarpool['status'] == 'Accepted') {
-    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Accepted</button>";
-  } else if ($userCarpool['status'] == 'Rejected') {
-    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' style='background-color:red !important' disabled >Request Rejected</button>";
-  }
-} 
-  $html .= $button;
-  $html .= <<<HTML
+$html .= $button;
+$html .= <<<HTML
         </div>
       </div>
     </div>
     HTML;
-?>

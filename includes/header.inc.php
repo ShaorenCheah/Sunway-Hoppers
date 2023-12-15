@@ -62,7 +62,8 @@ include './includes/modals/registerModal.inc.php';
       </script>
     <?php
     } else { ?>
-      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" onclick="window.location.href = './includes/logout.inc.php'"><i class="bi bi-box-arrow-in-right" style="height:60%"></i></button>
+      <button type="button" class="btn btn-primary btn-circle shadow profile d-flex justify-content-center align-items-center" 
+      onclick="window.location.href = './includes/logout.inc.php'"><i class="bi bi-box-arrow-in-right" style="height:60%"></i></button>
     <?php
     }
     ?>
