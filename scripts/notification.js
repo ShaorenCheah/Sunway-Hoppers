@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
+         console.log(data);
         createToast(data.notifications);
       });
   }

@@ -38,11 +38,14 @@ if (!isset($_SESSION['user'])) {
 
 <body>
   <?php
-  include './includes/sessionTimeOut.inc.php';
-  include './includes/notification.inc.php';
+  if (isset($_SESSION['user'])) {
+    include './includes/sessionTimeOut.inc.php';
+    include './includes/notification.inc.php';
+    include './includes/rating.inc.php';
+  }
   include './includes/header.inc.php';
   require_once './backend/connection.php';
-  include './includes/rating.inc.php';
+
   include './includes/modals/newCarpoolModal.inc.php';
   ?>
   <div class="m-5 mb-4">

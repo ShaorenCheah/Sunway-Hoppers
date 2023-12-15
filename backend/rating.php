@@ -1,11 +1,9 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST'  && isset($_SESSION['user'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $ratingData = json_decode($_POST['ratingData'], true);
   require_once 'connection.php';
-
-
+ 
   session_start();
-
 
   $formJSON = $_POST['ratingData'];
   $data = json_decode($formJSON, true);

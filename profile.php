@@ -47,11 +47,13 @@ if (!isset($_SESSION['user'])) {
 
 <body>
   <?php
-  include './includes/sessionTimeOut.inc.php';
+  if (isset($_SESSION['user'])) {
+    include './includes/sessionTimeOut.inc.php';
+    include './includes/notification.inc.php';
+    include './includes/rating.inc.php';
+  }
   include './includes/header.inc.php';
   include './includes/modals/addPicModal.inc.php';
-  include './includes/notification.inc.php';
-  include './includes/rating.inc.php';
   if ($_SESSION['user']['type'] == 'Driver') {
     include './includes/modals/editCarDetails.inc.php';
   } else {

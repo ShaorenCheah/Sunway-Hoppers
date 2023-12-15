@@ -34,11 +34,13 @@
   <?php
   
   session_start();
-  include './includes/sessionTimeOut.inc.php';
+  if(isset($_SESSION['user'])){
+    include './includes/sessionTimeOut.inc.php';
+    include './includes/notification.inc.php';
+    include './includes/rating.inc.php';
+  }
   include './includes/header.inc.php';
   include './backend/indexCards.php';
-  include './includes/notification.inc.php';
-  include './includes/rating.inc.php';
   ?>
 
   <!-- Hero -->

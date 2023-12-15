@@ -1,11 +1,9 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $notificationData = json_decode($_POST['notificationData'], true);
   require_once 'connection.php';
 
-
   session_start();
-
 
   $formJSON = $_POST['notificationData'];
   $data = json_decode($formJSON, true);
