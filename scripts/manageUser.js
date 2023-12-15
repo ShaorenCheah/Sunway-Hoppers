@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     if (username.value == "") {
       setInvalidInput(username, usernameHelp, "Username cannot be empty", 0);
-    } else if (username.value == originalUsername) { //if username is unchanged
+    } else if (username.value.toLowerCase() === originalUsername.toLowerCase()) {
       setValidInput(username, usernameHelp, 0);
     } else {
       var usernameData = {
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
       setInvalidInput(email, emailHelp, "Email cannot be empty", 1);
     } else if (!emailPattern.test(email.value)) {
       setInvalidInput(email, emailHelp, "Invalid email format", 1);
-    } else if (email.value == originalEmail) { //if email is unchanged
+    } else if (email.value.toLowerCase() == originalEmail.toLowerCase()) { //if email is unchanged
       setValidInput(email, emailHelp, 1);
     } else {
       var emailData = {
