@@ -45,6 +45,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
 </head>
 
 <body class="dashboard min-vh-100 max-vh-100 d-flex" style="background-color: #E8E8E8;">
+<?php include './includes/sessionTimeOut.inc.php'; ?>
   <div class="col-2">
     <div class="wrapper">
       <!-- Sidebar  -->
