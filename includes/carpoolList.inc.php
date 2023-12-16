@@ -77,15 +77,7 @@ HTML;
 
 $button = '';
 
-if (in_array($carpoolID, $userCarpools)) {
-  if ($userCarpool['status'] == 'Pending') {
-    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Pending Request</button>";
-  } else if ($userCarpool['status'] == 'Accepted') {
-    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Accepted</button>";
-  } else if ($userCarpool['status'] == 'Rejected') {
-    $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Rejected</button>";
-  }
-} else {
+
   if ($carpool['isWomenOnly'] == 1) {
     if ($_SESSION['user']['gender'] == 'Female') {
       $button = <<<HTML
@@ -101,12 +93,17 @@ if (in_array($carpoolID, $userCarpools)) {
   if ($remainingSeats == 0) {
     $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Full</button>";
   }
-}
 
+  if (in_array($carpoolID, $userCarpools)) {
+    if ($userCarpool['status'] == 'Pending') {
+      $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Pending Request</button>";
+    } else if ($userCarpool['status'] == 'Accepted') {
+      $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Accepted</button>";
+    } else if ($userCarpool['status'] == 'Rejected') {
+      $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Rejected</button>";
+    }
+  } 
 
-if ($remainingSeats == 0) {
-  $button = "<button type='button' class='btn btn-primary shadow px-4 mt-2' disabled>Full</button>";
-}
 
 
 $html .= $button;

@@ -81,7 +81,8 @@ function submitRating($data, $pdo)
   $stmt->execute();
 
   // Get new driver rating
-  $sql = "SELECT AVG(carpool_passenger.rating) FROM carpool_passenger JOIN carpool ON carpool_passenger.carpoolID = carpool.carpoolID WHERE carpool.accountID= :driverID";
+  $sql = "SELECT AVG(carpool_passenger.rating) FROM carpool_passenger JOIN carpool 
+  ON carpool_passenger.carpoolID = carpool.carpoolID WHERE carpool.accountID= :driverID";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':driverID', $data['ratingData']['driverID'], PDO::PARAM_STR);
   $stmt->execute();
@@ -96,7 +97,9 @@ function submitRating($data, $pdo)
   $stmt->execute();
 
   // Get total rating amount
-  $sql = "SELECT COUNT(*) FROM carpool_passenger JOIN carpool ON carpool_passenger.carpoolID = carpool.carpoolID WHERE carpool.accountID = :driverID AND carpool_passenger.rating IS NOT NULL";
+  $sql = "SELECT COUNT(*) FROM carpool_passenger JOIN carpool ON 
+  carpool_passenger.carpoolID = carpool.carpoolID WHERE carpool.accountID = :driverID 
+  AND carpool_passenger.rating IS NOT NULL";
   $stmt = $pdo->prepare($sql);
   $stmt->bindParam(':driverID', $data['ratingData']['driverID'], PDO::PARAM_STR);
   $stmt->execute();

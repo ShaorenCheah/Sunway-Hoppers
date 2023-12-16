@@ -67,7 +67,9 @@ try {
   $today = date('Y-m-d');
 
   // Add record to redemption table
-  $addRedemptionQuery = "INSERT INTO redemption (redemptionID, accountID, rewardID, code, redemptionDate, expiryDate, status) VALUES (:redemptionID, :accountID, :rewardID, :code, :today, :expDate, 'Active')";
+  $addRedemptionQuery = "INSERT INTO redemption (redemptionID, accountID, rewardID, code, 
+  redemptionDate, expiryDate, status) VALUES (:redemptionID, :accountID, :rewardID, :code, 
+  :today, :expDate, 'Active')";
   $addRedemptionStmt = $pdo->prepare($addRedemptionQuery);
   $addRedemptionStmt->bindParam(':redemptionID', $redemptionID, PDO::PARAM_STR);
   $addRedemptionStmt->bindParam(':accountID', $accountID, PDO::PARAM_STR);

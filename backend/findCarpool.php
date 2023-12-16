@@ -284,7 +284,10 @@ function newCarpool($data, $pdo)
   $details = $data['details'];
   $womenOnly = $data['womenOnly'];
 
-  $stmt = $pdo->prepare("INSERT INTO carpool (carpoolID, accountID, carpoolDate, carpoolTime, passengerAmt, toSunway, district, neighborhood, location, details, isWomenOnly, status) VALUES (:carpoolID, :accountID, :carpoolDate, :carpoolTime, :passengerAmt, :toSunway, :district, :neighborhood, :location, :details, :womenOnly, 'Active')");
+  $stmt = $pdo->prepare("INSERT INTO carpool (carpoolID, accountID, carpoolDate, carpoolTime, passengerAmt, 
+  toSunway, district, neighborhood, location, details, isWomenOnly, status) 
+  VALUES (:carpoolID, :accountID, :carpoolDate, :carpoolTime, :passengerAmt, :toSunway, :district, 
+  :neighborhood, :location, :details, :womenOnly, 'Active')");
 
   $data = array(
     ':carpoolID' => $carpoolID,
@@ -323,7 +326,8 @@ function joinCarpool($data, $pdo)
   $accountID = $_SESSION['user']['accountID'];
   $user = $_SESSION['user']['name'];
 
-  $stmt = $pdo->prepare("INSERT INTO carpool_passenger (carpoolID, accountID, isApproved, code, status, rating) VALUES (:carpoolID, :accountID, 0, NULL, 'Pending', NULL)");
+  $stmt = $pdo->prepare("INSERT INTO carpool_passenger (carpoolID, accountID, isApproved, code, status, rating) 
+  VALUES (:carpoolID, :accountID, 0, NULL, 'Pending', NULL)");
 
   $data = array(
     ':carpoolID' => $carpoolID,
