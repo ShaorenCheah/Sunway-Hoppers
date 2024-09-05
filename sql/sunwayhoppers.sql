@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2023 at 07:22 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Generation Time: Sep 05, 2024 at 05:59 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `account` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
@@ -44,7 +44,8 @@ INSERT INTO `account` (`accountID`, `email`, `password`, `type`) VALUES
 ('A0003', 'johndoe@imail.sunway.edu.my', '$2y$10$9ASFf78NiNrXYUoNfx1TIu0bSFTENAo2QW1plvuThUA7Wzf.Jllee', 'Driver'),
 ('A0004', 'celinewong@imail.sunway.edu.my', '$2y$10$or7r8YlE7I03OKpqNBnt9Ojw/pVCChfSkYcBh6rsZQcQ0KhlsQXJ6', 'Driver'),
 ('A0005', 'jolene12@imail.sunway.edu.my', '$2y$10$wuNrnC2VRRr.4kBQRJcPPuFxvuhbk78GRr.ifuA6U9nI0nrqcWBeS', 'Passenger'),
-('A0006', 'mwj@imail.sunway.edu.my', '$2y$10$AvlIp90P8wZekyUKgnYgO.nY51AN1ofpFUo63.zYF7qMsMpEl7JcG', 'Driver');
+('A0006', 'mwj@imail.sunway.edu.my', '$2y$10$AvlIp90P8wZekyUKgnYgO.nY51AN1ofpFUo63.zYF7qMsMpEl7JcG', 'Driver'),
+('A0007', 'test@mail.com', '$2y$10$88jmUdvn0kZyIMQ2.SDAIuE37qVev5PGlxKCFe1TN5ZNxbJCvgCoK', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -56,7 +57,7 @@ CREATE TABLE `admin` (
   `accountID` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phoneNo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -64,7 +65,8 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`accountID`, `name`, `phoneNo`) VALUES
 ('A0001', 'Admin', '0164783956'),
-('A0002', 'Wey Ken', '0175590375');
+('A0002', 'Wey Ken', '0175590375'),
+('A0007', 'Test', '0123456789');
 
 -- --------------------------------------------------------
 
@@ -81,7 +83,7 @@ CREATE TABLE `application` (
   `driverCredentials` varchar(255) DEFAULT NULL,
   `vehicleRules` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT 'New'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `application`
@@ -113,7 +115,7 @@ CREATE TABLE `carpool` (
   `isWomenOnly` tinyint(1) DEFAULT NULL,
   `pointsEarned` int(10) NOT NULL DEFAULT 0,
   `status` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `carpool`
@@ -149,7 +151,7 @@ CREATE TABLE `carpool_passenger` (
   `code` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `rating` float(3,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `carpool_passenger`
@@ -159,11 +161,11 @@ INSERT INTO `carpool_passenger` (`carpoolID`, `accountID`, `isApproved`, `code`,
 ('C0001', 'A0004', 1, '02O10', 'Accepted', NULL),
 ('C0001', 'A0005', 1, 'A4H5Q', 'Accepted', NULL),
 ('C0001', 'A0006', 1, '99GLS', 'Accepted', NULL),
-('C0002', 'A0004', 1, '2ORHJ', 'Completed', 5),
-('C0002', 'A0005', 1, '9HAXE', 'Completed', 5),
+('C0002', 'A0004', 1, '2ORHJ', 'Completed', 5.00),
+('C0002', 'A0005', 1, '9HAXE', 'Completed', 5.00),
 ('C0003', 'A0004', 0, NULL, 'Rejected', NULL),
 ('C0003', 'A0005', 1, '6TZXB', 'Accepted', NULL),
-('C0004', 'A0004', 1, 'X38I4', 'Completed', 5),
+('C0004', 'A0004', 1, 'X38I4', 'Completed', 5.00),
 ('C0005', 'A0005', 1, '8AV9F', 'Accepted', NULL),
 ('C0006', 'A0003', 1, 'X68J4', 'Accepted', NULL),
 ('C0006', 'A0005', 1, 'H08FK', 'Accepted', NULL),
@@ -171,14 +173,15 @@ INSERT INTO `carpool_passenger` (`carpoolID`, `accountID`, `isApproved`, `code`,
 ('C0007', 'A0005', 0, NULL, 'Pending', NULL),
 ('C0008', 'A0005', 1, 'V77T7', 'Accepted', NULL),
 ('C0008', 'A0006', 1, '6ME0D', 'Accepted', NULL),
-('C0009', 'A0003', 1, '13K3N', 'Completed', 5),
-('C0009', 'A0006', 1, 'SXR5S', 'Completed', 5),
-('C0010', 'A0003', 1, '9QLRH', 'Completed', 5),
-('C0010', 'A0006', 1, 'X1C6O', 'Completed', 5),
+('C0009', 'A0003', 1, '13K3N', 'Completed', 5.00),
+('C0009', 'A0006', 1, 'SXR5S', 'Completed', 5.00),
+('C0010', 'A0003', 1, '9QLRH', 'Completed', 5.00),
+('C0010', 'A0006', 1, 'X1C6O', 'Completed', 5.00),
 ('C0011', 'A0005', 0, NULL, 'Rejected', NULL),
 ('C0013', 'A0003', 1, '56OE0', 'Accepted', NULL),
 ('C0013', 'A0004', 1, 'C5KUL', 'Accepted', NULL),
 ('C0014', 'A0003', 1, '48JQM', 'Accepted', NULL),
+('C0015', 'A0003', 0, NULL, 'Pending', NULL),
 ('C0015', 'A0005', 1, '5R7OU', 'Accepted', NULL);
 
 -- --------------------------------------------------------
@@ -190,7 +193,7 @@ INSERT INTO `carpool_passenger` (`carpoolID`, `accountID`, `isApproved`, `code`,
 CREATE TABLE `district_neighborhood` (
   `district_name` varchar(255) NOT NULL,
   `neighborhood_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `district_neighborhood`
@@ -456,7 +459,7 @@ CREATE TABLE `notification` (
   `message` varchar(255) DEFAULT NULL,
   `dateTime` datetime(6) NOT NULL DEFAULT current_timestamp(6),
   `seen` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notification`
@@ -520,10 +523,11 @@ INSERT INTO `notification` (`notificationID`, `senderID`, `recipientID`, `type`,
 (62, 'A0004', 'A0006', 'joinCarpool', 'New Carpool Request', 'You have a new carpool request from Celine', '2023-12-15 02:15:49.000000', 1),
 (63, 'A0005', 'A0006', 'joinCarpool', 'New Carpool Request', 'You have a new carpool request from Jolene', '2023-12-15 02:16:54.000000', 1),
 (64, 'A0005', 'A0004', 'joinCarpool', 'New Carpool Request', 'You have a new carpool request from Jolene', '2023-12-15 02:17:06.000000', 0),
-(65, 'A0006', 'A0003', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:17:56.000000', 0),
-(66, 'A0006', 'A0003', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:18:01.000000', 0),
+(65, 'A0006', 'A0003', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:17:56.000000', 1),
+(66, 'A0006', 'A0003', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:18:01.000000', 1),
 (67, 'A0006', 'A0004', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:18:02.000000', 0),
-(68, 'A0006', 'A0005', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:18:06.000000', 0);
+(68, 'A0006', 'A0005', 'manageRequest', 'Carpool Request Accepted', 'Mak has accepted your carpool request', '2023-12-15 02:18:06.000000', 0),
+(69, 'A0003', 'A0006', 'joinCarpool', 'New Carpool Request', 'You have a new carpool request from John', '2023-12-16 14:06:23.000000', 1);
 
 -- --------------------------------------------------------
 
@@ -539,7 +543,7 @@ CREATE TABLE `redemption` (
   `redemptionDate` date NOT NULL,
   `expiryDate` date NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `redemption`
@@ -563,7 +567,7 @@ CREATE TABLE `reward` (
   `points` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reward`
@@ -597,21 +601,21 @@ CREATE TABLE `user` (
   `dob` date NOT NULL,
   `bio` varchar(255) DEFAULT NULL,
   `rewardPoints` int(11) NOT NULL DEFAULT 0,
-  `rating` float(3,2) NOT NULL DEFAULT 0,
+  `rating` float(3,2) NOT NULL DEFAULT 0.00,
   `ratingsAmt` int(4) NOT NULL DEFAULT 0,
   `carRules` varchar(255) DEFAULT NULL,
   `profilePic` varchar(255) DEFAULT './images/person.png'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`accountID`, `name`, `phoneNo`, `gender`, `dob`, `bio`, `rewardPoints`, `rating`, `ratingsAmt`, `carRules`, `profilePic`) VALUES
-('A0003', 'John', '01124823082', 'Male', '2002-07-01', 'Body-building maniac. Loves to drive. We can talk about driving or body-building! ', 3190, 5.0, 3, '1. No food\r\n2. No smoking (no vape either)\r\n3. Let\'s chit chat during the ride!\r\n', './uploads/profile_pics/4f82eaaf378db67d303635377c1c2c78.jpg'),
-('A0004', 'Celine', '0175590372', 'Female', '2002-08-24', 'Currently studying Mass Com in Sunway. Let\'s talk about your favourite singer and food during the ride! ', 2640, 5.0, 4, 'Strictly no smoking and alcohol in my car. If you aren\'t the talkative type do stop me from talking. I respect introverts :D', './uploads/profile_pics/4f132a1637b2129d2880262e0801a1fa.jpg'),
-('A0005', 'Jolene', '0178273913', 'Female', '2001-04-26', 'I love anime and could talk about it for hours! Currently studying A-Levels in Sunway :3', 220, 0, 0, NULL, './uploads/profile_pics/5044ecfdd2fac39d2c7a4615db12a630.jpeg'),
-('A0006', 'Mak', '0129938493', 'Male', '2003-11-22', 'I don\'t like driving so i carpool with others.', 40, 0, 0, 'I drive sometimes.', './uploads/profile_pics/4e51f057248080a1443cf31d71cc049d.jpg');
+('A0003', 'John', '01124823082', 'Male', '2002-07-01', 'Body-building maniac. Loves to drive. We can talk about driving or body-building! ', 3190, 5.00, 3, '1. No food\r\n2. No smoking (no vape either)\r\n3. Let\'s chit chat during the ride!\r\n', './uploads/profile_pics/4f82eaaf378db67d303635377c1c2c78.jpg'),
+('A0004', 'Celine', '0175590372', 'Female', '2002-08-24', 'Currently studying Mass Com in Sunway. Let\'s talk about your favourite singer and food during the ride! ', 2640, 5.00, 4, 'Strictly no smoking and alcohol in my car. If you aren\'t the talkative type do stop me from talking. I respect introverts :D', './uploads/profile_pics/4f132a1637b2129d2880262e0801a1fa.jpg'),
+('A0005', 'Jolene', '0178273913', 'Female', '2001-04-26', 'I love anime and could talk about it for hours! Currently studying A-Levels in Sunway :3', 220, 0.00, 0, NULL, './uploads/profile_pics/5044ecfdd2fac39d2c7a4615db12a630.jpeg'),
+('A0006', 'Mak', '0129938493', 'Male', '2003-11-22', 'I don\'t like driving so i carpool with others.', 40, 0.00, 0, 'I drive sometimes.', './uploads/profile_pics/4e51f057248080a1443cf31d71cc049d.jpg');
 
 --
 -- Indexes for dumped tables
@@ -689,7 +693,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- Constraints for dumped tables
