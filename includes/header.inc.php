@@ -41,7 +41,7 @@ include './includes/modals/registerModal.inc.php';
     <?php
     if (isset($_SESSION['user'])) {
     ?>
-      <li class="nav-item">
+      <li class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/profile.php') ? 'active' : ''; ?>">
         <a class="nav-link" href="profile.php">Profile</a>
       </li>
     <?php } ?>

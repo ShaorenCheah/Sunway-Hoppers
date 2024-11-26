@@ -38,12 +38,6 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
     @import url("https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css");
     @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&family=Spectral:wght@300&display=swap');
   </style>
-
-  <!-- Include icon link here -->
-  <title>SunwayHoppers</title>
-  <link rel="icon" type="image/x-icon" href="/images/logo/tab.ico">
-
-
 </head>
 
 <body class="dashboard min-vh-100 max-vh-100 d-flex" style="background-color: #E8E8E8;">
