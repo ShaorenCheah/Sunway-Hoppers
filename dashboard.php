@@ -17,6 +17,8 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
 <html lang="en">
 
 <head>
+  <title>SunwayHoppers</title>
+  <link rel="icon" type="image/x-icon" href="images/logo/tab.ico">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +47,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
 </head>
 
 <body class="dashboard min-vh-100 max-vh-100 d-flex" style="background-color: #E8E8E8;">
-<?php include './includes/sessionTimeOut.inc.php'; ?>
+  <?php include './includes/sessionTimeOut.inc.php'; ?>
   <div class="col-2">
     <div class="wrapper">
       <!-- Sidebar  -->
@@ -86,7 +88,7 @@ if ((($_SESSION['user']['type'] != 'Admin'))) {
   <div class="col-10">
     <div class="dashboard-container shadow p-4" style="background-color: #fff;">
       <!-- fetch dashboard view based on navPage -->
-    <?php getDashboardView($navPage); ?>
+      <?php getDashboardView($navPage); ?>
     </div>
   </div>
   </div>
